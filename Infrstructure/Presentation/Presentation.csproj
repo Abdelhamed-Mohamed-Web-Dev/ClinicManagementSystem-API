@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Entities\Domain.csproj" />
-    <ProjectReference Include="..\Service.Apstraction\Service.Abstraction.csproj" />
+    <ProjectReference Include="..\..\Core\Service.Apstraction\Service.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>
