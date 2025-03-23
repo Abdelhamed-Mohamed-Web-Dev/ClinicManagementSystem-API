@@ -1,0 +1,162 @@
+[
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "ImagingType": "X-Ray",
+    "ImagingDate": "2023-10-15",
+    "ImagingResult": "Fracture detected",
+    "Comments": "Right arm fracture",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+    "ImagingType": "CT Scan",
+    "ImagingDate": "2023-10-16",
+    "ImagingResult": "No abnormalities detected",
+    "Comments": "Patient advised to follow up in 6 months",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66afa7"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+    "ImagingType": "MRI",
+    "ImagingDate": "2023-10-17",
+    "ImagingResult": "Tumor detected",
+    "Comments": "Patient referred to oncology",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66afa8"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+    "ImagingType": "Ultrasound",
+    "ImagingDate": "2023-10-18",
+    "ImagingResult": "Gallstones detected",
+    "Comments": "Patient advised to consult a surgeon",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af10",
+    "ImagingType": "X-Ray",
+    "ImagingDate": "2023-10-19",
+    "ImagingResult": "No fracture detected",
+    "Comments": "Patient advised to rest",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af10"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af11",
+    "ImagingType": "CT Scan",
+    "ImagingDate": "2023-10-20",
+    "ImagingResult": "Lung infection detected",
+    "Comments": "Patient prescribed antibiotics",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af11"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af12",
+    "ImagingType": "MRI",
+    "ImagingDate": "2023-10-21",
+    "ImagingResult": "No abnormalities detected",
+    "Comments": "Patient advised to follow up in 6 months",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af12"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af13",
+    "ImagingType": "Ultrasound",
+    "ImagingDate": "2023-10-22",
+    "ImagingResult": "Normal",
+    "Comments": "No issues detected",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af13"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af14",
+    "ImagingType": "X-Ray",
+    "ImagingDate": "2023-10-23",
+    "ImagingResult": "Fracture detected",
+    "Comments": "Left leg fracture",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af14"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af15",
+    "ImagingType": "CT Scan",
+    "ImagingDate": "2023-10-24",
+    "ImagingResult": "No abnormalities detected",
+    "Comments": "Patient advised to follow up in 6 months",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af15"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af16",
+    "ImagingType": "MRI",
+    "ImagingDate": "2023-10-25",
+    "ImagingResult": "Tumor detected",
+    "Comments": "Patient referred to oncology",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af16"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af17",
+    "ImagingType": "Ultrasound",
+    "ImagingDate": "2023-10-26",
+    "ImagingResult": "Gallstones detected",
+    "Comments": "Patient advised to consult a surgeon",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af17"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af18",
+    "ImagingType": "X-Ray",
+    "ImagingDate": "2023-10-27",
+    "ImagingResult": "No fracture detected",
+    "Comments": "Patient advised to rest",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af18"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af19",
+    "ImagingType": "CT Scan",
+    "ImagingDate": "2023-10-28",
+    "ImagingResult": "Lung infection detected",
+    "Comments": "Patient prescribed antibiotics",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af19"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af20",
+    "ImagingType": "MRI",
+    "ImagingDate": "2023-10-29",
+    "ImagingResult": "No abnormalities detected",
+    "Comments": "Patient advised to follow up in 6 months",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af20"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af21",
+    "ImagingType": "Ultrasound",
+    "ImagingDate": "2023-10-30",
+    "ImagingResult": "Normal",
+    "Comments": "No issues detected",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af21"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af22",
+    "ImagingType": "X-Ray",
+    "ImagingDate": "2023-10-31",
+    "ImagingResult": "Fracture detected",
+    "Comments": "Right arm fracture",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af22"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af23",
+    "ImagingType": "CT Scan",
+    "ImagingDate": "2023-11-01",
+    "ImagingResult": "No abnormalities detected",
+    "Comments": "Patient advised to follow up in 6 months",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af23"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af24",
+    "ImagingType": "MRI",
+    "ImagingDate": "2023-11-02",
+    "ImagingResult": "Tumor detected",
+    "Comments": "Patient referred to oncology",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af24"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af25",
+    "ImagingType": "Ultrasound",
+    "ImagingDate": "2023-11-03",
+    "ImagingResult": "Gallstones detected",
+    "Comments": "Patient advised to consult a surgeon",
+    "MedicalRecordId": "3fa85f64-5717-4562-b3fc-2c963f66af25"
+  }
+]

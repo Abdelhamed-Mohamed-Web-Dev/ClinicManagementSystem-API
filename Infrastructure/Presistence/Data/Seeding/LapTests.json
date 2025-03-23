@@ -1,0 +1,112 @@
+[
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "TestType": "Blood Test",
+    "TestDate": "2023-10-15",
+    "TestResult": "Normal",
+    "TestUnits": 120,
+    "Comments": "Patient fasting for 12 hours",
+    "LapName": "Cairo Lab",
+    "ReferenceRange": 100,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+    "TestType": "Urine Test",
+    "TestDate": "2023-10-16",
+    "TestResult": "Abnormal",
+    "TestUnits": 200,
+    "Comments": "High protein levels detected",
+    "LapName": "Alexandria Lab",
+    "ReferenceRange": 150,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66afa7"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+    "TestType": "X-Ray",
+    "TestDate": "2023-10-17",
+    "TestResult": "Fracture detected",
+    "TestUnits": 1,
+    "Comments": "Right arm fracture",
+    "LapName": "Giza Imaging Center",
+    "ReferenceRange": 0,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66afa8"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+    "TestType": "Blood Sugar Test",
+    "TestDate": "2023-10-18",
+    "TestResult": "High",
+    "TestUnits": 180,
+    "Comments": "Patient advised to monitor sugar levels",
+    "LapName": "Cairo Lab",
+    "ReferenceRange": 120,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66afa9"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af10",
+    "TestType": "Cholesterol Test",
+    "TestDate": "2023-10-19",
+    "TestResult": "Normal",
+    "TestUnits": 190,
+    "Comments": "Within acceptable range",
+    "LapName": "Alexandria Lab",
+    "ReferenceRange": 200,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66af10"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af11",
+    "TestType": "Thyroid Test",
+    "TestDate": "2023-10-20",
+    "TestResult": "Abnormal",
+    "TestUnits": 5,
+    "Comments": "Hypothyroidism detected",
+    "LapName": "Cairo Lab",
+    "ReferenceRange": 2,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66af11"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af12",
+    "TestType": "Liver Function Test",
+    "TestDate": "2023-10-21",
+    "TestResult": "Normal",
+    "TestUnits": 40,
+    "Comments": "No issues detected",
+    "LapName": "Giza Imaging Center",
+    "ReferenceRange": 50,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66af12"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af13",
+    "TestType": "Kidney Function Test",
+    "TestDate": "2023-10-22",
+    "TestResult": "Abnormal",
+    "TestUnits": 2,
+    "Comments": "High creatinine levels",
+    "LapName": "Alexandria Lab",
+    "ReferenceRange": 1,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66af13"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af14",
+    "TestType": "Vitamin D Test",
+    "TestDate": "2023-10-23",
+    "TestResult": "Low",
+    "TestUnits": 15,
+    "Comments": "Patient advised to take supplements",
+    "LapName": "Cairo Lab",
+    "ReferenceRange": 30,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66af14"
+  },
+  {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af15",
+    "TestType": "ECG",
+    "TestDate": "2023-10-24",
+    "TestResult": "Normal",
+    "TestUnits": 1,
+    "Comments": "No abnormalities detected",
+    "LapName": "Giza Imaging Center",
+    "ReferenceRange": 0,
+    "MedicalId": "3fa85f64-5717-4562-b3fc-2c963f66af15"
+  }
+]
