@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Radiology
-    {
-        public int Id { get; set; }
+    public class Radiology : BaseEntity<Guid>
+	{
         public string ImagingType { get; set; }
         public DateOnly ImagingDate { get; set; }
         public string ImagingResult { get; set; }
         public string Comments { get; set; }
-        public Medical_Record medical_Record { get; set; }
-        public int MedicalRecord_Id { get; set; }
+        public MedicalRecord MedicalRecord { get; set; }
+        public Guid MedicalRecordId { get; set; }
 
     }
 }

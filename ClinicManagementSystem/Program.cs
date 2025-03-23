@@ -1,13 +1,21 @@
 
+using Domain.Contracts.IRepositories;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
+using Persistence.Repositories;
+
 namespace ClinicManagementSystem
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
+
+			builder.Services.AddDbContext<MainContext>(o=>o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
+			builder.Services.AddScoped<IDbInitializer,DbInitializer>();
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -15,6 +23,8 @@ namespace ClinicManagementSystem
 			builder.Services.AddSwaggerGen();
 
 			var app = builder.Build();
+
+			await DataSeeding(app);
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
@@ -31,6 +41,16 @@ namespace ClinicManagementSystem
 			app.MapControllers();
 
 			app.Run();
+		}
+		// Data Seeding Method
+		static async Task DataSeeding(WebApplication app)
+		{
+			// Create Scope 
+			using var scope = app.Services.CreateScope();
+			// Inject
+			var initDb = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+			// Call Initializer
+			await initDb.InitializeAsync();
 		}
 	}
 }

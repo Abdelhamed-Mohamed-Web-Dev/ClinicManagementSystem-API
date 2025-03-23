@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\IRepositories\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
