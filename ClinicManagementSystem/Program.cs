@@ -1,9 +1,4 @@
 
-using Domain.Contracts.IRepositories;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
-using Persistence.Repositories;
-
 namespace ClinicManagementSystem
 {
 	public class Program
