@@ -11,6 +11,7 @@ namespace ClinicManagementSystem
 
 			builder.Services.AddDbContext<MainContext>(o=>o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
 			builder.Services.AddScoped<IDbInitializer,DbInitializer>();
+			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,7 +32,6 @@ namespace ClinicManagementSystem
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 
