@@ -1,5 +1,4 @@
-﻿using Shared.PatientModels;
-
+﻿
 namespace Service.Abstraction.PatientService
 {
 	public interface IPatientService
@@ -14,8 +13,8 @@ namespace Service.Abstraction.PatientService
 		public Task<IEnumerable<LapTestDto>> GetAllLapTestsAsync(Guid medicalRecordId);
 		// Retrieve test by id
 		public Task<LapTestDto> GetLapTestByIdAsync(Guid id);
-		// Retrieve all radiologies for one record by record id
-		public Task<IEnumerable<RadiologyDto>> GetAllRadiologiesAsync(Guid medicalRecordId);
+		// Retrieve all radiations for one record by record id
+		public Task<IEnumerable<RadiologyDto>> GetAllRadiationsAsync(Guid medicalRecordId);
 		// Retrieve radiology by id
 		public Task<RadiologyDto> GetRadiologyByIdAsync(Guid id);
 		// Retrieve patient data by id

@@ -1,6 +1,5 @@
 ﻿
-
-namespace Service.PatientService
+namespace Service.PatientService 
 {
 	public class PatientService(IUnitOfWork unitOfWork, IMapper mapper) : IPatientService
 	{
@@ -52,7 +51,7 @@ namespace Service.PatientService
 			return testDto;
 		}
 
-		public async Task<IEnumerable<RadiologyDto>> GetAllRadiologiesAsync(Guid medicalRecordId)
+		public async Task<IEnumerable<RadiologyDto>> GetAllRadiationsAsync(Guid medicalRecordId)
 		{
 			var allRadiologies = await unitOfWork.GetRepository<Radiology, Guid>().GetAllAsync();
 			var radiologies = allRadiologies.Where(t => t.MedicalRecordId == medicalRecordId);
