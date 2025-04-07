@@ -1,4 +1,7 @@
 
+using Service;
+using Service.Abstraction;
+
 namespace ClinicManagementSystem
 {
 	public class Program
@@ -12,6 +15,9 @@ namespace ClinicManagementSystem
 			builder.Services.AddDbContext<MainContext>(o=>o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
 			builder.Services.AddScoped<IDbInitializer,DbInitializer>();
 			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+			builder.Services.AddScoped<IServiceManager, ServiceManager>();
+			builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

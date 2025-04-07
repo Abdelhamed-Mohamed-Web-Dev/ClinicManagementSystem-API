@@ -6,10 +6,10 @@ namespace Persistence.Repositories
 		readonly MainContext mainContext;
 		readonly ConcurrentDictionary<string,object> storedRepositories;
 
-		public UnitOfWork(MainContext mainContext, ConcurrentDictionary<string, object> repositories)
+		public UnitOfWork(MainContext mainContext)
 		{
 			this.mainContext = mainContext;
-			this.storedRepositories = repositories;
+			this.storedRepositories = new();
 		}
 
 		public async Task<int> SaveChangesAsync()
