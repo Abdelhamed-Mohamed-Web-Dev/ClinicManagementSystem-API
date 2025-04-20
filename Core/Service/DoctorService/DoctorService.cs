@@ -11,10 +11,10 @@ namespace Service.DoctorService
     public class DoctorService(IUnitOfWork unitOfWork, IMapper mapper) : IDoctorService
     {
         
-        public async Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(DoctorDto doctorDto)
+        public async Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(int id)
         {
             var allappointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync();
-            var appointment = allappointment.Where(a => a.DoctorId == doctorDto.Id);
+            var appointment = allappointment.Where(a => a.DoctorId == id);
             var appointmentDto = mapper.Map<IEnumerable<Shared.DoctorModels.AppointmentDto1>>(appointment);
             return appointmentDto;
         }
@@ -38,9 +38,10 @@ namespace Service.DoctorService
 
         public async Task<IEnumerable<LapTestDto1>> GetAllLapTestOfPatientAysnc(Guid id)
         {
-         var alllaptests= await unitOfWork.GetRepository<LapTest,Guid>().GetAllAsync();
-            var laptests= alllaptests.Where(a=>a.MedicalId==id);
-            var laptestsDto =mapper.Map<IEnumerable<Shared.DoctorModels.LapTestDto1>>(laptests);
+         var MedicalRecord= await unitOfWork.GetRepository<MedicalRecord,Guid>().GetAsync(id);
+          //  var laptests= alllaptests.Where(a=>a.MedicalId==id);
+          var LapTests=MedicalRecord.LapTests;
+            var laptestsDto =mapper.Map<IEnumerable<LapTestDto1>>(LapTests);
             return laptestsDto;
         }
 
@@ -55,15 +56,15 @@ namespace Service.DoctorService
 
         public async Task<IEnumerable<RadiologyDto1>> GetAllRadiologyOfPatientAysnc(Guid id)
         {
-            var allradiology = await unitOfWork.GetRepository<Radiology,Guid>().GetAllAsync();
-            var radiologes = allradiology.Where(a=>a.Id==id);
-            var radiologesDto=mapper.Map<IEnumerable<Shared.DoctorModels.RadiologyDto1>>(radiologes);
+            var MedicalRecord = await unitOfWork.GetRepository<MedicalRecord,Guid>().GetAsync(id);
+            var Radiology = MedicalRecord.Radiation;
+            var radiologesDto=mapper.Map<IEnumerable<RadiologyDto1>>(Radiology);
             return radiologesDto;
         }
 
-        public async Task<PatientDto1> GetAppoitmentOfPatient(PatientDto1 patientDto1)
+        public async Task<PatientDto1> GetAppoitmentOfPatient(int id)
         {
-            var PatientAppointment = await unitOfWork.GetRepository<Patient, int>().GetAsync(patientDto1.Id);
+            var PatientAppointment = await unitOfWork.GetRepository<Patient, int>().GetAsync(id);
             var PatientAppointmentDto= mapper.Map<PatientDto1>(PatientAppointment);
             return PatientAppointmentDto;
         }
@@ -75,15 +76,15 @@ namespace Service.DoctorService
             return   doctorDto;
         }
 
-        public async Task<PatientDto1> GetPatientByIdAysnc(PatientDto1 patientDto)
+        public async Task<PatientDto1> GetPatientByIdAysnc(int id)
         {
-            var patient= await unitOfWork.GetRepository<Patient,int>().GetAsync(patientDto.Id);
-            var _patientDto = mapper.Map<Shared.DoctorModels.PatientDto1>(patient);
+            var patient= await unitOfWork.GetRepository<Patient,int>().GetAsync(id);
+            var _patientDto = mapper.Map<PatientDto1>(patient);
             return _patientDto;
         }
 
         
-        public Task<DoctorDto1> UpdateDoctorByIdAysnc(DoctorDto1 doctorDto)
+        public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id)
         {
             throw new NotImplementedException();
         }

@@ -19,11 +19,14 @@ namespace Presentation
         public async Task<IActionResult> GetDoctor(int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
 
         [HttpGet("Patient/{id}")]
-        public async Task<IActionResult> GetPatient(PatientDto1 patientDto)
-            => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(patientDto));
+        public async Task<IActionResult> GetPatient(int id)
+        
+           
+           => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
+        
         [HttpGet("AllAppointment/{id}")]
-        public async Task<IActionResult> GetAllAppointmet(DoctorDto doctorDto)
-            => Ok(await serviceManager.DoctorService().GetAllAppointmentOfDoctorAysnc(doctorDto));
+        public async Task<IActionResult> GetAllAppointmet(int id)
+            => Ok(await serviceManager.DoctorService().GetAllAppointmentOfDoctorAysnc(id));
         [HttpGet("AllRadiology/{id}")]
         public async Task<IActionResult> GetAllRadioloy(Guid id)
             => Ok(await serviceManager.DoctorService().GetAllRadiologyOfPatientAysnc(id));
@@ -31,7 +34,7 @@ namespace Presentation
         public async Task<IActionResult> GetAllLapTests(Guid id)
             => Ok(await serviceManager.DoctorService().GetAllLapTestOfPatientAysnc(id));
         [HttpGet ]
-        public async Task<IActionResult> UpdateDoctor(DoctorDto1 doctorDto) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAysnc(doctorDto));
+        public async Task<IActionResult> UpdateDoctor(int id) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAysnc(id));
         [HttpGet ("AllConfirmAppointment")]
         public async Task<IActionResult> GetALlConfirmAppointment()=>Ok( await serviceManager.DoctorService().GetAllConfirmAppointment());
         [HttpGet("AllCancelAppointment")]
@@ -39,6 +42,6 @@ namespace Presentation
         [HttpGet("AllPendingAppointment")]
         public async Task<IActionResult> GetALlPendingAppointment() => Ok(await serviceManager.DoctorService().GetAllPendingAppointment());
         [HttpGet("PaientAppointment")]
-        public async Task<IActionResult> GetPaitentAppointment(PatientDto1 patientDto1) => Ok(await serviceManager.DoctorService().GetAppoitmentOfPatient(patientDto1));
+        public async Task<IActionResult> GetPaitentAppointment(int id) => Ok(await serviceManager.DoctorService().GetAppoitmentOfPatient(id));
     }
 }
