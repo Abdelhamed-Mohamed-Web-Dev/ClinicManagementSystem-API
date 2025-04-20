@@ -10,4 +10,8 @@
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.1.17" />
+  </ItemGroup>
+
 </Project>

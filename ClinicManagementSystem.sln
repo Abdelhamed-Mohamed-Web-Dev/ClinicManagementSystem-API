@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared\Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Core\Service\Service.csproj", "{046D95FE-48F7-483F-80E3-3664D454D469}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Infrastructure\Presintation\Presentation.csproj", "{095C0209-9CDE-4BAB-A68C-9455B3C13C08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Infrastructure\Presintation\Presentation.csproj", "{095C0209-9CDE-4BAB-A68C-9455B3C13C08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

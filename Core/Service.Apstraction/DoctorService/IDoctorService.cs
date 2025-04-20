@@ -11,7 +11,7 @@ namespace Service.Abstraction.DoctorService
     {
      public Task<DoctorDto1> GetDoctorByIdAysnc(int id);
         //Get Info Of Doctor
-        public Task<DoctorDto1> UpdateDoctorByIdAysnc(DoctorDto doctorDto);
+        public Task<DoctorDto1> UpdateDoctorByIdAysnc(DoctorDto1 doctorDto);
         // Update Info Of Doctor
         public Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(DoctorDto doctorDto);
         // Get All Appointmet Of Doctor
@@ -19,15 +19,26 @@ namespace Service.Abstraction.DoctorService
         // Get All Radiology Of Patient
         public Task<IEnumerable<LapTestDto1>> GetAllLapTestOfPatientAysnc(Guid id);
         // Get All LapTest Of Patient
-        public Task<PatientDto1> GetPatientByIdAysnc(PatientDto patientDto);
+        public Task<PatientDto1> GetPatientByIdAysnc(PatientDto1 patientDto);
         // Get Info Of Patient
+       public Task<PatientDto1> GetAppoitmentOfPatient(PatientDto1 patientDto1);
+        // The Info About Appointmetn of Patient
+        public Task< IEnumerable<AppointmentDto1>> GetAllConfirmAppointment();
+        public Task< IEnumerable<AppointmentDto1>> GetAllPendingAppointment();
+        public Task<IEnumerable<AppointmentDto1>> GetAllCanceledAppointment();
 
 
     }
 }
-// بيانات الدكتور 
-// تعديل بيانات الدكتور 
-// جميع المواعيد يتاعت الدكتور 
-// جميه التحاليل بتاعت المريض 
-// جميع الاشعة بتاعت المريض 
-// بيانات الدكتور 
+// بيانات الدكتور                 Done 
+// تعديل بيانات الدكتور           Done 
+// جميع المواعيد يتاعت الدكتور    Done 
+// جميه التحاليل بتاعت المريض     Done 
+// جميع الاشعة بتاعت المريض        Done 
+// بيانات الدكتور                 Done 
+////////////////////////////////////////////
+
+// بيانات حجز المريض 
+// جميع الحجوزات ال Cofirm
+// جميع الحجوزات ال Pending
+// جميع الحجوزات ال Canceld

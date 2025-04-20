@@ -12,6 +12,6 @@ namespace Shared.DoctorModels
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Speciality { get; set; }
-        public ICollection<AppointmentDto1> AppointmentsDto { get; set; } = new List<AppointmentDto1>();
+       // public ICollection<AppointmentDto1> AppointmentsDto { get; set; } = new List<AppointmentDto1>();
     }
 }
