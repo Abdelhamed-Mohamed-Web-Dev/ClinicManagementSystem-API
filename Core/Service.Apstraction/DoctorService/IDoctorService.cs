@@ -11,17 +11,17 @@ namespace Service.Abstraction.DoctorService
     {
      public Task<DoctorDto1> GetDoctorByIdAysnc(int id);
         //Get Info Of Doctor
-        public Task<DoctorDto1> UpdateDoctorByIdAysnc(DoctorDto1 doctorDto);
+        public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id);
         // Update Info Of Doctor
-        public Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(DoctorDto doctorDto);
+        public Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(int id);
         // Get All Appointmet Of Doctor
         public Task<IEnumerable<RadiologyDto1>> GetAllRadiologyOfPatientAysnc(Guid id);
         // Get All Radiology Of Patient
         public Task<IEnumerable<LapTestDto1>> GetAllLapTestOfPatientAysnc(Guid id);
         // Get All LapTest Of Patient
-        public Task<PatientDto1> GetPatientByIdAysnc(PatientDto1 patientDto);
+        public Task<PatientDto1> GetPatientByIdAysnc(int id);
         // Get Info Of Patient
-       public Task<PatientDto1> GetAppoitmentOfPatient(PatientDto1 patientDto1);
+       public Task<PatientDto1> GetAppoitmentOfPatient(int id);
         // The Info About Appointmetn of Patient
         public Task< IEnumerable<AppointmentDto1>> GetAllConfirmAppointment();
         public Task< IEnumerable<AppointmentDto1>> GetAllPendingAppointment();
