@@ -8,6 +8,7 @@ namespace Domain.Entities
         public string Gender { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        // محتاجين نضيف ال Last Visit 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<MedicalRecord> MedicalRecords { get; set; } = new HashSet<MedicalRecord>();
 

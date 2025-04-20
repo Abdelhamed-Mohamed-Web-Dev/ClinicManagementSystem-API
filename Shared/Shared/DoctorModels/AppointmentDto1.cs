@@ -8,6 +8,7 @@ namespace Shared.DoctorModels
 {
     public class AppointmentDto1
     {
+        public Guid Id { get; set; }
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }
         public string PatientName { get; set; }

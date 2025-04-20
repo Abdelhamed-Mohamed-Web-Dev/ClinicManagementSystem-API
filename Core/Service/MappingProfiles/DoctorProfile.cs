@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.DoctorModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,14 @@ namespace Service.MappingProfiles
     {
         public DoctorProfile() { 
         
-        CreateMap<Doctor,Shared.DoctorModels.DoctorDto1>().ReverseMap();
-            CreateMap<Patient,Shared.DoctorModels.PatientDto1>().ReverseMap();
-            CreateMap<LapTest, Shared.DoctorModels.LapTestDto1>().ReverseMap();
-            CreateMap<Radiology, Shared.DoctorModels.RadiologyDto1>().ReverseMap();
-            CreateMap<Appointment, Shared.DoctorModels.AppointmentDto1>()
+        CreateMap<Doctor,DoctorDto1>().ReverseMap();
+            CreateMap<Patient,PatientDto1>().ReverseMap();
+            CreateMap<LapTest, LapTestDto1>().ReverseMap();
+            CreateMap<Radiology, RadiologyDto1>().ReverseMap();
+            CreateMap<Appointment, AppointmentDto1>()
                 .ForMember(p1=>p1.PatientName,p2=>p2.MapFrom(p2=>p2.PatientId))
                 .ReverseMap();
-            CreateMap<MedicalRecord, Shared.DoctorModels.MedicalRecordDto1>()
+            CreateMap<MedicalRecord,MedicalRecordDto1>()
                 .ForMember(p1 => p1.PatientName, p2 => p2.MapFrom(p2 => p2.PatientId))
                 .ReverseMap();
 

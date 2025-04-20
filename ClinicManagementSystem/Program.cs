@@ -18,21 +18,21 @@ namespace ClinicManagementSystem
 			builder.Services.AddScoped<IServiceManager, ServiceManager>();
 			builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
-
-			builder.Services.AddControllers();
+			//builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+            	builder.Services.AddSwaggerGen();
+       //     builder.Services.AddScalar();
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 			await DataSeeding(app);
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
+			app.UseSwagger();
+			app.UseSwaggerUI();
 			}
 
 			app.UseHttpsRedirection();
