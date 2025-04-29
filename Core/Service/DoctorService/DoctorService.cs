@@ -1,4 +1,5 @@
 ﻿using Service.Abstraction.DoctorService;
+using Service.Specifications;
 using Shared.DoctorModels;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,14 @@ namespace Service.DoctorService
             var appointmentDto = mapper.Map<IEnumerable<Shared.DoctorModels.AppointmentDto1>>(appointment);
             return appointmentDto;
         }
-
+        
+        public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords()
+            {
+            var medicalrecord= await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAllAsync(new MedicalRecordWithRadiologyAndLapTest());
+            var _medicalrecords = mapper.Map<IEnumerable<MedicalRecordDto>>(medicalrecord);
+            return _medicalrecords;
+            }
+ 
         public async Task<IEnumerable<AppointmentDto1>> GetAllCanceledAppointment()
         {
             var AllAppoinment = await unitOfWork.GetRepository<Appointment,Guid>().GetAllAsync();
@@ -76,6 +84,7 @@ namespace Service.DoctorService
             return   doctorDto;
         }
 
+        
         public async Task<PatientDto1> GetPatientByIdAysnc(int id)
         {
             var patient= await unitOfWork.GetRepository<Patient,int>().GetAsync(id);
@@ -87,6 +96,14 @@ namespace Service.DoctorService
         public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId)
+        {
+            
+            var medicalrecord = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAsync(new MedicalRecordWithRadiologyAndLapTest(PatientId,DoctorId));
+            var medicalrecordDto= mapper.Map<MedicalRecordDto>(medicalrecord);
+            return medicalrecordDto;
         }
     }
 }
