@@ -9,4 +9,5 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Domain.Contracts.IRepositories;
 global using System.Text.Json;
 global using System.Collections.Concurrent;
+global using Domain.Contracts.ISpecifications;
 

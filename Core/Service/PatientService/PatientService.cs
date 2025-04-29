@@ -1,4 +1,7 @@
 ﻿
+
+using Service.Specifications.Patient;
+
 namespace Service.PatientService 
 {
 	public class PatientService(IUnitOfWork unitOfWork, IMapper mapper) : IPatientService
@@ -23,16 +26,19 @@ namespace Service.PatientService
 		// ممكن عشان نحل المشكله نعمل Specification repository لكل entity 
 		// بس دا هياخد وقت ف هنطنش دلوقتى لغاية م نبقا نفكر نكبر
 		// الدنيا او لما المشكلة تظهر
+		// ****** :) تم التعديل بنجاح ******
 		public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId)
 		{
-			var allRecords = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAllAsync();
-			var records = allRecords.Where(p => p.PatientId == patientId);
-			var recordsDto = mapper.Map<IEnumerable<MedicalRecordDto>>(records);
+			var specifications = new MedicalRecordSpecifications(patientId);
+			var allRecords = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAllAsync(specifications);
+			//var records = allRecords.Where(p => p.PatientId == patientId);
+			var recordsDto = mapper.Map<IEnumerable<MedicalRecordDto>>(allRecords);
 			return recordsDto;
 		}
 		public async Task<MedicalRecordDto> GetMedicalRecordByIdAsync(Guid id)
 		{
-			var record = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAsync(id);
+			var specifications = new MedicalRecordSpecifications(id);
+			var record = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAsync(specifications);
 			var recordDto = mapper.Map<MedicalRecordDto>(record);
 			return recordDto;
 		}

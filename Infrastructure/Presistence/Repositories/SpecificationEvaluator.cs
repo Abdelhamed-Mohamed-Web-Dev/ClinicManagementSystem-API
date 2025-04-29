@@ -1,13 +1,7 @@
-﻿using Domain.Entities;
-using Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Persistence.Repositories
 {
+    // ABDELRAHMAN
     internal static class SpecificationEvaluator
     {
         public  static IQueryable<T> GetQuery<T>(
@@ -17,10 +11,10 @@ namespace Persistence.Repositories
             
         {
             var query = inputQuery;
-            if(specifications.Creiteria is not null) query= query.Where(specifications.Creiteria);
+            if(specifications.Criteria is not null) query= query.Where(specifications.Criteria);
 
 
-            query = specifications.IncludeExperessions.Aggregate(query, (CurrentQuery, includeExpression) => CurrentQuery.Include(includeExpression));
+            query = specifications.IncludeExpressions.Aggregate(query, (CurrentQuery, includeExpression) => CurrentQuery.Include(includeExpression));
 
             return query;
             
