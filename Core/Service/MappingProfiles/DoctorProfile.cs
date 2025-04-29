@@ -16,10 +16,10 @@ namespace Service.MappingProfiles
             CreateMap<LapTest, LapTestDto1>().ReverseMap();
             CreateMap<Radiology, RadiologyDto1>().ReverseMap();
             CreateMap<Appointment, AppointmentDto1>()
-                .ForMember(p1=>p1.PatientName,p2=>p2.MapFrom(p2=>p2.PatientId))
+                .ForMember(p1=>p1.PatientName,p2=>p2.MapFrom(p2=>p2.Patient.Name))
                 .ReverseMap();
             CreateMap<MedicalRecord,MedicalRecordDto1>()
-                .ForMember(p1 => p1.PatientName, p2 => p2.MapFrom(p2 => p2.PatientId))
+                .ForMember(p1 => p1.PatientName, p2 => p2.MapFrom(p2 => p2.Patient.Name))
                 .ReverseMap();
 
 
