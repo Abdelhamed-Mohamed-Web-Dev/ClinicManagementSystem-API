@@ -1,5 +1,6 @@
 ﻿using Service.Abstraction.DoctorService;
 using Service.Specifications;
+using Service.Specifications.Doctor;
 using Shared.DoctorModels;
 using System;
 using System.Collections.Generic;
