@@ -1,4 +1,10 @@
-﻿
+﻿using Domain.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Persistence.Repositories
 {
 	public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
@@ -24,14 +30,13 @@ namespace Persistence.Repositories
 		public async Task<IEnumerable<TEntity>> GetAllAsync(bool TrackChanges = false)
 		=> TrackChanges ? await mainContext.Set<TEntity>().ToListAsync() :
 			await mainContext.Set<TEntity>().AsNoTracking().ToListAsync();
-        
-		// with specs
-		public async Task<TEntity?> GetAsync(IBaseSpecifications<TEntity> specifications)
-		=> await SpecificationEvaluator.CreateQuery<TEntity>(mainContext.Set<TEntity>(), specifications).FirstOrDefaultAsync();
-		
-		public async Task<IEnumerable<TEntity>> GetAllAsync(IBaseSpecifications<TEntity> specifications)
-		=> await SpecificationEvaluator.CreateQuery<TEntity>(mainContext.Set<TEntity>(), specifications).ToListAsync();
-		
-		
-	}
+
+		public async Task<TEntity> GetAsync(Specifications<TEntity> specifications)
+		  => await ApplySpecification(specifications).FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Specifications<TEntity> specifications)
+            => await ApplySpecification(specifications).ToListAsync();
+		private IQueryable<TEntity> ApplySpecification(Specifications<TEntity> specifications) => SpecificationEvaluator.GetQuery<TEntity>(mainContext.Set<TEntity>(), specifications);
+
+    }
 }

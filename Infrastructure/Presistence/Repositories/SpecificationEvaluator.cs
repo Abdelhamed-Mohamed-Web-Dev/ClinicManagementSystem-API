@@ -1,23 +1,29 @@
-﻿
+﻿using Domain.Entities;
+using Domain.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Persistence.Repositories
 {
-	public static class SpecificationEvaluator
-	{
-		// method to create query with specs 
-		public static IQueryable<TEntity> CreateQuery<TEntity>
-			(IQueryable<TEntity> inQuery, IBaseSpecifications<TEntity> specifications)
-			where TEntity : class
-		{
-			var Query = inQuery;
-			// Query = mainContext.Set<T>();
-			if (specifications.Criteria is not null)
-				Query = Query.Where(specifications.Criteria);
-			// Query = mainContext.Set<T>().Where(......);
-			if (specifications.IncludeExpression is not null && specifications.IncludeExpression.Any())
-				foreach (var item in specifications.IncludeExpression)
-					Query.Include(item);
-			// Query = mainContext.Set<T>().Where(.......).Include(......).Include(......);
-			return Query;
-		}
-	}
+    internal static class SpecificationEvaluator
+    {
+        public  static IQueryable<T> GetQuery<T>(
+            IQueryable<T> inputQuery,
+            Specifications<T> specifications) 
+             where T: class
+            
+        {
+            var query = inputQuery;
+            if(specifications.Creiteria is not null) query= query.Where(specifications.Creiteria);
+
+
+            query = specifications.IncludeExperessions.Aggregate(query, (CurrentQuery, includeExpression) => CurrentQuery.Include(includeExpression));
+
+            return query;
+            
+            }
+    }
 }

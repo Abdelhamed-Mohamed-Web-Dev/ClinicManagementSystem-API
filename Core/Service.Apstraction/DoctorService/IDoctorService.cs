@@ -26,7 +26,9 @@ namespace Service.Abstraction.DoctorService
         public Task< IEnumerable<AppointmentDto1>> GetAllConfirmAppointment();
         public Task< IEnumerable<AppointmentDto1>> GetAllPendingAppointment();
         public Task<IEnumerable<AppointmentDto1>> GetAllCanceledAppointment();
-
+       // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
+        public  Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords();
+        public  Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId);
 
     }
 }

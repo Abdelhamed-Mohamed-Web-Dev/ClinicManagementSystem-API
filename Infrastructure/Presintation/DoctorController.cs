@@ -27,13 +27,15 @@ namespace Presentation
         [HttpGet("AllAppointment/{id}")]
         public async Task<IActionResult> GetAllAppointmet(int id)
             => Ok(await serviceManager.DoctorService().GetAllAppointmentOfDoctorAysnc(id));
+        //[HttpGet("MedicalRecord")]
+       // public async Task<IActionResult> GetMedicalRecord(int id) => Ok(await serviceManager.DoctorService().GetMedicalRecord(id));
         [HttpGet("AllRadiology/{id}")]
         public async Task<IActionResult> GetAllRadioloy(Guid id)
             => Ok(await serviceManager.DoctorService().GetAllRadiologyOfPatientAysnc(id));
         [HttpGet("AllLapTests/{id}")]
         public async Task<IActionResult> GetAllLapTests(Guid id)
             => Ok(await serviceManager.DoctorService().GetAllLapTestOfPatientAysnc(id));
-        [HttpGet ]
+        [HttpGet ("UpdateDoctor") ]
         public async Task<IActionResult> UpdateDoctor(int id) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAysnc(id));
         [HttpGet ("AllConfirmAppointment")]
         public async Task<IActionResult> GetALlConfirmAppointment()=>Ok( await serviceManager.DoctorService().GetAllConfirmAppointment());
@@ -43,5 +45,10 @@ namespace Presentation
         public async Task<IActionResult> GetALlPendingAppointment() => Ok(await serviceManager.DoctorService().GetAllPendingAppointment());
         [HttpGet("PaientAppointment")]
         public async Task<IActionResult> GetPaitentAppointment(int id) => Ok(await serviceManager.DoctorService().GetAppoitmentOfPatient(id));
+        [HttpGet ("AllMedicalRecords")]
+        public async Task<IActionResult> GetAllMedicalRecords()=>Ok(await serviceManager.DoctorService().GetAllMedicalRecords());
+        [HttpGet("MedicalRecordOfPatient")]
+        public async Task<IActionResult> GetMedicalRecords(int PatientId,int DoctorId)=>Ok(await serviceManager.DoctorService().GetMedicalRecord(PatientId,DoctorId));
+   
     }
 }
