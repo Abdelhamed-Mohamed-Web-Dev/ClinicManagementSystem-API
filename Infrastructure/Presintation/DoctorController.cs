@@ -19,10 +19,7 @@ namespace Presentation
         public async Task<IActionResult> GetDoctor(int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
 
         [HttpGet("Patient/{id}")]
-        public async Task<IActionResult> GetPatient(int id)
-        
-           
-           => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
+        public async Task<IActionResult> GetPatient(int id) => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
         
         [HttpGet("AllAppointment/{id}")]
         public async Task<IActionResult> GetAllAppointmet(int id)
