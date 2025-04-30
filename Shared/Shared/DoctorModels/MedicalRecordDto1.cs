@@ -15,6 +15,8 @@ namespace Shared.DoctorModels
         public string Prescription { get; set; }
         public string Speciality { get; set; }
         public string PatientName { get; set; }
+        public string DoctorName { get; set; }
+
       //  public ICollection<LapTestDto> LapTestDtos { get; set; } = new List<LapTestDto>();
        public ICollection<LapTestDto1> LapTestsDto { get; set; } = new List<LapTestDto1>();
         public ICollection<RadiologyDto1> RadiationsDto { get; set; } = new List<RadiologyDto1>();

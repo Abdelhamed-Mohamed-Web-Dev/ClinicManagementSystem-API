@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 
 using Service;
 using Service.Abstraction;
@@ -17,10 +18,17 @@ namespace ClinicManagementSystem
 			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 			builder.Services.AddScoped<IServiceManager, ServiceManager>();
 			builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
-			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
-			//builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
+            //////			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+            builder.Services.AddControllers()
+                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
+            //builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
             	builder.Services.AddSwaggerGen();
        //     builder.Services.AddScalar();
 
