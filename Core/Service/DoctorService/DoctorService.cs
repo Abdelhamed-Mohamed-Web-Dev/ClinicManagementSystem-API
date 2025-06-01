@@ -15,9 +15,9 @@ namespace Service.DoctorService
         
         public async Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(int id)
         {
-            var allappointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync();
+            var allappointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync(new AppointmentWithPatientAndDoctor());
             var appointment = allappointment.Where(a => a.DoctorId == id);
-            var appointmentDto = mapper.Map<IEnumerable<Shared.DoctorModels.AppointmentDto1>>(appointment);
+            var appointmentDto = mapper.Map<IEnumerable<AppointmentDto1>>(appointment);
             return appointmentDto;
         }
         
@@ -106,6 +106,8 @@ namespace Service.DoctorService
             var medicalrecordDto= mapper.Map<MedicalRecordDto>(medicalrecord);
             return medicalrecordDto;
         }
+
+        
     }
 }
 // بيانات حجز المريض 
