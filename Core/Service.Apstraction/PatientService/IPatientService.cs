@@ -3,7 +3,7 @@ namespace Service.Abstraction.PatientService
 {
 	public interface IPatientService
 	{
-		public Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync();
+		public Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync(string? specialty, string? search);
 		public Task<DoctorDto> GetDoctorByIdAsync(int id);
 		// Retrieve all records for patient by patientId
 		public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId);
@@ -19,5 +19,12 @@ namespace Service.Abstraction.PatientService
 		public Task<RadiologyDto> GetRadiologyByIdAsync(Guid id);
 		// Retrieve patient data by id
 		public Task<PatientDto> GetPatientByIdAsync(int id);
+		// Retrieve all appointments by patient id
+		public Task<IEnumerable<AppointmentDto>> GetAllAppointmentsAsync(int patientId);
+		// Retrieve all appointment id
+		public Task<AppointmentDto> GetAppointmentByIdAsync(Guid id);
+		// Create appointment
+		public Task<AppointmentDto> CreateAppointmentAsync(AppointmentDto appointment);
+
 	}
 }

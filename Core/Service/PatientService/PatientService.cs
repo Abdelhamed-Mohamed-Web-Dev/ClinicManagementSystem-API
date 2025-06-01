@@ -6,9 +6,10 @@ namespace Service.PatientService
 {
 	public class PatientService(IUnitOfWork unitOfWork, IMapper mapper) : IPatientService
 	{
-		public async Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync()
+		public async Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync(string? specialty, string? search)
 		{
-			var doctors = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync();
+
+			var doctors = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync(new DoctorSpecifications(specialty, search));
 			var doctorsDto = mapper.Map<IEnumerable<DoctorDto>>(doctors);
 			return doctorsDto;
 
@@ -23,7 +24,7 @@ namespace Service.PatientService
 		// احنا كدا هنستهلك وقت كبير اوى الموضوع مش هيكون ملحوظ فى الاول
 		// عشان الداتا لسه قليله بس لما الداتا تكبر هتظهر المشكله اننا بنجيب
 		// الداتا كلها ونفلترها هنا عشان نطلع منها 2 او 3 ريكورد بالكتير 
-		// ممكن عشان نحل المشكله نعمل Specification repository لكل entity 
+		// ممكن عشان نحل المشكله نعمل Specification لكل entity 
 		// بس دا هياخد وقت ف هنطنش دلوقتى لغاية م نبقا نفكر نكبر
 		// الدنيا او لما المشكلة تظهر
 		// ****** :) تم التعديل بنجاح ******
