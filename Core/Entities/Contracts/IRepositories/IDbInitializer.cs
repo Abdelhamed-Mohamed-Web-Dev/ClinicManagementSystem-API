@@ -9,5 +9,6 @@ namespace Domain.Contracts.IRepositories
 	public interface IDbInitializer
 	{
 		public Task InitializeAsync();
+		public Task InitializeIdentityAsync();
 	}
 }

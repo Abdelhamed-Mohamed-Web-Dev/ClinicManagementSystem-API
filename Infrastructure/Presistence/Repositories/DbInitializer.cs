@@ -1,11 +1,18 @@
-﻿namespace Persistence.Repositories
+﻿using Microsoft.AspNetCore.Identity;
+using Shared.DoctorModels;
+
+namespace Persistence.Repositories
 {
     public class DbInitializer : IDbInitializer
     {
         readonly MainContext mainContext;
-        public DbInitializer(MainContext mainContext)
+        readonly UserManager<User> userManager;
+        readonly RoleManager<IdentityRole> roleManager;
+        public DbInitializer(MainContext mainContext, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.mainContext = mainContext;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
         }
         public async Task InitializeAsync()
         {
@@ -107,6 +114,43 @@
             {
 
                 throw;
+            }
+        }
+
+        public async Task InitializeIdentityAsync()
+        {
+            // Seed Defult Role
+            if(!roleManager.Roles.Any())
+            {
+                await roleManager.CreateAsync(new IdentityRole("Doctor1"));
+                await roleManager.CreateAsync(new IdentityRole("Doctor2"));
+            }
+
+            // Seed Defult User
+            if (!userManager.Users.Any())
+            {
+                var Doctor1 = new User
+                {
+                    DisplayName = "Ahmed",
+                    Email = "Ahmed@gmail.com",
+                    UserName = "Doctor1",
+                    PhoneNumber = "0102546145",
+
+                };
+                var Doctor2 = new User
+                {
+                    DisplayName = "Ali",
+                    Email = "Ali@gmail.com",
+                    UserName = "Doctor2",
+                    PhoneNumber = "0112545145",
+
+                };
+
+                await userManager.CreateAsync(Doctor1,"12345678");
+                await userManager.CreateAsync(Doctor2,"12345678");
+                await userManager.AddToRoleAsync(Doctor1, "Doctor1");
+                await userManager.AddToRoleAsync(Doctor2, "Doctor2");
+                
             }
         }
     }

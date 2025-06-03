@@ -3,9 +3,9 @@ namespace Persistence
 {
 	public class MainContext : DbContext
 	{
-		public MainContext(DbContextOptions options) : base(options) { }
+        public MainContext(DbContextOptions<MainContext> options) : base(options) { }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		=> modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainContext).Assembly);
 
 		public DbSet<Appointment> Appointments { get; set; }
