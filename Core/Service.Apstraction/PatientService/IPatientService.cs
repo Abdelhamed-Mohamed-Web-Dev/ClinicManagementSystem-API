@@ -24,7 +24,13 @@ namespace Service.Abstraction.PatientService
 		// Retrieve all appointment id
 		public Task<AppointmentDto> GetAppointmentByIdAsync(Guid id);
 		// Create appointment
-		public Task<AppointmentDto> CreateAppointmentAsync(AppointmentDto appointment);
-
+		public Task<AppointmentDto> CreateAppointmentAsync(CreateAppointmentDto appointment);
+		// Update appointment
+		public Task<AppointmentDto> UpdateAppointmentAsync(AppointmentDto appointment);
+		// Retrieve available days
+		public Task<IEnumerable<AvailableDaysDto>> GetAllAvailableDaysAsync(int doctorId);
+		// Retrieve available times
+		public Task<IEnumerable<AvailableTimesDto>> GetAllAvailableTimesAsync(int doctorId,DateTime date);
+	
 	}
 }

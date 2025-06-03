@@ -12,6 +12,12 @@ namespace Shared.PatientModels
 		public string Name { get; set; }
 		public string Phone { get; set; }
 		public string Speciality { get; set; }
+		public string PictureUrl { get; set; }
+		public int Rate { get; set; }
+		public string Bio { get; set; }
+		public decimal NewVisitPrice { get; set; }
+		public decimal FollowUpVisitPrice { get; set; }
+
 
 		//public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 	}

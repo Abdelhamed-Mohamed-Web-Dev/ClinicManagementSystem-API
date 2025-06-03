@@ -8,7 +8,12 @@ namespace Service.Specifications.Patient
 			(d => (string.IsNullOrWhiteSpace(specialty) || d.Speciality == specialty) &&
 			(string.IsNullOrWhiteSpace(search) || d.Name.ToUpper().Contains(search.ToUpper().Trim())))
 		{
-
+			AddInclude(d => d.Appointments);
 		}
+		public DoctorSpecifications(int id) : base(d => d.Id == id)
+		{
+			AddInclude(d => d.Appointments);
+		}
+
 	}
 }
