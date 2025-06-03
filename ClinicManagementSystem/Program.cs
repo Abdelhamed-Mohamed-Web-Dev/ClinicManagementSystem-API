@@ -1,5 +1,10 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-
+using ClinicManagementSystem.Extensions;
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Persistence.Identity;
 using Service;
 using Service.Abstraction;
 
@@ -12,26 +17,12 @@ namespace ClinicManagementSystem
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-
-			builder.Services.AddDbContext<MainContext>(o=>o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
-			builder.Services.AddScoped<IDbInitializer,DbInitializer>();
-			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-			builder.Services.AddScoped<IServiceManager, ServiceManager>();
-			builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
-            //////			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
-            builder.Services.AddControllers()
-                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                });
-
-            //builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            	builder.Services.AddSwaggerGen();
-       //     builder.Services.AddScalar();
-
+			builder.Services.AddCoreServices();
+			builder.Services.AddInfraStructureServices(builder.Configuration);
+			builder.Services.AddPresentationService();
+         
+		//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+           
             var app = builder.Build();
 
 			await DataSeeding(app);
@@ -58,8 +49,16 @@ namespace ClinicManagementSystem
 			using var scope = app.Services.CreateScope();
 			// Inject
 			var initDb = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-			// Call Initializer
+			// Call Initializer 
+			// Intialization Data Base
 			await initDb.InitializeAsync();
+            // Intialization Security DataBase
+            await initDb.InitializeIdentityAsync();
 		}
+	   
+
 	}
 }
+//////			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+//builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
