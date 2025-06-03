@@ -19,7 +19,7 @@ namespace Presentation
 		[HttpGet("AllMedicalRecords/{patientId}")]
 		public async Task<ActionResult<IEnumerable<MedicalRecordDto>>> GetMedicalRecords(int patientId)
 			=> Ok(await serviceManager.PatientService().GetAllMedicalRecordsAsync(patientId));
-		[HttpGet("MedicalRecords/{id}")]
+		[HttpGet("MedicalRecord/{id}")]
 		public async Task<ActionResult<MedicalRecordDto>> GetMedicalRecord(Guid id)
 			=> Ok(await serviceManager.PatientService().GetMedicalRecordByIdAsync(id));
 		#endregion
@@ -51,8 +51,34 @@ namespace Presentation
 
 		#region Appointment End Points
 
+		#region Available Date & Time End Points
+
+		[HttpGet("AvailableDays/{doctorId}")]
+		public async Task<ActionResult<IEnumerable<AvailableDaysDto>>> GetAvailableDays(int doctorId)
+		=> Ok(await serviceManager.PatientService().GetAllAvailableDaysAsync(doctorId));
+		[HttpGet("AvailableTimes/{doctorId}+{date}")]
+		public async Task<ActionResult<IEnumerable<AvailableDaysDto>>> GetAvailableDays(int doctorId, DateTime date)
+		=> Ok(await serviceManager.PatientService().GetAllAvailableTimesAsync(doctorId, date));
+
 		#endregion
 
+		[HttpGet("AllAppointments/{patientId}")]
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAllAppointments(int patientId)
+		=> Ok(await serviceManager.PatientService().GetAllAppointmentsAsync(patientId));
+		[HttpGet("Appointment/{id}")]
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAppointment(Guid id)
+		=> Ok(await serviceManager.PatientService().GetAppointmentByIdAsync(id));
+		[HttpPost("CreateAppointment/{appointment}")]////////////////////////////////////////////
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> CreateAppointment(CreateAppointmentDto appointment)
+		=> Ok();
+		[HttpPut("UpdateAppointment/{id}")]//////////////////////////////////////////////////////
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> UpdateAppointment(Guid id)
+		=> Ok();
+		[HttpGet("CancelAppointment/{id}")]//////////////////////////////////////////////////////
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> CancelAppointment(Guid id)
+		=> Ok();
+
+		#endregion
 
 	}
 }

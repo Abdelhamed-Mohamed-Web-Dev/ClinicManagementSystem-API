@@ -1,5 +1,4 @@
-﻿using Domain.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,15 +11,15 @@ namespace Service.Specifications
     {
         public AppointmentWithPatientAndDoctor(int PatientId,int DoctorId) : base(appointment=>appointment.PatientId==PatientId&&appointment.DoctorId==DoctorId)
         {
-            Includes(appointment => appointment.Doctor);
-            Includes(appointment => appointment.Patient);
+			AddInclude(appointment => appointment.Doctor);
+			AddInclude(appointment => appointment.Patient);
 
         }
 
         public AppointmentWithPatientAndDoctor() : base(null)
         {
-            Includes(appointment => appointment.Doctor);
-            Includes(appointment => appointment.Patient);
+			AddInclude(appointment => appointment.Doctor);
+			AddInclude(appointment => appointment.Patient);
 
         }
     }
