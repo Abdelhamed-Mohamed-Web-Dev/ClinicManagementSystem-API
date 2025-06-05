@@ -10,10 +10,8 @@ using System.Threading.Tasks;
 namespace Presentation
 {
 
-    [ApiController]
-    [Route("api/[controller]")]
-
-    public class DoctorController(IServiceManager serviceManager) : Controller
+  
+    public class DoctorController(IServiceManager serviceManager) : APIController
     {
         [HttpGet("Doctor/{id}")]
         public async Task<IActionResult> GetDoctor(int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
