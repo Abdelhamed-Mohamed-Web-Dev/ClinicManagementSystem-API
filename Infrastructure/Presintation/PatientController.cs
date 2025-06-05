@@ -1,9 +1,7 @@
 ﻿
 namespace Presentation
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class PatientController(IServiceManager serviceManager) : ControllerBase
+	public class PatientController(IServiceManager serviceManager) : APIController
 	{
 		#region Doctor End Points
 		[HttpGet("Doctors")]
