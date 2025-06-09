@@ -1,12 +1,6 @@
-using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
-using ClinicManagementSystem.Extensions;
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Persistence.Identity;
-using Service;
-using Service.Abstraction;
+
+
+using ClinicManagementSystem.MiddleWares;
 
 namespace ClinicManagementSystem
 {
@@ -24,6 +18,8 @@ namespace ClinicManagementSystem
 		//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
            
             var app = builder.Build();
+
+			app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 			await DataSeeding(app);
 
@@ -50,9 +46,9 @@ namespace ClinicManagementSystem
 			// Inject
 			var initDb = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
 			// Call Initializer 
-			// Intialization Data Base
+			// Initialization Data Base
 			await initDb.InitializeAsync();
-            // Intialization Security DataBase
+            // Initialization Security DataBase
             await initDb.InitializeIdentityAsync();
 		}
 	   

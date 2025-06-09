@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using ClinicManagementSystem.Factories;
+using System.Text.Json.Serialization;
 
 namespace ClinicManagementSystem.Extensions
 {
@@ -12,8 +13,11 @@ namespace ClinicManagementSystem.Extensions
                {
                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                });
+			services.Configure<ApiBehaviorOptions>(Options
+                => Options.InvalidModelStateResponseFactory 
+                = ApiResponseFactory.CustomValidationErrorResponse);
 
-            services.AddEndpointsApiExplorer();
+			services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
 

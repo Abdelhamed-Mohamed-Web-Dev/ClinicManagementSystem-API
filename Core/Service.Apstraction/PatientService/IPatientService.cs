@@ -1,7 +1,9 @@
 ﻿
+using Shared.AppointmentModels;
+
 namespace Service.Abstraction.PatientService
 {
-	public interface IPatientService
+    public interface IPatientService
 	{
 		public Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync(string? specialty, string? search);
 		public Task<DoctorDto> GetDoctorByIdAsync(int id);
@@ -26,7 +28,9 @@ namespace Service.Abstraction.PatientService
 		// Create appointment
 		public Task<AppointmentDto> CreateAppointmentAsync(CreateAppointmentDto appointment);
 		// Update appointment
-		public Task<AppointmentDto> UpdateAppointmentAsync(AppointmentDto appointment);
+		public Task<AppointmentDto> UpdateAppointmentAsync(UpdateAppointmentDto appointment);
+		// Cancel appointment
+		public Task<AppointmentDto> CancelAppointmentAsync(Guid id);
 		// Retrieve available days
 		public Task<IEnumerable<AvailableDaysDto>> GetAllAvailableDaysAsync(int doctorId);
 		// Retrieve available times
