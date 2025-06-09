@@ -1,49 +1,51 @@
 ﻿
+using Shared.AppointmentModels;
+
 namespace Presentation
 {
 	public class PatientController(IServiceManager serviceManager) : APIController
 	{
 		#region Doctor End Points
 		[HttpGet("Doctors")]
-		public async Task<ActionResult<IEnumerable<DoctorDto>>> GetDoctors(string? specialty, string? search)
+		public async Task<ActionResult<IEnumerable<DoctorDto>>> GetDoctors([FromQuery]string? specialty, string? search)
 			=> Ok(await serviceManager.PatientService().GetAllDoctorsAsync(specialty, search));
-		[HttpGet("Doctors/{id}")]
-		public async Task<ActionResult<DoctorDto>> GetDoctor(int id)
+		[HttpGet("Doctor")]
+		public async Task<ActionResult<DoctorDto>> GetDoctor([FromQuery]int id)
 			=> Ok(await serviceManager.PatientService().GetDoctorByIdAsync(id));
 		#endregion
 
 		#region Medical Record End Points
 
-		[HttpGet("AllMedicalRecords/{patientId}")]
-		public async Task<ActionResult<IEnumerable<MedicalRecordDto>>> GetMedicalRecords(int patientId)
+		[HttpGet("MedicalRecords")]
+		public async Task<ActionResult<IEnumerable<MedicalRecordDto>>> GetMedicalRecords([FromQuery]int patientId)
 			=> Ok(await serviceManager.PatientService().GetAllMedicalRecordsAsync(patientId));
-		[HttpGet("MedicalRecord/{id}")]
-		public async Task<ActionResult<MedicalRecordDto>> GetMedicalRecord(Guid id)
+		[HttpGet("MedicalRecord")]
+		public async Task<ActionResult<MedicalRecordDto>> GetMedicalRecord([FromQuery]Guid id)
 			=> Ok(await serviceManager.PatientService().GetMedicalRecordByIdAsync(id));
 		#endregion
 
 		#region Lap Test End Points
 
-		[HttpGet("AllLapTests/{recordId}")]
-		public async Task<ActionResult<IEnumerable<LapTestDto>>> GetLapTests(Guid recordId)
+		[HttpGet("LapTests")]
+		public async Task<ActionResult<IEnumerable<LapTestDto>>> GetLapTests([FromQuery]Guid recordId)
 				=> Ok(await serviceManager.PatientService().GetAllLapTestsAsync(recordId));
-		[HttpGet("LapTests/{id}")]
-		public async Task<ActionResult<LapTestDto>> GetLapTest(Guid id)
+		[HttpGet("LapTest")]
+		public async Task<ActionResult<LapTestDto>> GetLapTest([FromQuery]Guid id)
 			=> Ok(await serviceManager.PatientService().GetLapTestByIdAsync(id));
 		#endregion
 
 		#region Radiation End Points
-		[HttpGet("AllRadiations/{recordId}")]
-		public async Task<ActionResult<IEnumerable<RadiologyDto>>> GetRadiations(Guid recordId)
+		[HttpGet("Radiations")]
+		public async Task<ActionResult<IEnumerable<RadiologyDto>>> GetRadiations([FromQuery]Guid recordId)
 				=> Ok(await serviceManager.PatientService().GetAllRadiationsAsync(recordId));
-		[HttpGet("Radiations/{id}")]
-		public async Task<ActionResult<RadiologyDto>> GetRadiation(Guid id)
+		[HttpGet("Radiation")]
+		public async Task<ActionResult<RadiologyDto>> GetRadiation([FromQuery]Guid id)
 			=> Ok(await serviceManager.PatientService().GetRadiologyByIdAsync(id));
 		#endregion
 
 		#region Patient End Points
-		[HttpGet("Patient/{id}")]
-		public async Task<ActionResult<PatientDto>> GetPatient(int id)
+		[HttpGet("Patient")]
+		public async Task<ActionResult<PatientDto>> GetPatient([FromQuery]int id)
 			=> Ok(await serviceManager.PatientService().GetPatientByIdAsync(id));
 		#endregion
 
@@ -51,30 +53,30 @@ namespace Presentation
 
 		#region Available Date & Time End Points
 
-		[HttpGet("AvailableDays/{doctorId}")]
-		public async Task<ActionResult<IEnumerable<AvailableDaysDto>>> GetAvailableDays(int doctorId)
+		[HttpGet("AvailableDays")]
+		public async Task<ActionResult<IEnumerable<AvailableDaysDto>>> GetAvailableDays([FromQuery] int doctorId)
 		=> Ok(await serviceManager.PatientService().GetAllAvailableDaysAsync(doctorId));
-		[HttpGet("AvailableTimes/{doctorId}+{date}")]
-		public async Task<ActionResult<IEnumerable<AvailableDaysDto>>> GetAvailableDays(int doctorId, DateTime date)
+		[HttpGet("AvailableTimes")]
+		public async Task<ActionResult<IEnumerable<AvailableDaysDto>>> GetAvailableDays([FromQuery]int doctorId, DateTime date)
 		=> Ok(await serviceManager.PatientService().GetAllAvailableTimesAsync(doctorId, date));
 
 		#endregion
 
-		[HttpGet("AllAppointments/{patientId}")]
-		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAllAppointments(int patientId)
+		[HttpGet("Appointments")]
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAllAppointments([FromQuery]int patientId)
 		=> Ok(await serviceManager.PatientService().GetAllAppointmentsAsync(patientId));
-		[HttpGet("Appointment/{id}")]
-		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAppointment(Guid id)
+		[HttpGet("Appointment")]
+		public async Task<ActionResult<AppointmentDto>> GetAppointment([FromQuery]Guid id)
 		=> Ok(await serviceManager.PatientService().GetAppointmentByIdAsync(id));
-		[HttpPost("CreateAppointment/{appointment}")]////////////////////////////////////////////
-		public async Task<ActionResult<IEnumerable<AppointmentDto>>> CreateAppointment(CreateAppointmentDto appointment)
-		=> Ok();
-		[HttpPut("UpdateAppointment/{id}")]//////////////////////////////////////////////////////
-		public async Task<ActionResult<IEnumerable<AppointmentDto>>> UpdateAppointment(Guid id)
-		=> Ok();
-		[HttpGet("CancelAppointment/{id}")]//////////////////////////////////////////////////////
-		public async Task<ActionResult<IEnumerable<AppointmentDto>>> CancelAppointment(Guid id)
-		=> Ok();
+		[HttpPost("CreateAppointment")]
+		public async Task<ActionResult<AppointmentDto>> CreateAppointment(CreateAppointmentDto appointment)
+		=> Ok(await serviceManager.PatientService().CreateAppointmentAsync(appointment));
+		[HttpPut("UpdateAppointment")]
+		public async Task<ActionResult<AppointmentDto>> UpdateAppointment(UpdateAppointmentDto appointment)
+		=> Ok(await serviceManager.PatientService().UpdateAppointmentAsync(appointment));
+		[HttpPut("CancelAppointment")]
+		public async Task<ActionResult<AppointmentDto>> CancelAppointment([FromQuery]Guid id)
+		=> Ok(await serviceManager.PatientService().CancelAppointmentAsync(id));
 
 		#endregion
 

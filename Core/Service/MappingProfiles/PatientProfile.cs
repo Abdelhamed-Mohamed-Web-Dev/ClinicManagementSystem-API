@@ -1,7 +1,9 @@
 ﻿
+using Shared.AppointmentModels;
+
 namespace Service.MappingProfiles
 {
-	public class PatientProfile : Profile
+    public class PatientProfile : Profile
 	{
 		public PatientProfile()
 		{

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.AppointmentModels;
 
 namespace Shared.PatientModels
 {
-	public record PatientDto
+    public record PatientDto
 	{
         public int Id { get; set; }
         public string Name { get; set; }

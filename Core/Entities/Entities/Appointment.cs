@@ -3,8 +3,8 @@ namespace Domain.Entities
 {
 	public class Appointment : BaseEntity<Guid>
 	{
-		public DateOnly Date { get; set; }
-		public TimeOnly Time { get; set; }
+		//public DateOnly Date { get; set; }
+		//public TimeOnly Time { get; set; }
         public DateTime AppointmentDateTime { get; set; }
         public bool IsBooked { get; set; }
         public string? Notes { get; set; }

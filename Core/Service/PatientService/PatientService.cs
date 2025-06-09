@@ -1,4 +1,12 @@
 ﻿
+using Domain.Entities;
+using Domain.Exceptions;
+using Domain.Exceptions.NotFoundExceptions;
+using Service.Specifications.Patient;
+using Shared.AppointmentModels;
+using AppointmentStatus = Domain.Entities.AppointmentStatus;
+using AppointmentType = Domain.Entities.AppointmentType;
+
 namespace Service.PatientService
 {
 	public class PatientService(IUnitOfWork unitOfWork, IMapper mapper) : IPatientService
@@ -14,8 +22,9 @@ namespace Service.PatientService
 		public async Task<DoctorDto> GetDoctorByIdAsync(int id)
 		{
 			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(id);
-			var doctorDto = mapper.Map<DoctorDto>(doctor);
-			return doctorDto;
+			return doctor == null
+				? throw new DoctorNotFoundException(id)
+				: mapper.Map<DoctorDto>(doctor);
 		}
 
 		public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId)
@@ -30,8 +39,9 @@ namespace Service.PatientService
 		{
 			var specifications = new MedicalRecordSpecifications(id);
 			var record = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAsync(specifications);
-			var recordDto = mapper.Map<MedicalRecordDto>(record);
-			return recordDto;
+			return record == null
+				? throw new MedicalRecordNotFoundException(id)
+				: mapper.Map<MedicalRecordDto>(record);
 		}
 
 		public async Task<IEnumerable<LapTestDto>> GetAllLapTestsAsync(Guid medicalRecordId)
@@ -44,8 +54,9 @@ namespace Service.PatientService
 		public async Task<LapTestDto> GetLapTestByIdAsync(Guid id)
 		{
 			var test = await unitOfWork.GetRepository<LapTest, Guid>().GetAsync(id);
-			var testDto = mapper.Map<LapTestDto>(test);
-			return testDto;
+			return test == null
+				? throw new LapTestNotFoundException(id)
+				: mapper.Map<LapTestDto>(test);
 		}
 
 		public async Task<IEnumerable<RadiologyDto>> GetAllRadiationsAsync(Guid medicalRecordId)
@@ -58,19 +69,25 @@ namespace Service.PatientService
 		public async Task<RadiologyDto> GetRadiologyByIdAsync(Guid id)
 		{
 			var radiology = await unitOfWork.GetRepository<Radiology, Guid>().GetAsync(id);
-			var radiologyDto = mapper.Map<RadiologyDto>(radiology);
-			return radiologyDto;
+			return radiology == null
+				? throw new RadiologyNotFoundException(id)
+				: mapper.Map<RadiologyDto>(radiology);
 		}
 
 		public async Task<PatientDto> GetPatientByIdAsync(int id)
 		{
 			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(id);
-			var patientDto = mapper.Map<PatientDto>(patient);
-			return patientDto;
+			return patient == null
+				? throw new PatientNotFoundException(id)
+				: mapper.Map<PatientDto>(patient);
 		}
 
 		public async Task<IEnumerable<AppointmentDto>> GetAllAppointmentsAsync(int patientId)
 		{
+			// Check if the patient is exist
+			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(patientId);
+			if (patient == null) throw new PatientNotFoundException(patientId);
+
 			var appointments = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync(new AppointmentSpecifications(patientId));
 			return mapper.Map<IEnumerable<AppointmentDto>>(appointments);
 		}
@@ -78,18 +95,22 @@ namespace Service.PatientService
 		public async Task<AppointmentDto> GetAppointmentByIdAsync(Guid id)
 		{
 			var appointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAsync(new AppointmentSpecifications(id));
+			if (appointment == null) throw new AppointmentNotFoundException(id);
+
 			return mapper.Map<AppointmentDto>(appointment);
 		}
 
 		public async Task<IEnumerable<AvailableDaysDto>> GetAllAvailableDaysAsync(int doctorId)
 		{
 			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(doctorId);
+			if (doctor == null) throw new DoctorNotFoundException(doctorId);
 			var startDay = DateTime.Today; // available days from today
 			var endDay = startDay.AddDays(28); // to month (28) days
 			var result = new List<AvailableDaysDto>();
 			var date = startDay.Date;
 
-			while (date < endDay) {
+			while (date < endDay)
+			{
 				var dayOfWeek = (int)date.DayOfWeek;
 				result.Add(new AvailableDaysDto
 				{
@@ -119,6 +140,7 @@ namespace Service.PatientService
 		public async Task<IEnumerable<AvailableTimesDto>> GetAllAvailableTimesAsync(int doctorId, DateTime date)
 		{
 			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(doctorId));
+			if (doctor == null) throw new DoctorNotFoundException(doctorId);
 			var result = new List<AvailableTimesDto>();
 			var duration = TimeSpan.FromMinutes(doctor.AppointmentDuration);
 			var startTime = date.Date.Add(doctor.StartTime);
@@ -155,19 +177,115 @@ namespace Service.PatientService
 			}
 			return result;
 		}
-		
-		// exception handling required >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		public async Task<AppointmentDto> CreateAppointmentAsync(CreateAppointmentDto appointment)//>>>>>>>>
-		{
-			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(appointment.DoctorId));
 
-			throw new NotImplementedException();
+		public async Task<AppointmentDto> CreateAppointmentAsync(CreateAppointmentDto _appointment)
+		{
+			// Check if the doctor is exist
+			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(_appointment.DoctorId));
+			if (doctor == null) throw new DoctorNotFoundException(_appointment.DoctorId);
+
+			// Check if the patient is exist
+			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(_appointment.PatientId);
+			if (patient == null) throw new PatientNotFoundException(_appointment.PatientId);
+
+			// Check if the date is a working day
+			var day = (int)_appointment.AppointmentDateTime.DayOfWeek;
+			if (!doctor.WorkingDays.Contains(day))
+				throw new DateTimeIsNotAvailableException($"Date ({_appointment.AppointmentDateTime.DayOfWeek}) Is Outside Doctor's Working Days");
+
+			// Check if time is within working hours
+			var appointmentTime = _appointment.AppointmentDateTime.TimeOfDay;
+			if (appointmentTime < doctor.StartTime || appointmentTime >= doctor.EndTime)
+				throw new DateTimeIsNotAvailableException($"Time ({_appointment.AppointmentDateTime.TimeOfDay}) Is Outside Doctor's Working Hours");
+
+			// Check if slot is available
+			var existingAppointment = doctor.Appointments
+				.FirstOrDefault(a => a.AppointmentDateTime == _appointment.AppointmentDateTime && a.IsBooked);
+			if (existingAppointment != null)
+				throw new DateTimeIsNotAvailableException($"Time Slot ({_appointment.AppointmentDateTime.TimeOfDay}) Is Already Booked");
+
+			// Create new _appointment
+			var newAppointment = new Appointment()
+			{
+				DoctorId = _appointment.DoctorId,
+				PatientId = _appointment.PatientId,
+				AppointmentDateTime = _appointment.AppointmentDateTime,
+				Status = AppointmentStatus.Pending,
+				Type = (AppointmentType)_appointment.Type,
+				IsBooked = true,
+			};
+
+			// Add & Save changes
+			await unitOfWork.GetRepository<Appointment, Guid>().AddAsync(newAppointment);
+			await unitOfWork.SaveChangesAsync();
+
+			// Return new _appointment
+			return mapper.Map<AppointmentDto>(newAppointment);
+		}
+		public async Task<AppointmentDto> UpdateAppointmentAsync(UpdateAppointmentDto _appointment)
+		{
+			// Check if appointment is exist
+			var appointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAsync(new AppointmentSpecifications(_appointment.Id));
+			if (appointment == null) throw new AppointmentNotFoundException(_appointment.Id);
+
+			// Check if the _appointment is canceled | confirmed | at the past
+			if (appointment.Status == AppointmentStatus.Canceled)
+				throw new NotFoundException("Can't Update This Appointment (The Appointment Is Canceled)");
+			if (appointment.Status == AppointmentStatus.Confirmed)
+				throw new NotFoundException("Can't Update This Appointment (The Appointment Is Confirmed)");
+			if (appointment.AppointmentDateTime >= DateTime.Now)
+				throw new NotFoundException("Can't Update This Appointment (Its In The Past)");
+
+			// Check if the doctor is exist
+			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(appointment.DoctorId));
+			if (doctor == null) throw new DoctorNotFoundException(appointment.DoctorId);
+
+			// Check if the patient is exist
+			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(appointment.PatientId);
+			if (patient == null) throw new PatientNotFoundException(appointment.PatientId);
+
+			// Check if the date is a working day
+			var day = (int)_appointment.AppointmentDateTime.DayOfWeek;
+			if (!doctor.WorkingDays.Contains(day))
+				throw new DateTimeIsNotAvailableException($"Date ({_appointment.AppointmentDateTime.DayOfWeek}) Is Outside Doctor's Working Days");
+
+			// Check if time is within working hours
+			var appointmentTime = _appointment.AppointmentDateTime.TimeOfDay;
+			if (appointmentTime < doctor.StartTime || appointmentTime >= doctor.EndTime)
+				throw new DateTimeIsNotAvailableException($"Time ({_appointment.AppointmentDateTime.TimeOfDay}) Is Outside Doctor's Working Hours");
+
+			// Check if slot is available
+			var existingAppointment = doctor.Appointments
+				.FirstOrDefault(a => a.AppointmentDateTime == _appointment.AppointmentDateTime && a.IsBooked);
+			if (existingAppointment != null)
+				throw new DateTimeIsNotAvailableException($"Time ({_appointment.AppointmentDateTime.TimeOfDay}) Is Already Booked");
+
+			// Update & Save changes
+			appointment.AppointmentDateTime = _appointment.AppointmentDateTime;
+			unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);
+			await unitOfWork.SaveChangesAsync();
+
+			// Return
+			return mapper.Map<AppointmentDto>(appointment);
 
 		}
-		public Task<AppointmentDto> UpdateAppointmentAsync(AppointmentDto appointment)//>>>>>>>>
+		public async Task<AppointmentDto> CancelAppointmentAsync(Guid id)
 		{
-			throw new NotImplementedException();
+			// Check if appointment is exist
+			var appointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAsync(id);
+			if (appointment == null) throw new AppointmentNotFoundException(id);
 
+			if (appointment.Status == AppointmentStatus.Canceled)
+				return mapper.Map<AppointmentDto>(appointment);
+
+			var canceledAppointment = appointment;
+			canceledAppointment.IsBooked = false;
+			canceledAppointment.Status = AppointmentStatus.Canceled;
+
+			unitOfWork.GetRepository<Appointment, Guid>().Update(canceledAppointment);
+			await unitOfWork.SaveChangesAsync();
+
+			return mapper.Map<AppointmentDto>(canceledAppointment);
 		}
 	}
 }

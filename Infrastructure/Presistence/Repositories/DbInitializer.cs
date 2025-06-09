@@ -16,6 +16,7 @@ namespace Persistence.Repositories
         }
         public async Task InitializeAsync()
         {
+
             try
             {
                 // Check Pending Migrations
@@ -115,6 +116,7 @@ namespace Persistence.Repositories
 
                 throw;
             }
+            
         }
 
         public async Task InitializeIdentityAsync()
@@ -163,7 +165,7 @@ namespace Persistence.Repositories
                 await userManager.AddToRoleAsync(Patient1, "Patient");
                 await userManager.AddToRoleAsync(Admin1, "Admin");
                 
-            }
+            //}
         }
     }
 }
