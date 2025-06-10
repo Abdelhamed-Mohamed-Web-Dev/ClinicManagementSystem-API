@@ -120,7 +120,7 @@ namespace Persistence.Repositories
         public async Task InitializeIdentityAsync()
         {
             // Seed Defult Role
-            //if(!roleManager.Roles.Any())
+            if(!roleManager.Roles.Any())
             {
                 await roleManager.CreateAsync(new IdentityRole("Doctor"));
                 await roleManager.CreateAsync(new IdentityRole("Patient"));
@@ -128,7 +128,7 @@ namespace Persistence.Repositories
             }
 
             // Seed Defult User
-           // if (!userManager.Users.Any())
+           if (!userManager.Users.Any())
             {
                 var Doctor1 = new User
                 {
