@@ -11,10 +11,12 @@ namespace ClinicManagementSystem
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-			builder.Services.AddCoreServices();
+			builder.Services.AddCoreServices(builder.Configuration);
 			builder.Services.AddInfraStructureServices(builder.Configuration);
 			builder.Services.AddPresentationService();
          
+
+
 		//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
            
             var app = builder.Build();
@@ -31,7 +33,7 @@ namespace ClinicManagementSystem
 			}
 
 			app.UseHttpsRedirection();
-
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.MapControllers();

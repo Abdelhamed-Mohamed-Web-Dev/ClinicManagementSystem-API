@@ -9,7 +9,8 @@ namespace Service.Abstraction.AuthenticationService
 {
     public interface IAuthenticationService
     {
-        public Task<UserResultDTO> LoginAsycn(UserLoginDTO userLogin);
-        public Task<UserResultDTO> RegisterAsycn(UserRegisterDTO userRegister);
+        public Task<UserResultDTO> LoginAsync(UserLoginDTO userLogin);
+        public Task<UserResultDTO> RegisterAsync(UserRegisterDTO userRegister);
+        public Task DeleteAsync(string email);
     }
 }

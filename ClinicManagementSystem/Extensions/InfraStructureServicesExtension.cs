@@ -4,6 +4,10 @@ using Service.Abstraction;
 using Service;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Shared;
+using System.Text;
 
 namespace ClinicManagementSystem.Extensions
 {
@@ -16,6 +20,7 @@ namespace ClinicManagementSystem.Extensions
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigreIdentityService();
+            services.ConfigureJwt(configuration);
             return services;
         }
 
@@ -34,6 +39,36 @@ namespace ClinicManagementSystem.Extensions
             ).AddEntityFrameworkStores<StoreIdentityContext>();
             return services;
         }
+        public static IServiceCollection ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+
+                        ValidAudience = jwtOptions.Audience,
+                        ValidIssuer = jwtOptions.Issure,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+
+                    };
+
+                });
+
+            services.AddAuthorization();
+            return services;
+        }
+
     }
 
 }

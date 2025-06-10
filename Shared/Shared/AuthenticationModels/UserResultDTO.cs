@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.AuthenticationModels
 {
-    public class UserResultDTO(string DispalyName, string Email, string Token);
+    public record UserResultDTO(string DisplayName, string Email, string Token);
     
     
 }
