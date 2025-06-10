@@ -48,7 +48,7 @@ namespace Service.AuthenticationService
             return new UserResultDTO
             (
                 Email: user.Email,
-                DispalyName: user.DisplayName,
+                DisplayName: user.DisplayName,
                 Token: "Token"
                 );
             
