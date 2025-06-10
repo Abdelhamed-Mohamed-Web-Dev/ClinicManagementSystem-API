@@ -109,5 +109,54 @@
                 throw;
             }
         }
+
+        public async Task InitializeIdentityAsync()
+        {
+            // Seed Defult Role
+            if(!roleManager.Roles.Any())
+            {
+                await roleManager.CreateAsync(new IdentityRole("Doctor"));
+                await roleManager.CreateAsync(new IdentityRole("Patient"));
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            // Seed Defult User
+           if (!userManager.Users.Any())
+            {
+                var Doctor1 = new User
+                {
+                    DisplayName = "Ahmed",
+                    Email = "Ahmed@gmail.com",
+                    UserName = "D01",
+                    PhoneNumber = "0102546145",
+
+                };
+                var Patient1 = new User
+                {
+                    DisplayName = "Ali",
+                    Email = "Ali@gmail.com",
+                    UserName = "P001",
+                    PhoneNumber = "0112545145",
+
+                };
+                var Admin1 = new User
+                {
+                    DisplayName = "Mohamed",
+                    Email = "mohamed@gmail.com",
+                    UserName = "A01",
+                    PhoneNumber = "011235165"
+
+                };
+
+
+                await userManager.CreateAsync(Doctor1,"12345678");
+                await userManager.CreateAsync(Patient1,"12345678");
+                await userManager.CreateAsync(Admin1,"12345678");
+                await userManager.AddToRoleAsync(Doctor1, "Doctor");
+                await userManager.AddToRoleAsync(Patient1, "Patient");
+                await userManager.AddToRoleAsync(Admin1, "Admin");
+                
+            }
+        }
     }
 }

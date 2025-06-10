@@ -1,4 +1,5 @@
-﻿using Service.Abstraction;
+﻿using Microsoft.AspNetCore.Authorization;
+using Service.Abstraction;
 using Shared.DoctorModels;
 using Shared.PatientModels;
 using System;
@@ -10,10 +11,8 @@ using System.Threading.Tasks;
 namespace Presentation
 {
 
-    [ApiController]
-    [Route("api/[controller]")]
-
-    public class DoctorController(IServiceManager serviceManager) : Controller
+    [Authorize(Roles = "Doctor")]
+    public class DoctorController(IServiceManager serviceManager) : APIController
     {
         [HttpGet("Doctor/{id}")]
         public async Task<IActionResult> GetDoctor(int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
