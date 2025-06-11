@@ -22,5 +22,6 @@ namespace Domain.Entities
 
 		public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<Doctor_Rate> doctor_Rates { get; set; } = new List<Doctor_Rate>();
+        public ICollection<FavoriteDoctors> Favorites { get; set; }= new List<FavoriteDoctors>();
 	}
 }

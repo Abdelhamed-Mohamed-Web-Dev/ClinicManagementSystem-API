@@ -12,6 +12,9 @@
                 .HasForeignKey(d => d.DoctorId);
             builder.Property(d => d.NewVisitPrice).HasColumnType("decimal(18,2)");
             builder.Property(d => d.FollowUpVisitPrice).HasColumnType("decimal(18,2)");
+            builder.HasMany(d => d.Favorites)
+                .WithOne(d => d.doctor)
+                .HasForeignKey(d=>d.DoctorId);
         }
     }
 }

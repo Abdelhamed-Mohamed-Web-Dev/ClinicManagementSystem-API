@@ -1,5 +1,6 @@
 ﻿using Domain.Contracts.ISpecifications;
 using Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Domain.Contracts.IRepositories
 {
@@ -12,9 +13,11 @@ namespace Domain.Contracts.IRepositories
 		public Task AddAsync(TEntity entity);
 		public void Update(TEntity entity);
 		public void Delete(TEntity entity);
-		//// with specs
-		//public Task<TEntity> GetAsync(IBaseSpecifications<TEntity> specifications);
-		//public Task<IEnumerable<TEntity>> GetAllAsync(IBaseSpecifications<TEntity> specifications);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
 
-	}
+        //// with specs
+        //public Task<TEntity> GetAsync(IBaseSpecifications<TEntity> specifications);
+        //public Task<IEnumerable<TEntity>> GetAllAsync(IBaseSpecifications<TEntity> specifications);
+
+    }
 }

@@ -78,7 +78,7 @@ namespace Presentation
 
         #endregion
 
-        #region Rate
+        #region Rate & FavDoctors
         ///
 
         [HttpPost("Rate_Doctor")]
@@ -104,7 +104,23 @@ namespace Presentation
 		[HttpGet("Get Rate")]
 		public async Task<IActionResult> GetRate(int DoctorId)=>Ok(await serviceManager.PatientService().GetDoctorRateAsync(DoctorId));
 
-        ///
+		[HttpPost("AddFavoriteDoctor")]
+		public async Task<IActionResult> AddFavDoctor(int DoctorId,int PatientId)
+		{
+			
+		string result=	await serviceManager.PatientService().AddFavoriteDoctorAsync(DoctorId, PatientId);
+
+			if (result.Any())
+				return Ok(result);
+            return Ok("Doctor Added To Favorite");
+		}
+
+		[HttpDelete("RemoveDoctorFromFavorites")]
+		public async Task<IActionResult> RemoveDoctorFromFavorites(int DoctorId, int PatientId) => Ok(await serviceManager.PatientService().RemoveFavoriteDoctorAsync(DoctorId, PatientId));
+
+		//[HttpGet ("GetAllFavoriteDoctors")]
+		//public async Task<IActionResult> GetAllFavDoctors(int DoctorId,int PatientId) => Ok(await serviceManager.PatientService().GetAllFavoriteDoctorsAsync(DoctorId, PatientId));
+		/////
 
         #endregion
     }

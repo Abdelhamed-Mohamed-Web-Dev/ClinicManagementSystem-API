@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
 namespace Persistence.Repositories
 {
 	public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
@@ -26,10 +29,14 @@ namespace Persistence.Repositories
 		=> TrackChanges ? await mainContext.Set<TEntity>().ToListAsync() :
 			await mainContext.Set<TEntity>().AsNoTracking().ToListAsync();
 
-		#endregion
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+        => await mainContext.Set<TEntity>().AnyAsync(predicate);
+        
 
-		#region With Specifications
-		public async Task<TEntity?> GetAsync(Specifications<TEntity> specifications)
+        #endregion
+
+        #region With Specifications
+        public async Task<TEntity?> GetAsync(Specifications<TEntity> specifications)
 			=> await ApplySpecification(specifications).FirstOrDefaultAsync();
 
 		public async Task<IEnumerable<TEntity>> GetAllAsync(Specifications<TEntity> specifications)
@@ -37,7 +44,9 @@ namespace Persistence.Repositories
 
 		private IQueryable<TEntity> ApplySpecification(Specifications<TEntity> specifications)
 			=> SpecificationEvaluator.GetQuery<TEntity>(mainContext.Set<TEntity>(), specifications);
-		#endregion
 
-	}
+       
+        #endregion
+
+    }
 }

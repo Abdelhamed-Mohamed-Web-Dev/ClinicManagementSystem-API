@@ -15,6 +15,6 @@ namespace Persistence
 		public DbSet<Patient> Patients { get; set; }
 		public DbSet<Radiology> Radiations { get; set; }
 		public DbSet<Doctor_Rate> _Rates { get; set; }
-
+		public DbSet<FavoriteDoctors> FavoriteDoctors { get;set; }
 	}
 }

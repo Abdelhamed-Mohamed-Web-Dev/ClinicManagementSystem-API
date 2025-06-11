@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Service.PatientService
 {
@@ -172,7 +173,7 @@ namespace Service.PatientService
 
 		}
 
-        #region Rate
+        #region Rate &FavDoctors
         public async Task<string> PutRateAsync(DoctorRateDto doctorRateDto)
         {
             if (doctorRateDto.Rating < 1 || doctorRateDto.Rating > 5)
@@ -211,6 +212,61 @@ namespace Service.PatientService
 			}
             return (result/length);
         }
+
+        public async Task<string> AddFavoriteDoctorAsync(int DoctorId, int PatientId)
+        {
+			var doctor = await unitOfWork.GetRepository<Doctor,int>().GetAsync(DoctorId);
+            var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
+
+            if (doctor == null || patient == null)
+               return ("Doctor or patient not found.");
+
+            var found = await unitOfWork
+            .GetRepository<FavoriteDoctors, int>()
+            .AnyAsync(fv => fv.PatientId == PatientId && fv.DoctorId == DoctorId);
+            if (found)
+				return "This Doctor Already Added";
+
+			await unitOfWork.GetRepository<FavoriteDoctors, int>().AddAsync(new FavoriteDoctors
+			{
+				DoctorId= DoctorId,
+				PatientId= PatientId,
+			});
+
+			await unitOfWork.SaveChangesAsync();
+
+
+            return "Add Doctor To Favorite";
+        }
+
+        public async Task<string> RemoveFavoriteDoctorAsync(int DoctorId, int PatientId)
+        {
+            var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(DoctorId);
+            var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
+
+            if (doctor == null || patient == null)
+                return ("Doctor or patient not found.");
+
+			var favorites = await unitOfWork.GetRepository<FavoriteDoctors, int>().GetAllAsync();
+		var	result= favorites.FirstOrDefault(f=>f.PatientId==PatientId&&f.DoctorId==DoctorId);
+			 unitOfWork.GetRepository<FavoriteDoctors, int>().Delete(result);
+			await unitOfWork.SaveChangesAsync();
+			return "Removeing Doctor From Favorites";
+		}
+
+  //      public async Task<DoctorDto> GetAllFavoriteDoctorsAsync( int PatientId)
+  //      {
+  //          var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
+  //          var favorites = await unitOfWork.GetRepository<FavoriteDoctors, int>().GetAllAsync();
+  //              favorites= favorites.Where(f=>f.PatientId==PatientId);
+  //          var result = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync();
+		////	List<Doctor> doctors = new List<Doctor>();
+  //          foreach (var fav in favorites)
+		//	{
+		//		result += result.Where(r => r.Id == fav.Id);
+		//	}
+  //          return mapper.Map<DoctorDto>(result);
+		//}
 
         #endregion
     }

@@ -31,9 +31,14 @@ namespace Service.Abstraction.PatientService
 		public Task<IEnumerable<AvailableDaysDto>> GetAllAvailableDaysAsync(int doctorId);
 		// Retrieve available times
 		public Task<IEnumerable<AvailableTimesDto>> GetAllAvailableTimesAsync(int doctorId,DateTime date);
-	///
-		public Task<string> PutRateAsync(DoctorRateDto doctorRateDto);
+        
+        #region Rate & Fav Doctors
+        public Task<string> PutRateAsync(DoctorRateDto doctorRateDto);
 		public Task<float> GetDoctorRateAsync(int DoctorId);
-	///
-	}
+		public Task<string> AddFavoriteDoctorAsync(int DoctorId,int PatientId);
+		public Task<string> RemoveFavoriteDoctorAsync(int DoctorId,int PatientId);
+        //public Task<DoctorDto> GetAllFavoriteDoctorsAsync(int PatientId);
+        #endregion
+        
+    }
 }
