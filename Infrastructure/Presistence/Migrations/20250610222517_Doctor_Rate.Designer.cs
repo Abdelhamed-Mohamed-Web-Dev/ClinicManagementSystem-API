@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20250610222517_Doctor_Rate")]
+    partial class Doctor_Rate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,18 +58,11 @@ namespace Persistence.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int?>("rateId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("rateId")
-                        .IsUnique()
-                        .HasFilter("[rateId] IS NOT NULL");
 
                     b.ToTable("Appointments");
                 });
@@ -134,10 +130,8 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AppointmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DoctorId")
@@ -312,15 +306,9 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Doctor_Rate", "rate")
-                        .WithOne("appointment")
-                        .HasForeignKey("Domain.Entities.Appointment", "rateId");
-
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-
-                    b.Navigation("rate");
                 });
 
             modelBuilder.Entity("Domain.Entities.Doctor_Rate", b =>
@@ -388,11 +376,6 @@ namespace Persistence.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("doctor_Rates");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Doctor_Rate", b =>
-                {
-                    b.Navigation("appointment");
                 });
 
             modelBuilder.Entity("Domain.Entities.MedicalRecord", b =>

@@ -76,7 +76,36 @@ namespace Presentation
 		public async Task<ActionResult<IEnumerable<AppointmentDto>>> CancelAppointment(Guid id)
 		=> Ok();
 
-		#endregion
+        #endregion
 
-	}
+        #region Rate
+        ///
+
+        [HttpPost("Rate_Doctor")]
+
+		public async Task<IActionResult> RateDoctor(DoctorRateDto doctorRateDto)
+		{
+            try
+            {
+				// var result = await _patientService.RateDoctorAsync(dto);
+				var result = await serviceManager.PatientService().PutRateAsync(doctorRateDto);
+				return Ok(new { message = result });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "An unexpected error occurred." });
+            }
+        }
+
+		[HttpGet("Get Rate")]
+		public async Task<IActionResult> GetRate(int DoctorId)=>Ok(await serviceManager.PatientService().GetDoctorRateAsync(DoctorId));
+
+        ///
+
+        #endregion
+    }
 }

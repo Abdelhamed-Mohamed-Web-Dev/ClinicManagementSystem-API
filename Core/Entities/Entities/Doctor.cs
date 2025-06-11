@@ -9,6 +9,7 @@ namespace Domain.Entities
         // محتاجين نضيف Notification ( 2 Variable ( Type ,Content)   )
         public string PictureUrl { get; set; }
         public int Rate { get; set; }
+      //  public Doctor_Rate doctor_Rate { get; set; }
         public string Bio { get; set; }
         public decimal NewVisitPrice { get; set; }
         public decimal FollowUpVisitPrice { get; set; }
@@ -20,6 +21,6 @@ namespace Domain.Entities
 		public int AppointmentDuration { get; set; } = 30; // 30 Minutes
 
 		public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
-		
+        public ICollection<Doctor_Rate> doctor_Rates { get; set; } = new List<Doctor_Rate>();
 	}
 }

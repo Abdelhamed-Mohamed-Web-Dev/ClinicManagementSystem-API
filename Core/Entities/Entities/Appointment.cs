@@ -12,7 +12,11 @@ namespace Domain.Entities
 		public AppointmentStatus Status { get; set; } // . حالة الكشف تم او لسه او اتلغى 
 
 		public Patient Patient { get; set; }
-		public int PatientId { get; set; }
+		//
+        public Doctor_Rate? rate { get; set; }
+        public int? rateId { get; set; }
+        //
+        public int PatientId { get; set; }
 		public Doctor Doctor { get; set; }
 		public int DoctorId { get; set; }
 	}

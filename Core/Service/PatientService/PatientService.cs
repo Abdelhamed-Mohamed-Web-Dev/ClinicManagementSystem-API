@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+
 namespace Service.PatientService
 {
 	public class PatientService(IUnitOfWork unitOfWork, IMapper mapper) : IPatientService
@@ -169,5 +171,47 @@ namespace Service.PatientService
 			throw new NotImplementedException();
 
 		}
-	}
+
+        #region Rate
+        public async Task<string> PutRateAsync(DoctorRateDto doctorRateDto)
+        {
+            if (doctorRateDto.Rating < 1 || doctorRateDto.Rating > 5)
+                throw new ArgumentException("Rating must be between 1 and 5.");
+
+			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(doctorRateDto.DoctorId);
+			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(doctorRateDto.PatientId);
+
+            if (doctor == null || patient == null)
+                throw new ArgumentException("Doctor or patient not found.");
+			var NewRate = new Doctor_Rate
+			{
+				PatientId = patient.Id,
+				DoctorId = doctor.Id,
+				Rating = doctorRateDto.Rating
+			};
+
+			await unitOfWork.GetRepository<Doctor_Rate, int>().AddAsync(NewRate);
+			await unitOfWork.SaveChangesAsync();
+
+            return "Rating submitted successfully.";
+
+        }
+		
+        public async Task<float> GetDoctorRateAsync(int DoctorId)
+        {
+			var rates = await unitOfWork.GetRepository<Doctor_Rate, int>().GetAllAsync();
+			rates = rates.Where(r=>r.DoctorId==DoctorId).ToList();
+			float result=0;
+			int length=0;
+
+			foreach (var rate in rates)
+			{
+				length++;
+				result += rate.Rating;
+			}
+            return (result/length);
+        }
+
+        #endregion
+    }
 }

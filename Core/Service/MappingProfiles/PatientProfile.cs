@@ -17,6 +17,13 @@ namespace Service.MappingProfiles
 				.ForMember(d => d.DoctorName, s => s.MapFrom(s => s.Doctor.Name))
 				.ForMember(d => d.PatientName, s => s.MapFrom(s => s.Patient.Name))
 				.ReverseMap();
-		}
-	}
+			//
+			CreateMap<Doctor_Rate, DoctorRateDto>()
+			//	.ForMember(d => d.DoctorName, opt => opt.MapFrom(s => s.doctor.Name))
+			//	.ForMember(d => d.PatientName, opt => opt.MapFrom(s => s.patient.Name))
+				;
+			//
+
+        }
+    }
 }
