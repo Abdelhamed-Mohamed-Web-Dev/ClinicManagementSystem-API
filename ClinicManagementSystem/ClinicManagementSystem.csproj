@@ -12,13 +12,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.1.17" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Presintation\Presentation.csproj" />
     <ProjectReference Include="..\Infrastructure\Presistence\Persistence.csproj" />
-    <ProjectReference Include="..\Infrstructure\Presentation\Presentation.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,7 @@
 
+
+using ClinicManagementSystem.MiddleWares;
+
 namespace ClinicManagementSystem
 {
 	public class Program
@@ -8,29 +11,29 @@ namespace ClinicManagementSystem
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
+			builder.Services.AddCoreServices(builder.Configuration);
+			builder.Services.AddInfraStructureServices(builder.Configuration);
+			builder.Services.AddPresentationService();
+         
 
-			builder.Services.AddDbContext<MainContext>(o=>o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlConnection")));
-			builder.Services.AddScoped<IDbInitializer,DbInitializer>();
-			builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
-			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+		//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+           
+            var app = builder.Build();
 
-			var app = builder.Build();
+			app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 			await DataSeeding(app);
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
+			app.UseSwagger();
+			app.UseSwaggerUI();
 			}
 
 			app.UseHttpsRedirection();
-
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.MapControllers();
@@ -44,8 +47,16 @@ namespace ClinicManagementSystem
 			using var scope = app.Services.CreateScope();
 			// Inject
 			var initDb = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-			// Call Initializer
+			// Call Initializer 
+			// Initialization Data Base
 			await initDb.InitializeAsync();
+            // Initialization Security DataBase
+            await initDb.InitializeIdentityAsync();
 		}
+	   
+
 	}
 }
+//////			builder.Services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+//builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
