@@ -9,7 +9,7 @@ namespace Service.Specifications.Patient
 			AddInclude(a => a.Patient);
 			AddInclude(a => a.Doctor);
 		}
-		public AppointmentSpecifications(Guid id) : base(null)
+		public AppointmentSpecifications(Guid id) : base(a=>a.Id == id)
 		{
 			AddInclude(a => a.Patient);
 			AddInclude(a => a.Doctor);

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20250605193402_modifiAppointment")]
+    partial class modifiAppointment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,18 +52,11 @@ namespace Persistence.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int?>("rateId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
-
-                    b.HasIndex("rateId")
-                        .IsUnique()
-                        .HasFilter("[rateId] IS NOT NULL");
 
                     b.ToTable("Appointments");
                 });
@@ -118,61 +114,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Doctor_Rate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("_Rates");
-                });
-
-            modelBuilder.Entity("Domain.Entities.FavoriteDoctors", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("FavoriteDoctors");
                 });
 
             modelBuilder.Entity("Domain.Entities.LapTest", b =>
@@ -329,53 +270,9 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Doctor_Rate", "rate")
-                        .WithOne("appointment")
-                        .HasForeignKey("Domain.Entities.Appointment", "rateId");
-
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-
-                    b.Navigation("rate");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Doctor_Rate", b =>
-                {
-                    b.HasOne("Domain.Entities.Doctor", "doctor")
-                        .WithMany("doctor_Rates")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Patient", "patient")
-                        .WithMany("rates")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("doctor");
-
-                    b.Navigation("patient");
-                });
-
-            modelBuilder.Entity("Domain.Entities.FavoriteDoctors", b =>
-                {
-                    b.HasOne("Domain.Entities.Doctor", "doctor")
-                        .WithMany("Favorites")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Patient", "patient")
-                        .WithMany("FavoriteDoctors")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("doctor");
-
-                    b.Navigation("patient");
                 });
 
             modelBuilder.Entity("Domain.Entities.LapTest", b =>
@@ -422,15 +319,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Doctor", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("Favorites");
-
-                    b.Navigation("doctor_Rates");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Doctor_Rate", b =>
-                {
-                    b.Navigation("appointment");
                 });
 
             modelBuilder.Entity("Domain.Entities.MedicalRecord", b =>
@@ -444,11 +332,7 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("FavoriteDoctors");
-
                     b.Navigation("MedicalRecords");
-
-                    b.Navigation("rates");
                 });
 #pragma warning restore 612, 618
         }
