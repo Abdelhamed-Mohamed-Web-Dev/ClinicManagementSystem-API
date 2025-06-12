@@ -9,5 +9,6 @@ namespace Service.Abstraction
 		public IPatientService PatientService();
 		public IDoctorService DoctorService();
 		public IAuthenticationService AuthenticationService();
+		public IPaymentService PaymentService();
 	}
 }

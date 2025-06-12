@@ -5,7 +5,9 @@ namespace Service.Abstraction.PatientService
 {
     public interface IPatientService
 	{
+		// Retrieve all doctors with search & specialty
 		public Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync(string? specialty, string? search);
+		// Retrieve doctor by id
 		public Task<DoctorDto> GetDoctorByIdAsync(int id);
 		// Retrieve all records for patient by patientId
 		public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId);
