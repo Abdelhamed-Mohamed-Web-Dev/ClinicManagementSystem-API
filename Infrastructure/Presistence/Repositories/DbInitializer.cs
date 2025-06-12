@@ -116,13 +116,13 @@ namespace Persistence.Repositories
 
                 throw;
             }
-            
+
         }
 
         public async Task InitializeIdentityAsync()
         {
             // Seed Defult Role
-            if(!roleManager.Roles.Any())
+            if (!roleManager.Roles.Any())
             {
                 await roleManager.CreateAsync(new IdentityRole("Doctor"));
                 await roleManager.CreateAsync(new IdentityRole("Patient"));
@@ -130,7 +130,7 @@ namespace Persistence.Repositories
             }
 
             // Seed Defult User
-           if (!userManager.Users.Any())
+            if (!userManager.Users.Any())
             {
                 var Doctor1 = new User
                 {
@@ -158,14 +158,15 @@ namespace Persistence.Repositories
                 };
 
 
-                await userManager.CreateAsync(Doctor1,"12345678");
-                await userManager.CreateAsync(Patient1,"12345678");
-                await userManager.CreateAsync(Admin1,"12345678");
+                await userManager.CreateAsync(Doctor1, "12345678");
+                await userManager.CreateAsync(Patient1, "12345678");
+                await userManager.CreateAsync(Admin1, "12345678");
                 await userManager.AddToRoleAsync(Doctor1, "Doctor");
                 await userManager.AddToRoleAsync(Patient1, "Patient");
                 await userManager.AddToRoleAsync(Admin1, "Admin");
-                
-            //}
+
+                //}
+            }
         }
     }
 }
