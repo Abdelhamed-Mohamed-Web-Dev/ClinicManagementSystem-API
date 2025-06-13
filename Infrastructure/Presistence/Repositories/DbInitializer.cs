@@ -139,23 +139,16 @@ namespace Persistence.Repositories
                     UserName = "D01",
                     PhoneNumber = "0102546145",
 
-                };
-                var Patient1 = new User
-                {
-                    DisplayName = "Ali",
-                    Email = "Ali@gmail.com",
-                    UserName = "P001",
-                    PhoneNumber = "0112545145",
+           //     };
+           //     var Admin1 = new User
+           //     {
+           //         DisplayName = "Mohamed",
+           //         Email = "mohamed@gmail.com",
+           //         UserName = "A01",
+           //         PhoneNumber = "011235165"
 
-                };
-                var Admin1 = new User
-                {
-                    DisplayName = "Mohamed",
-                    Email = "mohamed@gmail.com",
-                    UserName = "A01",
-                    PhoneNumber = "011235165"
+           //     };
 
-                };
 
 
                 await userManager.CreateAsync(Doctor1, "12345678");
