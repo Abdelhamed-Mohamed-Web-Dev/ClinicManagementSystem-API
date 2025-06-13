@@ -139,15 +139,24 @@ namespace Persistence.Repositories
                     UserName = "D01",
                     PhoneNumber = "0102546145",
 
-           //     };
-           //     var Admin1 = new User
-           //     {
-           //         DisplayName = "Mohamed",
-           //         Email = "mohamed@gmail.com",
-           //         UserName = "A01",
-           //         PhoneNumber = "011235165"
+                };
+                var Admin1 = new User
+                {
+                    DisplayName = "Mohamed",
+                    Email = "mohamed@gmail.com",
+                    UserName = "A01",
+                    PhoneNumber = "011235165"
 
-           //     };
+                };
+                var Patient1 = new User
+                {
+                    DisplayName = "amr",
+                    Email = "amr@gmail.com",
+                    UserName = "P01",
+                    PhoneNumber = "011235165"
+
+                };
+
 
 
 
@@ -158,9 +167,9 @@ namespace Persistence.Repositories
                 await userManager.AddToRoleAsync(Patient1, "Patient");
                 await userManager.AddToRoleAsync(Admin1, "Admin");
 
-                //}
+                }
             }
         }
     }
-}
+
   
