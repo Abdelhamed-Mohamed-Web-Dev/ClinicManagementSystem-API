@@ -2,38 +2,46 @@
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "Date": "2023-10-15",
-    "Diagnoses": "High blood pressure",
-    "Prescription": "Amlodipine 5mg once daily",
+    "Diagnoses": "Hypertension",
+    "Prescription": "Lisinopril 10mg once daily",
     "Speciality": "Cardiology",
     "DoctorId": 1,
-    "PatientId": 1
+    "PatientId": 1,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
     "Date": "2023-10-16",
-    "Diagnoses": "Common cold",
-    "Prescription": "Paracetamol 500mg every 6 hours",
+    "Diagnoses": "Pediatric checkup",
+    "Prescription": "Vitamin D supplements",
     "Speciality": "Pediatrics",
     "DoctorId": 2,
-    "PatientId": 2
+    "PatientId": 2,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
     "Date": "2023-10-17",
-    "Diagnoses": "Fractured arm",
-    "Prescription": "Painkillers and cast for 6 weeks",
+    "Diagnoses": "Knee pain",
+    "Prescription": "Physical therapy sessions",
     "Speciality": "Orthopedics",
     "DoctorId": 3,
-    "PatientId": 3
+    "PatientId": 3,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
     "Date": "2023-10-18",
-    "Diagnoses": "Skin allergy",
-    "Prescription": "Antihistamine cream",
+    "Diagnoses": "Eczema",
+    "Prescription": "Topical corticosteroid cream",
     "Speciality": "Dermatology",
     "DoctorId": 4,
-    "PatientId": 4
+    "PatientId": 4,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af10",
@@ -42,141 +50,118 @@
     "Prescription": "Sumatriptan 50mg as needed",
     "Speciality": "Neurology",
     "DoctorId": 5,
-    "PatientId": 5
+    "PatientId": 5,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af11",
     "Date": "2023-10-20",
-    "Diagnoses": "Diabetes",
-    "Prescription": "Metformin 500mg twice daily",
-    "Speciality": "Endocrinology",
-    "DoctorId": 1,
-    "PatientId": 6
+    "Diagnoses": "Arrhythmia",
+    "Prescription": "Beta blocker medication",
+    "Speciality": "Cardiology",
+    "DoctorId": 6,
+    "PatientId": 6,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af12",
     "Date": "2023-10-21",
-    "Diagnoses": "Asthma",
-    "Prescription": "Inhaler twice daily",
-    "Speciality": "Pulmonology",
-    "DoctorId": 2,
-    "PatientId": 7
+    "Diagnoses": "Childhood asthma",
+    "Prescription": "Inhaler with spacer",
+    "Speciality": "Pediatrics",
+    "DoctorId": 7,
+    "PatientId": 7,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af13",
     "Date": "2023-10-22",
-    "Diagnoses": "Anxiety",
-    "Prescription": "Sertraline 50mg once daily",
-    "Speciality": "Psychiatry",
-    "DoctorId": 3,
-    "PatientId": 8
+    "Diagnoses": "Shoulder dislocation",
+    "Prescription": "Sling and pain medication",
+    "Speciality": "Orthopedics",
+    "DoctorId": 8,
+    "PatientId": 8,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af14",
     "Date": "2023-10-23",
-    "Diagnoses": "Arthritis",
-    "Prescription": "Ibuprofen 400mg as needed",
-    "Speciality": "Rheumatology",
-    "DoctorId": 4,
-    "PatientId": 9
+    "Diagnoses": "Acne vulgaris",
+    "Prescription": "Topical retinoid cream",
+    "Speciality": "Dermatology",
+    "DoctorId": 9,
+    "PatientId": 9,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af15",
     "Date": "2023-10-24",
-    "Diagnoses": "Gastritis",
-    "Prescription": "Omeprazole 20mg once daily",
-    "Speciality": "Gastroenterology",
-    "DoctorId": 5,
-    "PatientId": 10
+    "Diagnoses": "Peripheral neuropathy",
+    "Prescription": "Gabapentin 300mg daily",
+    "Speciality": "Neurology",
+    "DoctorId": 10,
+    "PatientId": 10,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af16",
     "Date": "2023-10-25",
-    "Diagnoses": "Hypertension",
-    "Prescription": "Lisinopril 10mg once daily",
+    "Diagnoses": "Coronary artery disease",
+    "Prescription": "Statin therapy",
     "Speciality": "Cardiology",
-    "DoctorId": 1,
-    "PatientId": 11
+    "DoctorId": 11,
+    "PatientId": 11,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af17",
     "Date": "2023-10-26",
-    "Diagnoses": "Bronchitis",
-    "Prescription": "Amoxicillin 500mg three times daily",
-    "Speciality": "Pulmonology",
-    "DoctorId": 2,
-    "PatientId": 12
+    "Diagnoses": "Childhood vaccination",
+    "Prescription": "DTaP vaccine",
+    "Speciality": "Pediatrics",
+    "DoctorId": 12,
+    "PatientId": 12,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af18",
     "Date": "2023-10-27",
-    "Diagnoses": "Depression",
-    "Prescription": "Fluoxetine 20mg once daily",
-    "Speciality": "Psychiatry",
-    "DoctorId": 3,
-    "PatientId": 13
+    "Diagnoses": "Herniated disc",
+    "Prescription": "Physical therapy referral",
+    "Speciality": "Orthopedics",
+    "DoctorId": 13,
+    "PatientId": 13,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af19",
     "Date": "2023-10-28",
-    "Diagnoses": "Osteoporosis",
-    "Prescription": "Calcium and Vitamin D supplements",
-    "Speciality": "Rheumatology",
-    "DoctorId": 4,
-    "PatientId": 14
+    "Diagnoses": "Psoriasis",
+    "Prescription": "Phototherapy sessions",
+    "Speciality": "Dermatology",
+    "DoctorId": 14,
+    "PatientId": 14,
+    "LapTests": [],
+    "Radiation": []
   },
   {
     "Id": "3fa85f64-5717-4562-b3fc-2c963f66af20",
     "Date": "2023-10-29",
-    "Diagnoses": "Peptic ulcer",
-    "Prescription": "Ranitidine 150mg twice daily",
-    "Speciality": "Gastroenterology",
-    "DoctorId": 5,
-    "PatientId": 15
-  },
-  {
-    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af21",
-    "Date": "2023-10-30",
-    "Diagnoses": "Hyperthyroidism",
-    "Prescription": "Methimazole 10mg once daily",
-    "Speciality": "Endocrinology",
-    "DoctorId": 1,
-    "PatientId": 16
-  },
-  {
-    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af22",
-    "Date": "2023-10-31",
-    "Diagnoses": "Pneumonia",
-    "Prescription": "Azithromycin 500mg once daily",
-    "Speciality": "Pulmonology",
-    "DoctorId": 2,
-    "PatientId": 17
-  },
-  {
-    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af23",
-    "Date": "2023-11-01",
-    "Diagnoses": "Insomnia",
-    "Prescription": "Zolpidem 10mg at bedtime",
-    "Speciality": "Psychiatry",
-    "DoctorId": 3,
-    "PatientId": 18
-  },
-  {
-    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af24",
-    "Date": "2023-11-02",
-    "Diagnoses": "Gout",
-    "Prescription": "Allopurinol 100mg once daily",
-    "Speciality": "Rheumatology",
-    "DoctorId": 4,
-    "PatientId": 19
-  },
-  {
-    "Id": "3fa85f64-5717-4562-b3fc-2c963f66af25",
-    "Date": "2023-11-03",
-    "Diagnoses": "Irritable bowel syndrome",
-    "Prescription": "Hyoscyamine 0.125mg as needed",
-    "Speciality": "Gastroenterology",
-    "DoctorId": 5,
-    "PatientId": 20
+    "Diagnoses": "Epilepsy follow-up",
+    "Prescription": "Adjustment of anticonvulsant dosage",
+    "Speciality": "Neurology",
+    "DoctorId": 15,
+    "PatientId": 15,
+    "LapTests": [],
+    "Radiation": []
   }
 ]

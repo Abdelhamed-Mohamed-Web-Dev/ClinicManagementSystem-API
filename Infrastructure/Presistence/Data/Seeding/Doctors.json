@@ -1,102 +1,284 @@
 [
   {
+  
     "Name": "Dr. Ahmed Al-Mansoori",
     "Phone": "1234567890",
-    "Speciality": "Cardiology"
+    "Speciality": "Cardiology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
+  
     "Name": "Dr. Leila Al-Khalifa",
     "Phone": "9876543210",
-    "Speciality": "Pediatrics"
+    "Speciality": "Pediatrics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Omar Al-Rashid",
     "Phone": "5555555555",
-    "Speciality": "Orthopedics"
+    "Speciality": "Orthopedics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Fatima Al-Sayed",
     "Phone": "1111111111",
-    "Speciality": "Dermatology"
+    "Speciality": "Dermatology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Khalid Al-Najjar",
     "Phone": "9999999999",
-    "Speciality": "Neurology"
+    "Speciality": "Neurology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Youssef Al-Hassan",
     "Phone": "2222222222",
-    "Speciality": "Cardiology"
+    "Speciality": "Cardiology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Noura Al-Mazrouei",
     "Phone": "3333333333",
-    "Speciality": "Pediatrics"
+    "Speciality": "Pediatrics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Ali Al-Farouq",
     "Phone": "4444444444",
-    "Speciality": "Orthopedics"
+    "Speciality": "Orthopedics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Aisha Al-Mahmoud",
     "Phone": "6666666666",
-    "Speciality": "Dermatology"
+    "Speciality": "Dermatology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Mohammed Al-Jaber",
     "Phone": "7777777777",
-    "Speciality": "Neurology"
+    "Speciality": "Neurology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Sara Al-Kuwari",
     "Phone": "8888888888",
-    "Speciality": "Cardiology"
+    "Speciality": "Cardiology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Hassan Al-Suwaidi",
     "Phone": "1212121212",
-    "Speciality": "Pediatrics"
+    "Speciality": "Pediatrics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Mariam Al-Thani",
     "Phone": "1313131313",
-    "Speciality": "Orthopedics"
+    "Speciality": "Orthopedics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Faisal Al-Nuaimi",
     "Phone": "1414141414",
-    "Speciality": "Dermatology"
+    "Speciality": "Dermatology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Huda Al-Meer",
     "Phone": "1515151515",
-    "Speciality": "Neurology"
+    "Speciality": "Neurology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Rashed Al-Kaabi",
     "Phone": "1616161616",
-    "Speciality": "Cardiology"
+    "Speciality": "Cardiology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Dana Al-Hamad",
     "Phone": "1717171717",
-    "Speciality": "Pediatrics"
+    "Speciality": "Pediatrics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Tariq Al-Mutawa",
     "Phone": "1818181818",
-    "Speciality": "Orthopedics"
+    "Speciality": "Orthopedics",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Layla Al-Ansari",
     "Phone": "1919191919",
-    "Speciality": "Dermatology"
+    "Speciality": "Dermatology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   },
   {
     "Name": "Dr. Zayed Al-Rumaithi",
     "Phone": "2020202020",
-    "Speciality": "Neurology"
+    "Speciality": "Neurology",
+    "PictureUrl": null,
+    "Rate": 0,
+    "Bio": null,
+    "NewVisitPrice": 0.0,
+    "FollowUpVisitPrice": 0.0,
+    "WorkingDays": [],
+    "StartTime": "13:00:00",
+    "EndTime": "20:00:00",
+    "AppointmentDuration": 30
   }
 ]

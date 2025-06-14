@@ -11,7 +11,7 @@ namespace Domain.Entities
         // محتاجين نضيف ال Last Visit 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<MedicalRecord> MedicalRecords { get; set; } = new HashSet<MedicalRecord>();
-        public ICollection<Doctor_Rate> rates { get; set; } = new List<Doctor_Rate>();
+        //public ICollection<Doctor_Rate> rates { get; set; } = new List<Doctor_Rate>();
         public ICollection<FavoriteDoctors> FavoriteDoctors { get; set; }= new List<FavoriteDoctors>();
 
     }
