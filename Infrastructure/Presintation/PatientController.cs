@@ -82,7 +82,7 @@ namespace Presentation
 
         #region Rate & FavDoctors
         ///
-
+		/*
         [HttpPost("Rate_Doctor")]
 
 		public async Task<IActionResult> RateDoctor(DoctorRateDto doctorRateDto)
@@ -105,7 +105,7 @@ namespace Presentation
 
 		[HttpGet("Get Rate")]
 		public async Task<IActionResult> GetRate(int DoctorId)=>Ok(await serviceManager.PatientService().GetDoctorRateAsync(DoctorId));
-
+		*/
 		[HttpPost("AddFavoriteDoctor")]
 		public async Task<IActionResult> AddFavDoctor(int DoctorId,int PatientId)
 		{

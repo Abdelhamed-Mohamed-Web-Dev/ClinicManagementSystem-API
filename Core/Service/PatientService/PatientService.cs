@@ -288,6 +288,7 @@ namespace Service.PatientService
 			return mapper.Map<AppointmentDto>(canceledAppointment);
 		}
 
+		/*
         public async Task<string> PutRateAsync(DoctorRateDto doctorRateDto)
         {
             if (doctorRateDto.Rating < 1 || doctorRateDto.Rating > 5)
@@ -328,7 +329,7 @@ namespace Service.PatientService
             }
             return (result / length);
         }
-
+		*/
         public async Task<string> AddFavoriteDoctorAsync(int DoctorId, int PatientId)
         {
             var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(DoctorId);

@@ -14,12 +14,13 @@ namespace ClinicManagementSystem
 			builder.Services.AddCoreServices(builder.Configuration);
 			builder.Services.AddInfraStructureServices(builder.Configuration);
 			builder.Services.AddPresentationService();
-         
 
+			builder.WebHost.UseSetting("detailedErrors", "true");
+			builder.WebHost.CaptureStartupErrors(true);
 
-		//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
-           
-            var app = builder.Build();
+			//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+
+			var app = builder.Build();
 
 			app.UseMiddleware<ExceptionHandlerMiddleware>();
 
