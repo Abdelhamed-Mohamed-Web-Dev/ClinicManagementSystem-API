@@ -15,6 +15,10 @@
             builder.HasMany(d => d.Favorites)
                 .WithOne(d => d.doctor)
                 .HasForeignKey(d=>d.DoctorId);
+            //builder.HasOne(d => d.user)
+            //    .WithOne(u => u.doctor)
+            //    .HasForeignKey<Doctor>(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

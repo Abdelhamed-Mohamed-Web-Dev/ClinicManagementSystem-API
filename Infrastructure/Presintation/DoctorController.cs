@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Presentation
 {
 
-    [Authorize(Roles = "Doctor")]
+   // [Authorize(Roles = "Doctor")]
     public class DoctorController(IServiceManager serviceManager) : APIController
     {
-        [HttpGet("Doctor/{id}")]
+        [HttpGet("Doctor{id}")]
         public async Task<IActionResult> GetDoctor(int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
 
         [HttpGet("Patient/{id}")]

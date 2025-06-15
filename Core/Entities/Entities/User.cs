@@ -12,6 +12,10 @@ namespace Domain.Entities
     {
         public string DisplayName { get; set; }
         public Adderss adderss { get; set; }
+     //   public int? PatientId { get; set; }
+        public Patient? patient { get; set; }
+   //     public int? DoctorId { get; set; }
+        public Doctor? doctor { get; set; }
 
     }
 }

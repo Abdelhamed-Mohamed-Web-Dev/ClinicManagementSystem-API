@@ -8,9 +8,13 @@ namespace Domain.Entities
         public string Speciality { get; set; }
         // محتاجين نضيف Notification ( 2 Variable ( Type ,Content)   )
         public string? PictureUrl { get; set; }
-        public int Rate { get; set; }
-      //  public Doctor_Rate doctor_Rate { get; set; }
+        public int? Rate { get; set; }
+       // public Doctor_Rate doctor_Rate { get; set; }
         public string? Bio { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string UserId { get; set; }
+   //     public User user { get; set; }
         public decimal NewVisitPrice { get; set; }
         public decimal FollowUpVisitPrice { get; set; }
 
@@ -20,8 +24,8 @@ namespace Domain.Entities
         public TimeSpan EndTime { get; set; } = new TimeSpan(20, 0, 0); // 8 PM
 		public int AppointmentDuration { get; set; } = 30; // 30 Minutes
 
-		public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
-        //public ICollection<Doctor_Rate> doctor_Rates { get; set; } = new List<Doctor_Rate>();
-        public ICollection<FavoriteDoctors> Favorites { get; set; }= new List<FavoriteDoctors>();
+		public ICollection<Appointment>? Appointments { get; set; } = new List<Appointment>();
+    //    public ICollection<Doctor_Rate> doctor_Rates { get; set; } = new List<Doctor_Rate>();
+        public ICollection<FavoriteDoctors>? Favorites { get; set; }= new List<FavoriteDoctors>();
 	}
 }

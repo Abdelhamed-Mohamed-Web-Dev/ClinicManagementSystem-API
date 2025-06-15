@@ -15,8 +15,10 @@ using System.Threading.Tasks;
 
 namespace Service.AuthenticationService
 {
-    public class AuthenticationService(UserManager<User> userManager,IOptions<JwtOptions> options) : IAuthenticationService
+    public class AuthenticationService(UserManager<User> userManager,IOptions<JwtOptions> options,IUnitOfWork unitOfWork) : IAuthenticationService
     {
+      
+
         public async Task DeleteAsync(string email)
         {
             var user = await userManager.FindByEmailAsync(email);
@@ -32,7 +34,7 @@ namespace Service.AuthenticationService
                 throw new ValidationException(errors);
             }
         }
-
+   
         public async Task<UserResultDTO> LoginAsync(UserLoginDTO userLogin)
         {
             var user = await userManager.FindByEmailAsync(userLogin.Email);
@@ -54,6 +56,140 @@ namespace Service.AuthenticationService
             
         }
 
+        public async Task<UserResultDTO> PatientRegisterAsync(UserPatientRegisterDTO userRegister)
+        {
+            var user = new User()
+            {
+                Email = userRegister.Email,
+                DisplayName = userRegister.DisplayName,
+                UserName = userRegister.DisplayName,
+                PhoneNumber = userRegister.PhoneNumber,
+
+            };
+
+            var result = await userManager.CreateAsync(user, userRegister.Password);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description).ToList();
+
+                throw new ValidationException(errors);
+            }
+
+            var patient = new Patient()
+            {
+                Name=userRegister.DisplayName,
+                BirthDate=userRegister.BirthDate,
+                Gender=userRegister.Gender,
+                Address=userRegister.Address,
+                Phone=userRegister.PhoneNumber,
+                UserId=user.Id,
+                Email=userRegister.Email,
+
+            };
+            await unitOfWork.GetRepository<Patient,int>().AddAsync(patient);
+
+            await unitOfWork.SaveChangesAsync();
+
+            await userManager.AddToRoleAsync(user, userRegister.Role);
+            
+            return new UserResultDTO(
+                         user.DisplayName,
+                         user.Email,
+                         await CreateTokenAsync(user));
+        }
+        public async Task<UserResultDTO> AdminRegisterAsync(UserAdminRegisterDTO userRegister)
+        {
+            var user = new User()
+            {
+                Email = userRegister.Email,
+                DisplayName = userRegister.DisplayName,
+                UserName = userRegister.DisplayName,
+                PhoneNumber = userRegister.PhoneNumber,
+
+            };
+
+            var result = await userManager.CreateAsync(user, userRegister.Password);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description).ToList();
+
+                throw new ValidationException(errors);
+            }
+
+            if (userRegister.Role == "Doctor")
+            {
+                var doctor = new Doctor()
+                {
+                    Name = userRegister.DisplayName,
+                    Email = userRegister.Email,
+                    Phone = userRegister.PhoneNumber,
+                    UserName = userRegister.UserName,
+
+                };
+            }
+            if (userRegister.Role == "Patient")
+            {
+                var patient = new Patient()
+                {
+                    Name = userRegister.DisplayName,
+
+                };
+            }
+            await userManager.AddToRoleAsync(user, userRegister.Role);
+
+
+            return new UserResultDTO(
+                         user.DisplayName,
+                         user.Email,
+                         await CreateTokenAsync(user));
+        }
+        public async Task<UserResultDTO> DoctorRegisterAsync(UserDoctorRegisterDTO userRegister)
+        {
+            var user = new User()
+            {
+                Email = userRegister.Email,
+                DisplayName = userRegister.DisplayName,
+                UserName = userRegister.DisplayName,
+                PhoneNumber = userRegister.PhoneNumber,
+
+            };
+
+            var result = await userManager.CreateAsync(user, userRegister.Password);
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description).ToList();
+
+                throw new ValidationException(errors);
+            }
+
+            if (userRegister.Role == "Doctor")
+            {
+                var doctor = new Doctor()
+                {
+                    Name = userRegister.DisplayName,
+                    Email = userRegister.Email,
+                    Phone = userRegister.PhoneNumber,
+                    UserName = userRegister.UserName,
+
+                };
+            }
+            if (userRegister.Role == "Patient")
+            {
+                var patient = new Patient()
+                {
+                    Name = userRegister.DisplayName,
+
+                };
+            }
+            await userManager.AddToRoleAsync(user, userRegister.Role);
+
+
+            return new UserResultDTO(
+                         user.DisplayName,
+                         user.Email,
+                         await CreateTokenAsync(user));
+        }
+
         public async Task<UserResultDTO> RegisterAsync(UserRegisterDTO userRegister)
         {
             
@@ -72,6 +208,26 @@ namespace Service.AuthenticationService
                 var errors = result.Errors.Select(e=>e.Description).ToList();
 
                 throw new ValidationException(errors);
+            }
+            
+            if (userRegister.Role=="Doctor")
+            {
+                var doctor = new Doctor()
+                {
+                    Name=userRegister.DisplayName,
+                    Email=userRegister.Email,
+                    Phone=userRegister.PhoneNumber,
+                    UserName=userRegister.UserName,
+
+                };
+            }
+            if (userRegister.Role=="Patient")
+            {
+                var patient = new Patient()
+                {
+                    Name=userRegister.DisplayName,
+
+                };
             }
             await userManager.AddToRoleAsync(user, userRegister.Role);
 
@@ -117,3 +273,5 @@ namespace Service.AuthenticationService
 
     }
 }
+//"IdentitySqlConnection": "server = . ; database = ClinicManagementSystemIdentity ; trusted_connection = true ; TrustServerCertificate = True"
+ 

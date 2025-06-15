@@ -21,9 +21,9 @@ namespace Presentation
 
 
         [HttpPost("Register")]
-        public async Task<ActionResult<UserResultDTO>> Register(UserRegisterDTO registerDTO)
+        public async Task<ActionResult<UserRegisterDTO>> Register( [FromBody] UserPatientRegisterDTO registerDTO)
         {
-            var result = await serviceManager.AuthenticationService().RegisterAsync(registerDTO);
+            var result = await serviceManager.AuthenticationService().PatientRegisterAsync(registerDTO);
             return Ok(result);
         }
 
