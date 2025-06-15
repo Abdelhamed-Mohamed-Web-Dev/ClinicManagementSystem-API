@@ -14,6 +14,10 @@ namespace Service.Specifications.Patient
 		{
 			AddInclude(d => d.Appointments);
 		}
+		public DoctorSpecifications(string userName) : base(d => d.UserName==userName)
+		{
+			AddInclude(d => d.Appointments);
+		}
 
 	}
 }

@@ -1,14 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Persistence.Identity;
-using Service.Abstraction;
-using Service;
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Shared;
-using System.Text;
-
+﻿
 namespace ClinicManagementSystem.Extensions
 {
     public static class InfraStructureServicesExtension
@@ -19,12 +9,12 @@ namespace ClinicManagementSystem.Extensions
             services.AddDbContext<StoreIdentityContext>(o => o.UseSqlServer(configuration.GetConnectionString("IdentitySqlConnection")));
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.ConfigreIdentityService();
+            services.ConfigureIdentityService();
             services.ConfigureJwt(configuration);
             return services;
         }
 
-      public  static  IServiceCollection ConfigreIdentityService(this IServiceCollection services)
+      public  static  IServiceCollection ConfigureIdentityService(this IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>(options =>
             {

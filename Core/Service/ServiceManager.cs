@@ -1,18 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Service.Abstraction.AuthenticationService;
-using Service.Abstraction.DoctorService;
-using Service.AuthenticationService;
-using Service.PatientService;
-using Shared;
-
+﻿
 namespace Service
 {
 	public class ServiceManager : IServiceManager
 	{
 		readonly Lazy<IPatientService> patientService;
 		readonly Lazy<IDoctorService> doctorService;
+		readonly Lazy<IAdminService> adminService;
 		readonly Lazy<IAuthenticationService> authenticationService;
 		readonly Lazy<IPaymentService> paymentService;
 
@@ -20,14 +13,14 @@ namespace Service
 		{
 			patientService = new Lazy<IPatientService>(() => new PatientService.PatientService(unitOfWork, mapper));
 			doctorService = new Lazy<IDoctorService>(() => new DoctorService.DoctorService(unitOfWork, mapper));
-			authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService.AuthenticationService(userManager, options));
+			adminService = new Lazy<IAdminService>(() => new AdminService.AdminService(unitOfWork, mapper,userManager));
 			paymentService = new Lazy<IPaymentService>(() => new PaymentService(unitOfWork, configuration, mapper));
+			authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService.AuthenticationService(userManager, options));
 		}
 		public IPatientService PatientService() => patientService.Value;
 		public IDoctorService DoctorService() => doctorService.Value;
-
-		IAuthenticationService IServiceManager.AuthenticationService() => authenticationService.Value;
-
+		public IAdminService AdminService() => adminService.Value;
 		public IPaymentService PaymentService() => paymentService.Value;
+		IAuthenticationService IServiceManager.AuthenticationService() => authenticationService.Value;
 	}
 }

@@ -1,6 +1,4 @@
-﻿using ClinicManagementSystem.Factories;
-using System.Text.Json.Serialization;
-
+﻿
 namespace ClinicManagementSystem.Extensions
 {
     public static class presentationServicesExtension
