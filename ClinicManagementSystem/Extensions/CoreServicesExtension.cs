@@ -1,6 +1,4 @@
-﻿using Service;
-using Service.Abstraction;
-using Shared;
+﻿
 namespace ClinicManagementSystem.Extensions
 {
     public static class CoreServicesExtension

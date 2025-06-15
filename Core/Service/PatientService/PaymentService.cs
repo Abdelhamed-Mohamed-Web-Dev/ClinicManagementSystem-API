@@ -1,16 +1,4 @@
-﻿using Domain.Exceptions;
-using Domain.Exceptions.NotFoundExceptions;
-using Microsoft.Extensions.Configuration;
-using Shared.AppointmentModels;
-using Stripe;
-using Stripe.Climate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AppointmentType = Domain.Entities.AppointmentType;
-
+﻿
 namespace Service.PatientService
 {
 	internal class PaymentService(IUnitOfWork unitOfWork,
@@ -64,20 +52,20 @@ namespace Service.PatientService
 			}
 		}
 
-		private async Task UpdatePaymentIntentFailed(string id)
+		private async Task UpdatePaymentIntentFailed(string paymentId)
 		{
 			var appointment = await unitOfWork.GetRepository<Appointment, Guid>()
-				.GetAsync(new AppointmentWithPaymentIntentSpecifications(id))
+				.GetAsync(new AppointmentSpecifications(paymentId))
 				?? throw new NotFoundException("Appointment Not Found!");
 			appointment.Status = (Domain.Entities.AppointmentStatus)PaymentStatus.Failed;
 			unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);
 			await unitOfWork.SaveChangesAsync();
 		}
 
-		private async Task UpdatePaymentIntentSucceeded(string id)
+		private async Task UpdatePaymentIntentSucceeded(string paymentId)
 		{
 			var appointment = await unitOfWork.GetRepository<Appointment, Guid>()
-				.GetAsync(new AppointmentWithPaymentIntentSpecifications(id))
+				.GetAsync(new AppointmentSpecifications(paymentId))
 				?? throw new NotFoundException("Appointment Not Found!");
 			appointment.Status = (Domain.Entities.AppointmentStatus)PaymentStatus.Received;
 			unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);

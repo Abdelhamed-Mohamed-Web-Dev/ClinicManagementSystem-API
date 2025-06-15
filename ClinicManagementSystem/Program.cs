@@ -1,7 +1,4 @@
 
-
-using ClinicManagementSystem.MiddleWares;
-
 namespace ClinicManagementSystem
 {
 	public class Program
@@ -27,11 +24,11 @@ namespace ClinicManagementSystem
 			await DataSeeding(app);
 
 			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-			app.UseSwagger();
-			app.UseSwaggerUI();
-			}
+			//if (app.Environment.IsDevelopment())
+			//{
+			//app.UseSwagger();
+			//app.UseSwaggerUI();
+			//}
 
 			app.UseHttpsRedirection();
 			app.UseAuthentication();

@@ -1,19 +1,4 @@
-﻿using Domain.Exceptions;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Service.Abstraction.AuthenticationService;
-using Shared;
-using Shared.AuthenticationModels;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Service.AuthenticationService
+﻿namespace Service.AuthenticationService
 {
     public class AuthenticationService(UserManager<User> userManager,IOptions<JwtOptions> options) : IAuthenticationService
     {
@@ -36,7 +21,7 @@ namespace Service.AuthenticationService
         public async Task<UserResultDTO> LoginAsync(UserLoginDTO userLogin)
         {
             var user = await userManager.FindByEmailAsync(userLogin.Email);
-            if (user == null) throw new UnAuthorizedException("Email Dosen't Exist");
+            if (user == null) throw new UnAuthorizedException("Email Doesn't Exist");
 
             var result = await userManager.CheckPasswordAsync(user, userLogin.Password);
             if(!result) throw new UnAuthorizedException();
@@ -44,14 +29,7 @@ namespace Service.AuthenticationService
                 user.DisplayName,
                 user.Email,
                 await CreateTokenAsync(user));
-            
-            return new UserResultDTO
-            (
-                Email: user.Email,
-                DisplayName: user.DisplayName,
-                Token: "Token"
-                );
-            
+                        
         }
 
         public async Task<UserResultDTO> RegisterAsync(UserRegisterDTO userRegister)

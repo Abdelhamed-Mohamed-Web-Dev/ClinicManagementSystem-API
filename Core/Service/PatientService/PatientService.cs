@@ -1,16 +1,11 @@
 ﻿
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Exceptions.NotFoundExceptions;
-using Service.Specifications.Patient;
-using Shared.AppointmentModels;
-using AppointmentStatus = Domain.Entities.AppointmentStatus;
-using AppointmentType = Domain.Entities.AppointmentType;
+using Shared.AdminModels;
 
 namespace Service.PatientService
 {
 	public class PatientService(IUnitOfWork unitOfWork, IMapper mapper) : IPatientService
 	{
+		#region Doctor
 		public async Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync(string? specialty, string? search)
 		{
 
@@ -19,13 +14,24 @@ namespace Service.PatientService
 			return doctorsDto;
 
 		}
-		public async Task<DoctorDto> GetDoctorByIdAsync(int id)
+			public async Task<DoctorDto> GetDoctorByIdAsync(int id)
 		{
 			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(id);
 			return doctor == null
 				? throw new DoctorNotFoundException(id)
 				: mapper.Map<DoctorDto>(doctor);
 		}
+		public async Task<DoctorDto> GetDoctorByUserNameAsync(string userName)
+		{
+			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(userName));
+			return doctor == null
+				? throw new NotFoundException($"Doctor With UserName ({userName}) Isn't Found")
+				: mapper.Map<DoctorDto>(doctor);
+		}
+
+		#endregion
+
+		#region Medical Record
 
 		public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId)
 		{
@@ -44,6 +50,9 @@ namespace Service.PatientService
 				: mapper.Map<MedicalRecordDto>(record);
 		}
 
+		#endregion
+
+		#region Lap Test
 		public async Task<IEnumerable<LapTestDto>> GetAllLapTestsAsync(Guid medicalRecordId)
 		{
 			var allTests = await unitOfWork.GetRepository<LapTest, Guid>().GetAllAsync();
@@ -58,6 +67,10 @@ namespace Service.PatientService
 				? throw new LapTestNotFoundException(id)
 				: mapper.Map<LapTestDto>(test);
 		}
+
+		#endregion
+		
+		#region Radiology
 
 		public async Task<IEnumerable<RadiologyDto>> GetAllRadiationsAsync(Guid medicalRecordId)
 		{
@@ -74,6 +87,10 @@ namespace Service.PatientService
 				: mapper.Map<RadiologyDto>(radiology);
 		}
 
+		#endregion
+
+		#region Patient
+
 		public async Task<PatientDto> GetPatientByIdAsync(int id)
 		{
 			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(id);
@@ -81,10 +98,33 @@ namespace Service.PatientService
 				? throw new PatientNotFoundException(id)
 				: mapper.Map<PatientDto>(patient);
 		}
+		public async Task<PatientDto> GetPatientByUserNameAsync(string userName)
+		{
+			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(new PatientSpecifications(userName));
+			return patient == null
+				? throw new NotFoundException($"Patient With UserName ({userName}) Isn't Found")
+				: mapper.Map<PatientDto>(patient);
+		}
+		public async Task<PatientDto> UpdatePatientAsync(UpdatePatientDto _patient)
+		{
+			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(_patient.Id);
+			if (patient == null) throw new PatientNotFoundException(_patient.Id);
+
+			patient.BirthDate = _patient.BirthDate;
+			patient.Name = _patient.Name;
+			patient.Address = _patient.Address;
+
+			unitOfWork.GetRepository<Patient, int>().Update(patient);
+			await unitOfWork.SaveChangesAsync();
+			return mapper.Map<PatientDto>(patient);
+		}
+		#endregion
+
+		#region Appointment
 
 		public async Task<IEnumerable<AppointmentDto>> GetAllAppointmentsAsync(int patientId)
 		{
-			// Check if the patient is exist
+			// Check if the doctor is exist
 			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(patientId);
 			if (patient == null) throw new PatientNotFoundException(patientId);
 
@@ -184,7 +224,7 @@ namespace Service.PatientService
 			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(_appointment.DoctorId));
 			if (doctor == null) throw new DoctorNotFoundException(_appointment.DoctorId);
 
-			// Check if the patient is exist
+			// Check if the doctor is exist
 			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(_appointment.PatientId);
 			if (patient == null) throw new PatientNotFoundException(_appointment.PatientId);
 
@@ -240,7 +280,7 @@ namespace Service.PatientService
 			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(new DoctorSpecifications(appointment.DoctorId));
 			if (doctor == null) throw new DoctorNotFoundException(appointment.DoctorId);
 
-			// Check if the patient is exist
+			// Check if the doctor is exist
 			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(appointment.PatientId);
 			if (patient == null) throw new PatientNotFoundException(appointment.PatientId);
 
@@ -288,6 +328,8 @@ namespace Service.PatientService
 			return mapper.Map<AppointmentDto>(canceledAppointment);
 		}
 
+		#endregion
+
 		/*
         public async Task<string> PutRateAsync(DoctorRateDto doctorRateDto)
         {
@@ -295,13 +337,13 @@ namespace Service.PatientService
                 throw new ArgumentException("Rating must be between 1 and 5.");
 
             var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(doctorRateDto.DoctorId);
-            var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(doctorRateDto.PatientId);
+            var doctor = await unitOfWork.GetRepository<Patient, int>().GetAsync(doctorRateDto.PatientId);
 
-            if (doctor == null || patient == null)
-                throw new ArgumentException("Doctor or patient not found.");
+            if (doctor == null || doctor == null)
+                throw new ArgumentException("Doctor or doctor not found.");
             var NewRate = new Doctor_Rate
             {
-                PatientId = patient.Id,
+                PatientId = doctor.Id,
                 DoctorId = doctor.Id,
                 Rating = doctorRateDto.Rating
             };
@@ -330,13 +372,13 @@ namespace Service.PatientService
             return (result / length);
         }
 		*/
-        public async Task<string> AddFavoriteDoctorAsync(int DoctorId, int PatientId)
+		public async Task<string> AddFavoriteDoctorAsync(int DoctorId, int PatientId)
         {
             var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(DoctorId);
             var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
 
             if (doctor == null || patient == null)
-                return ("Doctor or patient not found.");
+                return ("Doctor or doctor not found.");
 
             var found = await unitOfWork
             .GetRepository<FavoriteDoctors, int>()
@@ -362,7 +404,7 @@ namespace Service.PatientService
             var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
 
             if (doctor == null || patient == null)
-                return ("Doctor or patient not found.");
+                return ("Doctor or doctor not found.");
 
             var favorites = await unitOfWork.GetRepository<FavoriteDoctors, int>().GetAllAsync();
             var result = favorites.FirstOrDefault(f => f.PatientId == PatientId && f.DoctorId == DoctorId);
@@ -373,20 +415,21 @@ namespace Service.PatientService
             return "Removeing Doctor From Favorites";
         }
 
-        //      public async Task<DoctorDto> GetAllFavoriteDoctorsAsync( int PatientId)
-        //      {
-        //          var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
-        //          var favorites = await unitOfWork.GetRepository<FavoriteDoctors, int>().GetAllAsync();
-        //              favorites= favorites.Where(f=>f.PatientId==PatientId);
-        //          var result = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync();
-        ////	List<Doctor> doctors = new List<Doctor>();
-        //          foreach (var fav in favorites)
-        //	{
-        //		result += result.Where(r => r.Id == fav.Id);
-        //	}
-        //          return mapper.Map<DoctorDto>(result);
-        //}
+
+		//      public async Task<DoctorDto> GetAllFavoriteDoctorsAsync( int PatientId)
+		//      {
+		//          var doctor = await unitOfWork.GetRepository<Patient, int>().GetAsync(PatientId);
+		//          var favorites = await unitOfWork.GetRepository<FavoriteDoctors, int>().GetAllAsync();
+		//              favorites= favorites.Where(f=>f.PatientId==PatientId);
+		//          var result = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync();
+		////	List<Doctor> doctors = new List<Doctor>();
+		//          foreach (var fav in favorites)
+		//	{
+		//		result += result.Where(r => r.Id == fav.Id);
+		//	}
+		//          return mapper.Map<DoctorDto>(result);
+		//}
 
 
-    }
+	}
 }

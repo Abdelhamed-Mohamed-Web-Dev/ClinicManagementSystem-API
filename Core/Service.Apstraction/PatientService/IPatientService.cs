@@ -1,4 +1,5 @@
 ﻿
+using Shared.AdminModels;
 using Shared.AppointmentModels;
 
 namespace Service.Abstraction.PatientService
@@ -9,6 +10,8 @@ namespace Service.Abstraction.PatientService
 		public Task<IEnumerable<DoctorDto>> GetAllDoctorsAsync(string? specialty, string? search);
 		// Retrieve doctor by id
 		public Task<DoctorDto> GetDoctorByIdAsync(int id);
+		// Retrieve doctor by user name
+		public Task<DoctorDto> GetDoctorByUserNameAsync(string userName);
 		// Retrieve all records for patient by patientId
 		public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId);
 		// Retrieve record by id
@@ -23,6 +26,10 @@ namespace Service.Abstraction.PatientService
 		public Task<RadiologyDto> GetRadiologyByIdAsync(Guid id);
 		// Retrieve patient data by id
 		public Task<PatientDto> GetPatientByIdAsync(int id);
+		// Retrieve patient data by userName
+		public Task<PatientDto> GetPatientByUserNameAsync(string userName);
+		// Update patient
+		public Task<PatientDto> UpdatePatientAsync(UpdatePatientDto patient);
 		// Retrieve all appointments by patient id
 		public Task<IEnumerable<AppointmentDto>> GetAllAppointmentsAsync(int patientId);
 		// Retrieve all appointment id

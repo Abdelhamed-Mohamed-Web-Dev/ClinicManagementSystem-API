@@ -15,4 +15,16 @@ global using Persistence.Repositories;
 global using Shared.ErrorModels;
 global using System.Net;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Options;
+global using Persistence.Identity;
+global using Service.Abstraction;
+global using Service;
+global using Domain.Entities;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Text;
+global using Shared.AuthenticationModels;
+global using ClinicManagementSystem.Factories;
+global using ClinicManagementSystem.MiddleWares;
 
