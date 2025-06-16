@@ -23,9 +23,17 @@ namespace Presentation
         [HttpGet("AllAppointment/{id}")]
         public async Task<IActionResult> GetAllAppointmet(int id)
             => Ok(await serviceManager.DoctorService().GetAllAppointmentOfDoctorAysnc(id));
-        //[HttpGet("MedicalRecord")]
-       // public async Task<IActionResult> GetMedicalRecord(int id) => Ok(await serviceManager.DoctorService().GetMedicalRecord(id));
-        [HttpGet("AllRadiology/{id}")]
+
+		[HttpGet("TodayAppointments")]
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetTodayAppointments([FromQuery] int doctorId, AppointmentStatus? status)
+        => Ok(await serviceManager.AdminService().GetAppointmentsAsync(doctorId, null, DateTime.Now.Date, status));
+        [HttpGet("UpcomingAppointments")]
+        public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetUpcomingAppointments([FromQuery] int doctorId)
+		=> Ok(await serviceManager.AdminService().GetUpcomingAppointmentsAsync(doctorId));
+
+		//[HttpGet("MedicalRecord")]
+		// public async Task<IActionResult> GetMedicalRecord(int id) => Ok(await serviceManager.DoctorService().GetMedicalRecord(id));
+		[HttpGet("AllRadiology/{id}")]
         public async Task<IActionResult> GetAllRadioloy(Guid id)
             => Ok(await serviceManager.DoctorService().GetAllRadiologyOfPatientAysnc(id));
         [HttpGet("AllLapTests/{id}")]
