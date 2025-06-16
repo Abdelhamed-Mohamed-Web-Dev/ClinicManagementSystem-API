@@ -15,10 +15,10 @@ namespace Service.AdminService
 				GetAllAsync(new AppointmentSpecifications(doctorId, patientId, date, status));
 			return mapper.Map<IEnumerable<AppointmentDto>>(appointments);
 		}
-		public async Task<IEnumerable<AppointmentDto>> GetUpcomingAppointmentsAsync()
+		public async Task<IEnumerable<AppointmentDto>> GetUpcomingAppointmentsAsync(int? doctorId)
 		{
 			var appointments = await unitOfWork.GetRepository<Appointment, Guid>().
-				GetAllAsync(new AppointmentSpecifications(/*from tomorrow*/));
+				GetAllAsync(new AppointmentSpecifications(doctorId,null,null,null));
 			return mapper.Map<IEnumerable<AppointmentDto>>(appointments);
 		}
 		public async Task<AppointmentDto> ConfirmAppointmentAsync(Guid id)

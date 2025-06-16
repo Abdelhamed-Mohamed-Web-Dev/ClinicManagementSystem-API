@@ -26,8 +26,8 @@ namespace Presentation
 		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetTodayAppointments([FromQuery] int? doctorId, int? patientId, AppointmentStatus? status)
 		=> Ok(await serviceManager.AdminService().GetAppointmentsAsync(doctorId, patientId, DateTime.Now.Date, status));
 		[HttpGet("UpcomingAppointments")]
-		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetUpcomingAppointments()
-		=> Ok(await serviceManager.AdminService().GetUpcomingAppointmentsAsync());
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetUpcomingAppointments([FromQuery] int? doctorId)
+		=> Ok(await serviceManager.AdminService().GetUpcomingAppointmentsAsync(doctorId));
 		[HttpGet("Appointment")]
 		public async Task<ActionResult<AppointmentDto>> GetAppointment([FromQuery] Guid id)
 		=> Ok(await serviceManager.PatientService().GetAppointmentByIdAsync(id));
