@@ -11,6 +11,7 @@ namespace Service.Abstraction.AdminService
 		// Appointments
 		public Task<IEnumerable<AppointmentDto>> GetAppointmentsAsync(int? doctorId, int? patientId, DateTime? date, Domain.Entities.AppointmentStatus? status);
 		public Task<IEnumerable<AppointmentDto>> GetUpcomingAppointmentsAsync();
+		public Task<AppointmentDto> ConfirmAppointmentAsync(Guid id);
 		// Doctors
 		public Task<UserDoctorDto> AddDoctorAsync(UserDoctorDto doctor);
 		public Task<DoctorDto> UpdateDoctorAsync(UpdateDoctorDto _doctor);

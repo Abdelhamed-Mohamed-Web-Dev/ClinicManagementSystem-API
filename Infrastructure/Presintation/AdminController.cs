@@ -40,6 +40,9 @@ namespace Presentation
 		[HttpPut("CancelAppointment")]
 		public async Task<ActionResult<AppointmentDto>> CancelAppointment([FromQuery] Guid id)
 		=> Ok(await serviceManager.PatientService().CancelAppointmentAsync(id));
+		[HttpPut("ConfirmAppointment")]
+		public async Task<ActionResult<AppointmentDto>> ConfirmAppointment([FromQuery] Guid id)
+		=> Ok(await serviceManager.AdminService().ConfirmAppointmentAsync(id));
 
 		#endregion
 

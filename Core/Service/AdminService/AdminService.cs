@@ -21,6 +21,23 @@ namespace Service.AdminService
 				GetAllAsync(new AppointmentSpecifications(/*from tomorrow*/));
 			return mapper.Map<IEnumerable<AppointmentDto>>(appointments);
 		}
+		public async Task<AppointmentDto> ConfirmAppointmentAsync(Guid id)
+		{
+			// Check if appointment is exist
+			var appointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAsync(id);
+			if (appointment == null) throw new AppointmentNotFoundException(id);
+
+			if (appointment.Status == AppointmentStatus.Canceled)
+				return mapper.Map<AppointmentDto>(appointment);
+
+			appointment.Status = AppointmentStatus.Confirmed;
+
+			unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);
+			await unitOfWork.SaveChangesAsync();
+
+			return mapper.Map<AppointmentDto>(appointment);
+		}
+
 		// Doctor
 		public async Task<UserDoctorDto> AddDoctorAsync(UserDoctorDto _doctor)
 		{

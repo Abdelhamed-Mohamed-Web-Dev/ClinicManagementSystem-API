@@ -273,7 +273,7 @@ namespace Service.PatientService
 				throw new NotFoundException("Can't Update This Appointment (The Appointment Is Canceled)");
 			if (appointment.Status == AppointmentStatus.Confirmed)
 				throw new NotFoundException("Can't Update This Appointment (The Appointment Is Confirmed)");
-			if (appointment.AppointmentDateTime >= DateTime.Now)
+			if (appointment.AppointmentDateTime <= DateTime.Now)
 				throw new NotFoundException("Can't Update This Appointment (Its In The Past)");
 
 			// Check if the doctor is exist

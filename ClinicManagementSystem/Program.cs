@@ -14,6 +14,16 @@ namespace ClinicManagementSystem
 
 			builder.WebHost.UseSetting("detailedErrors", "true");
 			builder.WebHost.CaptureStartupErrors(true);
+			
+			builder.Services.AddCors(options =>
+			{
+				options.AddDefaultPolicy(policy =>
+				{
+					policy.AllowAnyOrigin()
+						  .AllowAnyMethod()
+						  .AllowAnyHeader();
+				});
+			});
 
 			//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 
@@ -31,6 +41,7 @@ namespace ClinicManagementSystem
 			//}
 
 			app.UseHttpsRedirection();
+			app.UseCors();
 			app.UseAuthentication();
 			app.UseAuthorization();
 
