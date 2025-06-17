@@ -1,4 +1,6 @@
 ﻿
+using ClinicManagementSystem.Helpers;
+
 namespace Service
 {
 	public class ServiceManager : IServiceManager

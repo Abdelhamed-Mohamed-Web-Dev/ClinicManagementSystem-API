@@ -27,7 +27,7 @@ namespace ClinicManagementSystem
 						  .AllowAnyHeader();
 				});
 			});
-			builder.Services.AddTransient<IMailSettings,EmailSettings>();
+			//builder.Services.AddTransient<IMailSettings,EmailSettings>();
 			builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 			//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 

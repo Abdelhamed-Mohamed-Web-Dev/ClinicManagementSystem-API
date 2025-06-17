@@ -4,7 +4,7 @@ using System.Security.Policy;
 
 namespace Service.AuthenticationService
 {
-    public class AuthenticationService(UserManager<User> userManager, IOptions<JwtOptions> options,IMailSettings mailSettings) : IAuthenticationService
+    public class AuthenticationService(UserManager<User> userManager, IOptions<JwtOptions> options) : IAuthenticationService
     {
         public async Task DeleteAsync(string email)
         {
@@ -104,7 +104,7 @@ namespace Service.AuthenticationService
 
             if (user is not null)
             {
-                var passwordUrl= Url
+            //    var passwordUrl= Url
             }
         }
 
