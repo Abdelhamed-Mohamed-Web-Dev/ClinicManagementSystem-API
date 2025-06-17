@@ -15,9 +15,9 @@ namespace Presentation
     public class DoctorController(IServiceManager serviceManager) : APIController
     {
         [HttpGet("GetDoctorByID")]
-        public async Task<IActionResult> GetDoctorById([FromQuery]int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
+        public async Task<IActionResult> GetDoctorById([FromQuery]int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAsync(id));
         [HttpGet("GetDoctorByUserName")]
-        public async Task<IActionResult> GetDoctorByUserName([FromQuery]string username) => Ok(await serviceManager.DoctorService().GetDoctorByUserNameAysnc(username));
+        public async Task<IActionResult> GetDoctorByUserName([FromQuery]string username) => Ok(await serviceManager.DoctorService().GetDoctorByUserNameAsync(username));
         
         [HttpGet("Patient/{id}")]
         public async Task<IActionResult> GetPatient(int id) => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
@@ -41,8 +41,8 @@ namespace Presentation
         [HttpGet("AllLapTests/{id}")]
         public async Task<IActionResult> GetAllLapTests(Guid id)
             => Ok(await serviceManager.DoctorService().GetAllLapTestOfPatientAysnc(id));
-        [HttpGet ("UpdateDoctor") ]
-        public async Task<IActionResult> UpdateDoctor(int id) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAysnc(id));
+        [HttpPut ("UpdateDoctor") ]
+        public async Task<IActionResult> UpdateDoctor(UpdateDoctorDoctorDto _doctor) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAsync( _doctor));
         [HttpGet ("AllMedicalRecords")]
         public async Task<IActionResult> GetAllMedicalRecords()=>Ok(await serviceManager.DoctorService().GetAllMedicalRecords());
         [HttpGet("MedicalRecordOfPatient")]
