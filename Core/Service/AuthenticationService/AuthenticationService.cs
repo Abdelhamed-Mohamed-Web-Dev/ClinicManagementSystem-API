@@ -82,10 +82,9 @@ namespace Service.AuthenticationService
             var roles = await userManager.GetRolesAsync(user);
 
             foreach (var role in roles)
-                authclaim.Add(new Claim("role", role));
+                //    authclaim.Add(new Claim("role", role));
+                authclaim.Add(new Claim(ClaimTypes.Role, role));
 
-            //          foreach (var role in roles)
-            //            authclaim.Add(new Claim(ClaimTypes.Role, role));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Jwtoptions.SecretKey));
 
