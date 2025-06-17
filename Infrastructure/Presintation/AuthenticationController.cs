@@ -1,4 +1,5 @@
-﻿using Shared.AuthenticationModels;
+﻿using ClinicManagementSystem.Helpers;
+using Shared.AuthenticationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Presentation
 {
-    public class AuthenticationController(IServiceManager serviceManager) : APIController
+    public class AuthenticationController(IServiceManager serviceManager ,IMailSettings) : APIController
     {
         //[HttpPost("Login")]
         //public async Task<ActionResult<UserResultDTO>> Login(UserLoginDTO loginDTO)
@@ -20,12 +21,12 @@ namespace Presentation
             => Ok(await serviceManager.AuthenticationService().LoginAsync(login));
 
 
-        [HttpPost("Register")]
-        public async Task<ActionResult<UserResultDTO>> Register(UserRegisterDTO registerDTO)
-        {
-            var result = await serviceManager.AuthenticationService().RegisterAsync(registerDTO);
-            return Ok(result);
-        }
+        //[HttpPost("Register")]
+        //public async Task<ActionResult<UserRegisterDTO>> Register( [FromBody] UserPatientRegisterDTO registerDTO)
+        //{
+        //    var result = await serviceManager.AuthenticationService().PatientRegisterAsync(registerDTO);
+        //    return Ok(result);
+        //}
 
         [HttpDelete("Delete")]
         public async Task<ActionResult> Delete(string email)

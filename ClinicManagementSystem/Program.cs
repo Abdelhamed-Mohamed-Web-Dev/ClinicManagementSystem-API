@@ -1,4 +1,7 @@
 
+using ClinicManagementSystem.Helpers;
+using ClinicManagementSystem.Settings;
+
 namespace ClinicManagementSystem
 {
 	public class Program
@@ -24,13 +27,14 @@ namespace ClinicManagementSystem
 						  .AllowAnyHeader();
 				});
 			});
-
+			builder.Services.AddTransient<IMailSettings,EmailSettings>();
+			builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 			//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 
 			var app = builder.Build();
 
 			app.UseMiddleware<ExceptionHandlerMiddleware>();
-
+						
 			await DataSeeding(app);
 
 			// Configure the HTTP request pipeline.
