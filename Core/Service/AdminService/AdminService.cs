@@ -1,6 +1,7 @@
 ﻿
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Shared;
 using Shared.AdminModels;
 
 namespace Service.AdminService
@@ -129,6 +130,34 @@ namespace Service.AdminService
 			await unitOfWork.SaveChangesAsync();
 			return _patient;
 		}
-		
-	}
+
+        public async Task<string> SendNotificationAsync(NotificationsDto notificationDto)
+        {
+			if (notificationDto == null)
+                throw new ArgumentNullException(nameof(notificationDto));
+
+            var notification = mapper.Map<Notifications>(notificationDto);
+
+            await unitOfWork.GetRepository<Notifications,int>().AddAsync(notification);
+			await unitOfWork.SaveChangesAsync();
+
+			return "Notification sent successfully.";
+
+        }
+
+        public async Task<IEnumerable<NotificationsDto>> GetAllNotificationsForPatientAsync(int PatientId)
+        {
+            var notifications= await unitOfWork.GetRepository<Notifications,int>().GetAllAsync();
+			notifications=notifications.Where(n=>n.PatientId==PatientId).ToList();
+		var	result= mapper.Map<IEnumerable<NotificationsDto>>(notifications);
+			return result;
+        }
+		public async Task<IEnumerable<NotificationsDto>> GetAllNotificationsForDoctorAsync(int DoctorId)
+        {
+            var notifications= await unitOfWork.GetRepository<Notifications,int>().GetAllAsync();
+			notifications=notifications.Where(n=>n.DoctorId==DoctorId).ToList();
+		var	result= mapper.Map<IEnumerable<NotificationsDto>>(notifications);
+			return result;
+        }
+    }
 }

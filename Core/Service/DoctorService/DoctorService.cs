@@ -8,42 +8,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Shared.AdminModels;
+
 namespace Service.DoctorService
 {
     public class DoctorService(IUnitOfWork unitOfWork, IMapper mapper) : IDoctorService
     {
-        
-        public async Task<IEnumerable<AppointmentDto1>> GetAllAppointmentOfDoctorAysnc(int id)
+
+        #region Appointment
+        public async Task<IEnumerable<AppointmentDto>> GetAllAppointmentAysnc
+        (int? doctorId, int? patientId, AppointmentStatus? status)
         {
-            var allappointment = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync(new AppointmentWithPatientAndDoctor());
-            var appointment = allappointment.Where(a => a.DoctorId == id);
-            var appointmentDto = mapper.Map<IEnumerable<AppointmentDto1>>(appointment);
-            return appointmentDto;
+            var appointments = await unitOfWork.GetRepository<Appointment, Guid>().
+                GetAllAsync(new AppointmentSpecifications(doctorId, patientId, status));
+            return mapper.Map<IEnumerable<AppointmentDto>>(appointments);
         }
-        
+
+        #endregion
+
+        #region Medical Record
         public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords()
             {
             var medicalrecord= await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAllAsync(new MedicalRecordWithRadiologyAndLapTest());
             var _medicalrecords = mapper.Map<IEnumerable<MedicalRecordDto>>(medicalrecord);
             return _medicalrecords;
             }
- 
-        public async Task<IEnumerable<AppointmentDto1>> GetAllCanceledAppointment()
+
+        public async Task<MedicalRecordDto> GetMedicalRecord(int PatientId, int DoctorId)
         {
-            var AllAppoinment = await unitOfWork.GetRepository<Appointment,Guid>().GetAllAsync();
-            var CancelAppointment = AllAppoinment.Where(a => a.Status==Domain.Entities.AppointmentStatus.Canceled);
-            var CaneclAppointmentDto = mapper.Map<IEnumerable<AppointmentDto1>>(CancelAppointment);
-            return CaneclAppointmentDto;
+
+            var medicalrecord = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAsync(new MedicalRecordWithRadiologyAndLapTest(PatientId, DoctorId));
+            var medicalrecordDto = mapper.Map<MedicalRecordDto>(medicalrecord);
+            return medicalrecordDto;
         }
 
-        public async Task<IEnumerable<AppointmentDto1>> GetAllConfirmAppointment()
-        {
-            var AllAppoinment = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync();
-            var ConfirmAppointment = AllAppoinment.Where(a => a.Status == Domain.Entities.AppointmentStatus.Confirmed);
-            var ConfirmAppointmentDto = mapper.Map<IEnumerable<AppointmentDto1>>(ConfirmAppointment);
-            return ConfirmAppointmentDto ;
 
-        }
+        #endregion
+
+        #region Lap Test 
 
         public async Task<IEnumerable<LapTestDto1>> GetAllLapTestOfPatientAysnc(Guid id)
         {
@@ -54,15 +58,9 @@ namespace Service.DoctorService
             return laptestsDto;
         }
 
-        public async Task<IEnumerable<AppointmentDto1>> GetAllPendingAppointment()
-        {
-            var AllAppoinment = await unitOfWork.GetRepository<Appointment, Guid>().GetAllAsync();
-            var PendingAppointment = AllAppoinment.Where(a => a.Status == Domain.Entities.AppointmentStatus.Pending);
-            var PendingAppointmentDto = mapper.Map<IEnumerable<AppointmentDto1>>(PendingAppointment);
-            return PendingAppointmentDto;
+        #endregion
 
-        }
-
+        #region Radiology 
         public async Task<IEnumerable<RadiologyDto1>> GetAllRadiologyOfPatientAysnc(Guid id)
         {
             var MedicalRecord = await unitOfWork.GetRepository<MedicalRecord,Guid>().GetAsync(id);
@@ -71,21 +69,29 @@ namespace Service.DoctorService
             return radiologesDto;
         }
 
-        public async Task<PatientDto1> GetAppoitmentOfPatient(int id)
-        {
-            var PatientAppointment = await unitOfWork.GetRepository<Patient, int>().GetAsync(id);
-            var PatientAppointmentDto= mapper.Map<PatientDto1>(PatientAppointment);
-            return PatientAppointmentDto;
-        }
+        #endregion
 
+        #region Doctor
         public async Task<DoctorDto1> GetDoctorByIdAysnc(int id)
         {
             var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(id);
             var doctorDto=mapper.Map<Shared.DoctorModels.DoctorDto1>(doctor);
             return   doctorDto;
         }
+        public async Task<DoctorDto1> GetDoctorByUserNameAysnc(string username)
+        {
+            var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync();
+           var result = doctor.Where(d=>d.UserName==username).FirstOrDefault();
+            var doctorDto=mapper.Map<DoctorDto1>(result);
+            return   doctorDto;
+        }
+        public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
-        
+        #region Patient
         public async Task<PatientDto1> GetPatientByIdAysnc(int id)
         {
             var patient= await unitOfWork.GetRepository<Patient,int>().GetAsync(id);
@@ -93,21 +99,11 @@ namespace Service.DoctorService
             return _patientDto;
         }
 
-        
-        public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
+   
 
-        public async Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId)
-        {
-            
-            var medicalrecord = await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAsync(new MedicalRecordWithRadiologyAndLapTest(PatientId,DoctorId));
-            var medicalrecordDto= mapper.Map<MedicalRecordDto>(medicalrecord);
-            return medicalrecordDto;
-        }
-
-        
+      
+      
     }
 }
 // بيانات حجز المريض 
