@@ -17,6 +17,9 @@ namespace Persistence.Data.Configurations
             builder.HasMany(p => p.FavoriteDoctors)
                 .WithOne(p => p.patient)
                 .HasForeignKey(p=>p.PatientId);
+            builder.HasMany(n => n.Notifications)
+                .WithOne(p => p.patient)
+                .HasForeignKey(p => p.PatientId);
         }
     }
 }

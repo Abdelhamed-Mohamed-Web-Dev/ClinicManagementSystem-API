@@ -1,4 +1,7 @@
 ﻿
+using Domain.Contracts.IRepositories;
+using Domain.Entities;
+using Shared;
 using Shared.AdminModels;
 
 namespace Presentation
@@ -86,5 +89,19 @@ namespace Presentation
 
 		#endregion
 
-	}
+		#region Notifications
+		[HttpPost("SendNotification")]
+        public async Task<IActionResult> SendNotification([FromBody] NotificationsDto notification)
+        {
+            var result = await serviceManager.AdminService().SendNotificationAsync(notification);
+			return Ok("Notification sent successfully.");
+                
+        }
+		[HttpGet("GetNofiticationsOfPatient")]
+		public async Task<IActionResult> GetNotificationsOfPatient(int PatientId) => Ok(await serviceManager.AdminService().GetAllNotificationsForPatientAsync(PatientId));
+		[HttpGet("GetNofiticationsOfDoctor")]
+		public async Task<IActionResult> GetNotificationsOfDoctor(int DoctorId) => Ok(await serviceManager.AdminService().GetAllNotificationsForDoctorAsync(DoctorId));
+        #endregion
+
+    }
 }

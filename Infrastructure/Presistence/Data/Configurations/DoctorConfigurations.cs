@@ -15,6 +15,9 @@
             builder.HasMany(d => d.Favorites)
                 .WithOne(d => d.doctor)
                 .HasForeignKey(d=>d.DoctorId);
+            builder.HasMany(n => n.Notifications)
+              .WithOne(p => p.doctor)
+              .HasForeignKey(p => p.DoctorId);
         }
     }
 }

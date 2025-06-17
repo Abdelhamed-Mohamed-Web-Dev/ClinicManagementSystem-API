@@ -39,6 +39,17 @@ namespace Service.Specifications.Patient
 			AddInclude(a => a.Patient);
 			AddInclude(a => a.Doctor);
 		}
+        public AppointmentSpecifications // to get appointments with filtrations
+            (int? doctorId, int? patientId, AppointmentStatus? status) :
+            base(a =>
+            (doctorId == null || a.DoctorId == doctorId.Value) &&
+            (patientId == null || a.PatientId == patientId.Value) &&
+            (status == null || a.Status == status.Value)
+        )
+        {
+            AddInclude(a => a.Patient);
+            AddInclude(a => a.Doctor);
+        }
 
-	}
+    }
 }
