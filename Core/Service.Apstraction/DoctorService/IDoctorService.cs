@@ -11,10 +11,10 @@ namespace Service.Abstraction.DoctorService
 {
     public interface IDoctorService
     {
-     public Task<DoctorDto1> GetDoctorByIdAysnc(int id);
-     public Task<DoctorDto1> GetDoctorByUserNameAysnc(string UserName);
+     public Task<DoctorDto1> GetDoctorByIdAsync(int id);
+     public Task<DoctorDto1> GetDoctorByUserNameAsync(string UserName);
         //Get Info Of Doctor
-        public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id);
+        public Task<string> UpdateDoctorByIdAsync(UpdateDoctorDoctorDto _doctor);
         // Update Info Of Doctor
         public Task<IEnumerable<RadiologyDto1>> GetAllRadiologyOfPatientAysnc(Guid id);
         // Get All Radiology Of Patient
