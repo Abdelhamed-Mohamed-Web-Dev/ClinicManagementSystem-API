@@ -12,6 +12,7 @@ namespace Service.Abstraction.DoctorService
     public interface IDoctorService
     {
      public Task<DoctorDto1> GetDoctorByIdAysnc(int id);
+     public Task<DoctorDto1> GetDoctorByUserNameAysnc(string UserName);
         //Get Info Of Doctor
         public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id);
         // Update Info Of Doctor

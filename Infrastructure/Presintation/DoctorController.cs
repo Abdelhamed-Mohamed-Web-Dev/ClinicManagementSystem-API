@@ -14,13 +14,15 @@ namespace Presentation
     [Authorize(Roles = "Doctor")]
     public class DoctorController(IServiceManager serviceManager) : APIController
     {
-        [HttpGet("Doctor/{id}")]
-        public async Task<IActionResult> GetDoctor(int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
-
+        [HttpGet("GetDoctorByID")]
+        public async Task<IActionResult> GetDoctorById([FromQuery]int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
+        [HttpGet("GetDoctorByUserName")]
+        public async Task<IActionResult> GetDoctorByUserName([FromQuery]string username) => Ok(await serviceManager.DoctorService().GetDoctorByUserNameAysnc(username));
+        
         [HttpGet("Patient/{id}")]
         public async Task<IActionResult> GetPatient(int id) => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
 
-        [HttpGet("AllAppointment/{id}")]
+        [HttpGet("AllAppointment")]
         public async Task<IActionResult> GetAllAppointmet(int? doctorId, int? patientId, AppointmentStatus? status)
             => Ok(await serviceManager.DoctorService().GetAllAppointmentAysnc( doctorId, patientId,  status));
 

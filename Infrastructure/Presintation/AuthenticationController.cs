@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Presentation
 {
-    public class AuthenticationController(IServiceManager serviceManager ,IMailSettings mailSettings) : APIController
+    public class AuthenticationController(IServiceManager serviceManager ) : APIController
     {
         //[HttpPost("Login")]
         //public async Task<ActionResult<UserResultDTO>> Login(UserLoginDTO loginDTO)

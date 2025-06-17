@@ -78,6 +78,13 @@ namespace Service.DoctorService
             var doctorDto=mapper.Map<Shared.DoctorModels.DoctorDto1>(doctor);
             return   doctorDto;
         }
+        public async Task<DoctorDto1> GetDoctorByUserNameAysnc(string username)
+        {
+            var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAllAsync();
+           var result = doctor.Where(d=>d.UserName==username).FirstOrDefault();
+            var doctorDto=mapper.Map<DoctorDto1>(result);
+            return   doctorDto;
+        }
         public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id)
         {
             throw new NotImplementedException();

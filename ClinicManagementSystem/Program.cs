@@ -28,8 +28,8 @@ namespace ClinicManagementSystem
 				});
 			});
 			//builder.Services.AddTransient<IMailSettings,EmailSettings>();
-			builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
-			//	builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+		//	builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+				builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 
 			var app = builder.Build();
 

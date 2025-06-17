@@ -30,10 +30,10 @@ namespace Service.AuthenticationService
             var result = await userManager.CheckPasswordAsync(user, userLogin.Password);
             if (!result) throw new UnAuthorizedException();
             return new UserResultDTO(
-                user.DisplayName,
-                user.Email,
-                await CreateTokenAsync(user));
-
+                user.DisplayName
+                ,user.Email
+                ,await CreateTokenAsync(user)
+                ,user.UserName);
         }
 
         public async Task<UserResultDTO> RegisterAsync(UserRegisterDTO userRegister)
@@ -61,7 +61,10 @@ namespace Service.AuthenticationService
             return new UserResultDTO(
                          user.DisplayName,
                          user.Email,
-                         await CreateTokenAsync(user));
+                         await CreateTokenAsync(user),
+                         user.UserName
+                         );
+      
         }
 
         private async Task<string> CreateTokenAsync(User user)
