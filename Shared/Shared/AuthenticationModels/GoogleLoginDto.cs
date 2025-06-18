@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.AuthenticationModels
 {
-    public class GoogleLoginDto
+    public class GoogleLoginDto // input
     {
         public string IdToken { get; set; }
         public string Username { get; set; }
