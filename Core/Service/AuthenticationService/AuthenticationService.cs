@@ -1,11 +1,15 @@
 ﻿using ClinicManagementSystem.Helpers;
+using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using System.Security.Policy;
+using System.Text.Json;
 
 namespace Service.AuthenticationService
 {
-    public class AuthenticationService(UserManager<User> userManager, IOptions<JwtOptions> options) : IAuthenticationService
+    public class AuthenticationService(UserManager<User> userManager, IOptions<JwtOptions> options, HttpClient _httpClient) : IAuthenticationService
     {
+        
         public async Task DeleteAsync(string email)
         {
             var user = await userManager.FindByEmailAsync(email);
@@ -110,5 +114,46 @@ namespace Service.AuthenticationService
             }
         }
 
+        public async Task<GooglePayload> LoginWithGoogleAsync(GoogleLoginDto dto )
+        {
+            var response = await _httpClient.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={dto.IdToken}");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Invalid Google token");
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var payload = JsonSerializer.Deserialize<GooglePayload>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (payload == null || string.IsNullOrEmpty(payload.Email))
+                throw new Exception("Failed to parse Google token payload");
+            var userInDb = await userManager.FindByEmailAsync(payload.Email);
+            if (userInDb == null)
+            {
+                // أول مرة يسجل دخول - اعمله Register تلقائي
+                userInDb = new User
+                {
+                    Email = payload.Email,
+                    DisplayName=payload.Name,                              
+                    UserName=dto.Username
+                };
+
+                var result = await userManager.CreateAsync(userInDb);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description).ToList();
+                    throw new ValidationException(errors);
+                }
+
+                await userManager.AddToRoleAsync(userInDb,dto.Role);
+
+            }
+
+
+            return payload;
+        }
     }
 }
