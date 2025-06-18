@@ -1,17 +1,4 @@
-﻿using Service.Abstraction.DoctorService;
-using Service.Specifications;
-using Service.Specifications.Doctor;
-using Shared.DoctorModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Shared.AdminModels;
-
+﻿
 namespace Service.DoctorService
 {
 	public class DoctorService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : IDoctorService
@@ -128,14 +115,25 @@ namespace Service.DoctorService
 			return _patientDto;
 		}
 
+
 		#endregion
 
+		#region Notifications
 
+		public async Task<IEnumerable<NotificationsDto>> GetAllNotifications(int doctorId)
+		{
+			var notifications = await unitOfWork.GetRepository<Notifications, int>().GetAllAsync(new NotificationSpecifications(doctorId, null));
+			return mapper.Map<IEnumerable<NotificationsDto>>(notifications);
+		}
+
+		public async Task<NotificationsDto> GetNotification(int id)
+		{
+			var notification = await unitOfWork.GetRepository<Notifications, int>().GetAsync(id);
+			return mapper.Map<NotificationsDto>(notification);
+		}
+
+		#endregion
 
 
 	}
 }
-// بيانات حجز المريض 
-// جميع الحجوزات ال Cofirm
-// جميع الحجوزات ال Pending
-// جميع الحجوزات ال Canceld
