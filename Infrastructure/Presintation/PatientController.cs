@@ -56,6 +56,10 @@ namespace Presentation
 		public async Task<ActionResult<PatientDto>> GetPatient([FromQuery] string userName)
 			=> Ok(await serviceManager.PatientService().GetPatientByUserNameAsync(userName));
 
+		[HttpPost("AddPatient")]
+		public async Task<ActionResult<UserPatientDto>> AddPatient(UserPatientDto patient)
+			=> Ok(await serviceManager.AdminService().AddPatientAsync(patient));
+
 		[HttpPut("UpdatePatient")]
 		public async Task<ActionResult<PatientDto>> UpdatePatient(UpdatePatientDto patient)
 			=> Ok(await serviceManager.PatientService().UpdatePatientAsync(patient));
@@ -93,49 +97,19 @@ namespace Presentation
 
 		#endregion
 
-		#region Rate & FavDoctors
-		///
-		/*
-        [HttpPost("Rate_Doctor")]
-
-		public async Task<IActionResult> RateDoctor(DoctorRateDto doctorRateDto)
-		{
-            try
-            {
-				// var result = await _patientService.RateDoctorAsync(dto);
-				var result = await serviceManager.PatientService().PutRateAsync(doctorRateDto);
-				return Ok(new { message = result });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { error = "An unexpected error occurred." });
-            }
-        }
-
-		[HttpGet("Get Rate")]
-		public async Task<IActionResult> GetRate(int DoctorId)=>Ok(await serviceManager.PatientService().GetDoctorRateAsync(DoctorId));
-		*/
+		#region FavDoctors
+		
 		[HttpPost("AddFavoriteDoctor")]
 		public async Task<IActionResult> AddFavDoctor(int DoctorId, int PatientId)
-		{
-
-			string result = await serviceManager.PatientService().AddFavoriteDoctorAsync(DoctorId, PatientId);
-
-			if (result.Any())
-				return Ok(result);
-			return Ok("Doctor Added To Favorite");
-		}
+			=> Ok(await serviceManager.PatientService().AddFavoriteDoctorAsync(DoctorId, PatientId));
 
 		[HttpDelete("RemoveDoctorFromFavorites")]
-		public async Task<IActionResult> RemoveDoctorFromFavorites(int DoctorId, int PatientId) => Ok(await serviceManager.PatientService().RemoveFavoriteDoctorAsync(DoctorId, PatientId));
+		public async Task<IActionResult> RemoveDoctorFromFavorites(int DoctorId, int PatientId) 
+			=> Ok(await serviceManager.PatientService().RemoveFavoriteDoctorAsync(DoctorId, PatientId));
 
-		//[HttpGet ("GetAllFavoriteDoctors")]
-		//public async Task<IActionResult> GetAllFavDoctors(int DoctorId,int PatientId) => Ok(await serviceManager.PatientService().GetAllFavoriteDoctorsAsync(DoctorId, PatientId));
-		/////
+		[HttpGet("FavoriteDoctors")]
+		public async Task<IActionResult> GetAllFavDoctors(int patientId) 
+			=> Ok(await serviceManager.PatientService().GetAllFavoriteDoctorsAsync(patientId));
 
 		#endregion
 	}

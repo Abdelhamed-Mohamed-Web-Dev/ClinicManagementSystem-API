@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Shared;
 using Shared.AppointmentModels;
 using Shared.DoctorModels;
 using System;
@@ -26,6 +27,10 @@ namespace Service.Abstraction.DoctorService
        // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
         public  Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords();
         public  Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId);
+        // Get All Notifications
+        public Task<IEnumerable<NotificationsDto>> GetAllNotifications(int doctorId);
+        // Get Notification By Id
+        public Task<NotificationsDto> GetNotification(int id);
     }
 }
 // بيانات الدكتور                 Done 
