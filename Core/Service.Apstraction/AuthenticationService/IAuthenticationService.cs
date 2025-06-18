@@ -12,5 +12,7 @@ namespace Service.Abstraction.AuthenticationService
         public Task<UserResultDTO> LoginAsync(UserLoginDTO userLogin);
         public Task<UserResultDTO> RegisterAsync(UserRegisterDTO userRegister);
         public Task DeleteAsync(string email);
+        Task<GooglePayload> LoginWithGoogleAsync(GoogleLoginDto dto);
+
     }
 }
