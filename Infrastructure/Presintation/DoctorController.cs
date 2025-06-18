@@ -44,9 +44,11 @@ namespace Presentation
 		[HttpPut("UpdateDoctor")]
 		public async Task<IActionResult> UpdateDoctor(UpdateDoctorDoctorDto _doctor) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAsync(_doctor));
 		[HttpGet("AllMedicalRecords")]
-		public async Task<IActionResult> GetAllMedicalRecords() => Ok(await serviceManager.DoctorService().GetAllMedicalRecords());
-		[HttpGet("MedicalRecordOfPatient")]
-		public async Task<IActionResult> GetMedicalRecords(int PatientId, int DoctorId) => Ok(await serviceManager.DoctorService().GetMedicalRecord(PatientId, DoctorId));
+		public async Task<IActionResult> GetAllMedicalRecords([FromQuery] int patientId)
+			=> Ok(await serviceManager.PatientService().GetAllMedicalRecordsAsync(patientId));
+		[HttpGet("MedicalRecord")]
+		public async Task<IActionResult> GetMedicalRecords([FromQuery] Guid id)
+			=> Ok(await serviceManager.PatientService().GetMedicalRecordByIdAsync(id));
 		[HttpGet("Notifications")]
 		public async Task<IActionResult> GetAllNotifications([FromQuery] int doctorId)
 			=> Ok(await serviceManager.NotificationService().GetAllNotifications(doctorId, null));
