@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Service.Abstraction.NotificationService;
 using Service.Specifications;
+using Shared.NotificationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Service.NotificationService
 {
-	public class NotificationService(IUnitOfWork unitOfWork, IMapper mapper) : INotificationService
+    public class NotificationService(IUnitOfWork unitOfWork, IMapper mapper) : INotificationService
 	{
 		public async Task CreateNotification(Notifications notification)
 		{

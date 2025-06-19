@@ -12,6 +12,8 @@ namespace Service.Abstraction.PatientService
 		public Task<DoctorDto> GetDoctorByIdAsync(int id);
 		// Retrieve doctor by user name
 		public Task<DoctorDto> GetDoctorByUserNameAsync(string userName);
+		// Rate doctor by id
+		public Task<bool> RateDoctorAsync(int doctorId, int rate);
 		// Retrieve all records for patient by patientId
 		public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId);
 		// Retrieve record by id

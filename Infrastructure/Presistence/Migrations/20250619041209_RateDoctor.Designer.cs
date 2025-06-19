@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20250619041209_RateDoctor")]
+    partial class RateDoctor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +70,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("Domain.Entities.Doctor", b =>
@@ -125,7 +128,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("Domain.Entities.FavoriteDoctors", b =>
@@ -148,7 +151,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("FavoriteDoctors", (string)null);
+                    b.ToTable("FavoriteDoctors");
                 });
 
             modelBuilder.Entity("Domain.Entities.LapTest", b =>
@@ -189,7 +192,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("MedicalId");
 
-                    b.ToTable("LapTests", (string)null);
+                    b.ToTable("LapTests");
                 });
 
             modelBuilder.Entity("Domain.Entities.MedicalRecord", b =>
@@ -225,7 +228,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("MedicalRecords", (string)null);
+                    b.ToTable("MedicalRecords");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notifications", b =>
@@ -265,7 +268,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Domain.Entities.Patient", b =>
@@ -301,7 +304,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("Domain.Entities.Radiology", b =>
@@ -332,7 +335,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("Radiations", (string)null);
+                    b.ToTable("Radiations");
                 });
 
             modelBuilder.Entity("Domain.Entities.Appointment", b =>

@@ -25,6 +25,8 @@ namespace Domain.Entities
         AppointmentBooked,
         AppointmentCancelled,
         TestResultReady,
-        General
-    }
+        General,
+		RateDoctor,
+        AppointmentUpdated
+	}
 }
