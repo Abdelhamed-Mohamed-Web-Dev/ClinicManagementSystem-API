@@ -20,7 +20,7 @@ namespace Service
 			adminService = new Lazy<IAdminService>(() => new AdminService.AdminService(unitOfWork, mapper, userManager));
 			notificationService = new Lazy<INotificationService>(() => new NotificationService.NotificationService(unitOfWork, mapper));
 			paymentService = new Lazy<IPaymentService>(() => new PaymentService(unitOfWork, configuration, mapper));
-			authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService.AuthenticationService(userManager, options,httpClient));
+			authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService.AuthenticationService(userManager, options,httpClient,unitOfWork,mapper));
 		}
 		public IPatientService PatientService() => patientService.Value;
 		public IDoctorService DoctorService() => doctorService.Value;

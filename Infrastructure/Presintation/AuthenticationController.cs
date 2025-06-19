@@ -1,6 +1,8 @@
 ﻿using ClinicManagementSystem.Helpers;
+using Domain.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
+using Shared.AdminModels;
 using Shared.AuthenticationModels;
 using System;
 using System.Collections.Generic;
@@ -23,11 +25,11 @@ namespace Presentation
             => Ok(await serviceManager.AuthenticationService().LoginAsync(login));
 
         [HttpPost("google-login")]
-        public async Task<IActionResult> LoginWithGoogle([FromQuery] GoogleLoginDto dto)
+        public async Task<IActionResult> LoginWithGoogle([FromQuery] string IdToken, string? username)
         {
             try
             {
-                var user = await serviceManager.AuthenticationService().LoginWithGoogleAsync(dto);
+                var user = await serviceManager.AuthenticationService().LoginWithGoogleAsync(IdToken,username);
                 return Ok(user); 
             }
             catch (Exception ex)
@@ -35,16 +37,13 @@ namespace Presentation
                 return BadRequest(new { message = ex.Message });
             }
         }
-    
 
-    //[HttpPost("Register")]
-    //public async Task<ActionResult<UserRegisterDTO>> Register( [FromBody] UserPatientRegisterDTO registerDTO)
-    //{
-    //    var result = await serviceManager.AuthenticationService().PatientRegisterAsync(registerDTO);
-    //    return Ok(result);
-    //}
+        [HttpPost("RegistePatientByGoogle")]
+        public async Task<IActionResult> AddPatientByGoogle([FromBody] UserPatientDto userPatientDto )
+            => Ok(await serviceManager.AuthenticationService().AddPatientByGoogle(userPatientDto));
 
-    [HttpDelete("Delete")]
+        
+        [HttpDelete("Delete")]
         public async Task<ActionResult> Delete(string email)
         {
             await serviceManager.AuthenticationService().DeleteAsync(email);

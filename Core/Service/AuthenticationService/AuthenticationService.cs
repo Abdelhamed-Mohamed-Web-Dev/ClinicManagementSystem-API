@@ -1,4 +1,5 @@
-﻿using ClinicManagementSystem.Helpers;
+﻿using AutoMapper;
+using ClinicManagementSystem.Helpers;
 using Domain.Contracts.IRepositories;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using System.Text.Json;
 
 namespace Service.AuthenticationService
 {
-	public class AuthenticationService(UserManager<User> userManager, IOptions<JwtOptions> options, HttpClient _httpClient) : IAuthenticationService
+	public class AuthenticationService(UserManager<User> userManager, IOptions<JwtOptions> options, HttpClient _httpClient,IUnitOfWork unitOfWork,IMapper mapper) : IAuthenticationService
 	{
 
 		public async Task DeleteAsync(string email)
@@ -115,9 +116,9 @@ namespace Service.AuthenticationService
 			}
 		}
 
-		public async Task<UserResultDTO> LoginWithGoogleAsync(GoogleLoginDto dto)
+		public async Task<UserResultLoginDTO> LoginWithGoogleAsync(string IdToken,string? username)
 		{
-			var response = await _httpClient.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={dto.IdToken}");
+			var response = await _httpClient.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={IdToken}");
 
 			if (!response.IsSuccessStatusCode)
 				throw new Exception("Invalid Google token");
@@ -135,6 +136,11 @@ namespace Service.AuthenticationService
 
 			// user = data
 			// user = null => create
+			if (userInDb != null)
+			{
+				return new UserResultLoginDTO(userInDb.Email, userInDb.UserName, await CreateTokenAsync(userInDb));
+				
+			}
 
 			if (userInDb == null)
 			{
@@ -143,7 +149,7 @@ namespace Service.AuthenticationService
 				{
 					Email = payload.Email,
 					DisplayName = payload.Name,
-					UserName = dto.Username
+					UserName = username
 				};
 
 				var result = await userManager.CreateAsync(userInDb);
@@ -153,8 +159,8 @@ namespace Service.AuthenticationService
 					throw new ValidationException(errors);
 				}
 
-				await userManager.AddToRoleAsync(userInDb, dto.Role);
-
+				await userManager.AddToRoleAsync(userInDb, "Patient");
+				/*
 				// سستم انتا الموضوع عشان انا رايح المحل دلوقتى عايزنى هناك ومش عارف هرجع امتا
 				// دول الداتا اللى المفروض تاخدها عشان تعمل add new patient موجودين ف ال admin service 
 				// لو عايز تعرف انا عامل ريجيستر للمريض ازاى ممكن تبص عليها 
@@ -172,16 +178,35 @@ namespace Service.AuthenticationService
 				//};
 				//await unitOfWork.GetRepository<Patient, int>().AddAsync(patient);
 				//await unitOfWork.SaveChangesAsync();
-
+				*/
 
 
 			}
 
-			return new UserResultDTO(
-				 payload.Name,
+			return new UserResultLoginDTO(
+				 payload.UserName,
 				 payload.Email,
-				 await CreateTokenAsync(userInDb),
-				 dto.Username);
+				 await CreateTokenAsync(userInDb)
+				 );
 		}
-	}
+
+        public async Task<UserPatientDto> AddPatientByGoogle(UserPatientDto _patient)
+        {
+            var patient = new Patient()
+            {
+                UserName = _patient.UserName,
+                Name = _patient.DisplayName,
+                Address = _patient.Address,
+                BirthDate = _patient.BirthDate,
+                Phone = _patient.PhoneNumber,
+                Gender = _patient.Gender,
+            };
+			var user = await userManager.FindByEmailAsync(_patient.Email);
+
+			await userManager.AddPasswordAsync(user,_patient.Password);
+			await unitOfWork.GetRepository<Patient,int>().AddAsync(patient);
+			await unitOfWork.SaveChangesAsync();
+			return _patient;
+		}
+    }
 }
