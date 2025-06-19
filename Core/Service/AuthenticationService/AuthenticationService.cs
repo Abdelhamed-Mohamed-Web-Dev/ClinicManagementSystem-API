@@ -136,21 +136,17 @@ namespace Service.AuthenticationService
 
 			// user = data
 			// user = null => create
-			if (userInDb != null)
-			{
-				return new UserResultLoginDTO(userInDb.Email, userInDb.UserName, await CreateTokenAsync(userInDb));
-				
-			}
-
+			
 			if (userInDb == null)
 			{
 				throw new UserNotFoundException(payload.Email);
 			} 
 
 			return new UserResultLoginDTO(
-				 payload.UserName,
-				 payload.Email,
-				 await CreateTokenAsync(userInDb)
+				userInDb.Email,
+				userInDb.UserName,
+				 await CreateTokenAsync(userInDb),
+				 true
 				 );
 		}
 
@@ -165,15 +161,15 @@ namespace Service.AuthenticationService
                 Phone = _patient.PhoneNumber,
                 Gender = _patient.Gender,
             };
-			var user = await userManager.FindByEmailAsync(_patient.Email);
+	//		var user = await userManager.FindByEmailAsync(_patient.Email);
 
-			await userManager.AddPasswordAsync(user,_patient.Password);
+		//	await userManager.AddPasswordAsync(user,_patient.Password);
 			await unitOfWork.GetRepository<Patient,int>().AddAsync(patient);
 			await unitOfWork.SaveChangesAsync();
 			return _patient;
 		}
 
-        public async Task<UserResultLoginDTO> RegisterWithGoogleAsync(string IdToken, string username)
+        public async Task<UserResultLoginDTO> RegisterWithGoogleAsync(string IdToken, string? username)
         {
             var response = await _httpClient.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={IdToken}");
 
@@ -190,6 +186,13 @@ namespace Service.AuthenticationService
             if (payload == null || string.IsNullOrEmpty(payload.Email))
                 throw new Exception("Failed to parse Google token payload");
             var userInDb = await userManager.FindByEmailAsync(payload.Email);
+
+            if (userInDb != null)
+            {
+                return new UserResultLoginDTO(userInDb.Email,userInDb.UserName, await CreateTokenAsync(userInDb),true);
+
+            }
+
 
             if (userInDb == null)
             {
@@ -214,9 +217,10 @@ namespace Service.AuthenticationService
             }
 
             return new UserResultLoginDTO(
-         payload.UserName,
-         payload.Email,
-         await CreateTokenAsync(userInDb)
+            userInDb.Email,
+            userInDb.UserName,
+            await CreateTokenAsync(userInDb) ,
+		 false
          );
 
 

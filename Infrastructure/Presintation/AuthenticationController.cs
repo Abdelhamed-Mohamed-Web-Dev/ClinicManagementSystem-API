@@ -6,6 +6,7 @@ using Shared.AdminModels;
 using Shared.AuthenticationModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,11 @@ namespace Presentation
             => Ok(await serviceManager.AuthenticationService().LoginAsync(login));
 
         [HttpPost("google-login")]
-        public async Task<IActionResult> LoginWithGoogle([FromQuery] string IdToken, string? username)
+        public async Task<IActionResult> LoginWithGoogle([FromQuery] string IdToken)
         {
             try
             {
-                var user = await serviceManager.AuthenticationService().LoginWithGoogleAsync(IdToken,username);
+                var user = await serviceManager.AuthenticationService().LoginWithGoogleAsync(IdToken);
                 return Ok(user); 
             }
             catch (Exception ex)
@@ -38,9 +39,30 @@ namespace Presentation
             }
         }
 
-        [HttpPost("RegistePatientByGoogle")]
+        [HttpPost("RegisterPatientByGoogle")]
+        public async Task<IActionResult> RegisterWithGoogle([FromQuery] string IdToken,string? username )
+        {
+            try
+            {
+                var result = await serviceManager.AuthenticationService().RegisterWithGoogleAsync(IdToken, username);
+                return Ok(result);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { Errors = ex.Message});
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+
+        [HttpPost("AddPatientByGoogle")]
         public async Task<IActionResult> AddPatientByGoogle([FromBody] UserPatientDto userPatientDto )
             => Ok(await serviceManager.AuthenticationService().AddPatientByGoogle(userPatientDto));
+
+
 
         
         [HttpDelete("Delete")]
