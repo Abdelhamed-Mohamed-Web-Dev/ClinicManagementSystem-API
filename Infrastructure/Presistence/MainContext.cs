@@ -17,5 +17,6 @@ namespace Persistence
 		//public DbSet<Doctor_Rate> _Rates { get; set; }
 		public DbSet<FavoriteDoctors> FavoriteDoctors { get;set; }
 		public DbSet<Notifications> Notifications { get; set; }
+		public DbSet<RateDoctorNotification> RateDoctorNotifications { get; set; }
 	}
 }
