@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.AuthenticationModels
 {
-    public record UserResultLoginDTO(string Email, string UserName, string Token);
+    public record UserResultLoginDTO(string Email, string UserName, string Token,bool found);
 }
