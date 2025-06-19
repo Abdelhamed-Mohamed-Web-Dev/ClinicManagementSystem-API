@@ -116,7 +116,7 @@ namespace Service.AuthenticationService
 			}
 		}
 
-		public async Task<UserResultLoginDTO> LoginWithGoogleAsync(string IdToken,string? username)
+		public async Task<UserResultLoginDTO> LoginWithGoogleAsync(string IdToken)
 		{
 			var response = await _httpClient.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={IdToken}");
 
@@ -144,44 +144,8 @@ namespace Service.AuthenticationService
 
 			if (userInDb == null)
 			{
-				// أول مرة يسجل دخول - اعمله Register تلقائي
-				userInDb = new User
-				{
-					Email = payload.Email,
-					DisplayName = payload.Name,
-					UserName = username
-				};
-
-				var result = await userManager.CreateAsync(userInDb);
-				if (!result.Succeeded)
-				{
-					var errors = result.Errors.Select(e => e.Description).ToList();
-					throw new ValidationException(errors);
-				}
-
-				await userManager.AddToRoleAsync(userInDb, "Patient");
-				/*
-				// سستم انتا الموضوع عشان انا رايح المحل دلوقتى عايزنى هناك ومش عارف هرجع امتا
-				// دول الداتا اللى المفروض تاخدها عشان تعمل add new patient موجودين ف ال admin service 
-				// لو عايز تعرف انا عامل ريجيستر للمريض ازاى ممكن تبص عليها 
-				// AdminService >> AddPatientAsync
-
-				// role -> patient
-				//var patient = new Patient()
-				//{
-				//	UserName = _patient.UserName,
-				//	Name = _patient.Name,
-				//	Address = _patient.Address,
-				//	BirthDate = _patient.BirthDate,
-				//	Phone = _patient.PhoneNumber,
-				//	Gender = _patient.Gender,
-				//};
-				//await unitOfWork.GetRepository<Patient, int>().AddAsync(patient);
-				//await unitOfWork.SaveChangesAsync();
-				*/
-
-
-			}
+				throw new UserNotFoundException(payload.Email);
+			} 
 
 			return new UserResultLoginDTO(
 				 payload.UserName,
@@ -208,5 +172,55 @@ namespace Service.AuthenticationService
 			await unitOfWork.SaveChangesAsync();
 			return _patient;
 		}
+
+        public async Task<UserResultLoginDTO> RegisterWithGoogleAsync(string IdToken, string username)
+        {
+            var response = await _httpClient.GetAsync($"https://oauth2.googleapis.com/tokeninfo?id_token={IdToken}");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Invalid Google token");
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var payload = JsonSerializer.Deserialize<GooglePayload>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (payload == null || string.IsNullOrEmpty(payload.Email))
+                throw new Exception("Failed to parse Google token payload");
+            var userInDb = await userManager.FindByEmailAsync(payload.Email);
+
+            if (userInDb == null)
+            {
+                // أول مرة يسجل دخول - اعمله Register تلقائي
+                userInDb = new User
+                {
+                    Email = payload.Email,
+                    DisplayName = payload.Name,
+                    UserName = username
+                };
+
+                var result = await userManager.CreateAsync(userInDb);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description).ToList();
+                    throw new ValidationException(errors);
+                }
+
+                await userManager.AddToRoleAsync(userInDb, "Patient");
+                
+
+            }
+
+            return new UserResultLoginDTO(
+         payload.UserName,
+         payload.Email,
+         await CreateTokenAsync(userInDb)
+         );
+
+
+
+        }
     }
 }
