@@ -1,4 +1,5 @@
-﻿using Shared.AuthenticationModels;
+﻿using Shared.AdminModels;
+using Shared.AuthenticationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Service.Abstraction.AuthenticationService
         public Task<UserResultDTO> LoginAsync(UserLoginDTO userLogin);
         public Task<UserResultDTO> RegisterAsync(UserRegisterDTO userRegister);
         public Task DeleteAsync(string email);
-        public Task<UserResultDTO> LoginWithGoogleAsync(GoogleLoginDto dto);
-       // public task
+        public Task<UserResultLoginDTO> LoginWithGoogleAsync(string IdToken, string? username);
+        public Task<UserPatientDto> AddPatientByGoogle(UserPatientDto _patient);
     }
 }

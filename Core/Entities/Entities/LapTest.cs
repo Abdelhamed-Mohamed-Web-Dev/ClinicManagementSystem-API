@@ -12,5 +12,7 @@ namespace Domain.Entities
         public int ReferenceRange { get; set; }
         public MedicalRecord MedicalRecord { get; set; }
         public Guid MedicalId { get; set; }
+        public byte[]? PdfFile { get; set; }
+        public string? PdfFileName { get; set; }
     }
 }

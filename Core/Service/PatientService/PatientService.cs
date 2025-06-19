@@ -1,5 +1,7 @@
 ﻿
+using Domain.Contracts.IRepositories;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Shared.AdminModels;
 using NotificationType = Domain.Entities.NotificationType;
 
@@ -43,6 +45,7 @@ namespace Service.PatientService
 
 
 		#endregion
+
 		#region Fav Doctors
 
 		public async Task<string> AddFavoriteDoctorAsync(int DoctorId, int PatientId)
@@ -148,11 +151,38 @@ namespace Service.PatientService
 				: mapper.Map<LapTestDto>(test);
 		}
 
-		#endregion
+        public async Task UploadPdfOfLapTestAsync(Guid lapTestId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("File is required.");
 
-		#region Radiology
+            var lapTest = await unitOfWork.GetRepository<LapTest, Guid>().GetAsync(lapTestId);
+            if (lapTest == null)
+                throw new Exception("LapTest not found.");
 
-		public async Task<IEnumerable<RadiologyDto>> GetAllRadiationsAsync(Guid medicalRecordId)
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            lapTest.PdfFile = memoryStream.ToArray();
+            lapTest.PdfFileName = file.FileName;
+
+            await unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<(byte[] FileData, string FileName)> GetPdfOfLapTestAsync(Guid lapTestId)
+        {
+			var laptest =await unitOfWork.GetRepository<LapTest, Guid>().GetAsync(lapTestId);
+            if (laptest == null || laptest.PdfFile == null)
+                throw new Exception("PDF not found for this LapTest.");
+
+            return (laptest.PdfFile, laptest.PdfFileName ?? "LabTest.pdf");
+        }
+    
+
+    #endregion
+
+        #region Radiology
+
+    public async Task<IEnumerable<RadiologyDto>> GetAllRadiationsAsync(Guid medicalRecordId)
 		{
 			var allRadiologies = await unitOfWork.GetRepository<Radiology, Guid>().GetAllAsync();
 			var radiologies = allRadiologies.Where(t => t.MedicalRecordId == medicalRecordId);
@@ -167,11 +197,41 @@ namespace Service.PatientService
 				: mapper.Map<RadiologyDto>(radiology);
 		}
 
-		#endregion
+        public async Task UploadPdfOfRadiologyAsync(Guid RadiologyId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("File is required.");
 
-		#region Patient
+            var lapTest = await unitOfWork.GetRepository<Radiology, Guid>().GetAsync(RadiologyId);
+            if (lapTest == null)
+                throw new Exception("LapTest not found.");
 
-		public async Task<PatientDto> GetPatientByIdAsync(int id)
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            lapTest.PdfFile = memoryStream.ToArray();
+            lapTest.PdfFileName = file.FileName;
+
+            await unitOfWork.SaveChangesAsync();
+
+        }
+
+        public async Task<(byte[] FileData, string FileName)> GetPdfOfRadiologyAsync(Guid RadiologyId)
+        {
+            var laptest = await unitOfWork.GetRepository<Radiology, Guid>().GetAsync(RadiologyId);
+            if (laptest == null || laptest.PdfFile == null)
+                throw new Exception("PDF not found for this LapTest.");
+
+            return (laptest.PdfFile, laptest.PdfFileName ?? "LabTest.pdf");
+        }
+
+
+
+
+        #endregion
+
+        #region Patient
+
+        public async Task<PatientDto> GetPatientByIdAsync(int id)
 		{
 			var patient = await unitOfWork.GetRepository<Patient, int>().GetAsync(id);
 			return patient == null
@@ -442,11 +502,10 @@ namespace Service.PatientService
 			return mapper.Map<AppointmentDto>(canceledAppointment);
 		}
 
+        
+
+        #endregion
 
 
-
-		#endregion
-
-
-	}
+    }
 }

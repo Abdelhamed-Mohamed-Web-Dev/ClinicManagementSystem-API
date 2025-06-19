@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using Shared.AdminModels;
 using Shared.AppointmentModels;
 
@@ -46,9 +47,13 @@ namespace Service.Abstraction.PatientService
 		public Task<IEnumerable<AvailableDaysDto>> GetAllAvailableDaysAsync(int doctorId);
 		// Retrieve available times
 		public Task<IEnumerable<AvailableTimesDto>> GetAllAvailableTimesAsync(int doctorId,DateTime date);
-        
+        Task UploadPdfOfLapTestAsync(Guid lapTestId, IFormFile file);
+        Task<(byte[] FileData, string FileName)> GetPdfOfLapTestAsync(Guid lapTestId);
+        Task UploadPdfOfRadiologyAsync(Guid RadiologyId, IFormFile file);
+        Task<(byte[] FileData, string FileName)> GetPdfOfRadiologyAsync(Guid RadiologyId);
+
         #region Rate & Fav Doctors
-		public Task<string> AddFavoriteDoctorAsync(int DoctorId,int PatientId);
+        public Task<string> AddFavoriteDoctorAsync(int DoctorId,int PatientId);
 		public Task<string> RemoveFavoriteDoctorAsync(int DoctorId,int PatientId);
 		public Task<IEnumerable<DoctorDto>> GetAllFavoriteDoctorsAsync(int PatientId);
 		#endregion

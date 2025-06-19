@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using Shared.AdminModels;
 using Shared.AppointmentModels;
 
@@ -37,19 +38,78 @@ namespace Presentation
 		[HttpGet("LapTest")]
 		public async Task<ActionResult<LapTestDto>> GetLapTest([FromQuery] Guid id)
 			=> Ok(await serviceManager.PatientService().GetLapTestByIdAsync(id));
-		#endregion
+        [HttpPost("upload-lab-pdf")]
+        public async Task<IActionResult> UploadPdf([FromQuery]Guid lapTestId, IFormFile file)
+        {
+            try
+            {
+                await serviceManager.PatientService().UploadPdfOfLapTestAsync(lapTestId, file);
+                return Ok("PDF uploaded.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
-		#region Radiation End Points
-		[HttpGet("Radiations")]
+        [HttpGet("download-lab-pdf")]
+        public async Task<IActionResult> DownloadPdf([FromQuery]Guid lapTestId)
+        {
+            try
+            {
+                var (fileData, fileName) = await serviceManager.PatientService().GetPdfOfLapTestAsync(lapTestId);
+                return File(fileData, "application/pdf", fileName);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+        #endregion
+
+        #region Radiation End Points
+        [HttpGet("Radiations")]
 		public async Task<ActionResult<IEnumerable<RadiologyDto>>> GetRadiations([FromQuery] Guid recordId)
 				=> Ok(await serviceManager.PatientService().GetAllRadiationsAsync(recordId));
 		[HttpGet("Radiation")]
 		public async Task<ActionResult<RadiologyDto>> GetRadiation([FromQuery] Guid id)
 			=> Ok(await serviceManager.PatientService().GetRadiologyByIdAsync(id));
-		#endregion
+        [HttpPost("upload-Radiology-pdf")]
+        public async Task<IActionResult> UploadPdfRadiology([FromQuery] Guid RadiologyId, IFormFile file)
+        {
+            try
+            {
+                await serviceManager.PatientService().UploadPdfOfLapTestAsync(RadiologyId, file);
+                return Ok("PDF uploaded.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
-		#region Patient End Points
-		[HttpGet("Patient/id")]
+        [HttpGet("download-Radiology-pdf")]
+        public async Task<IActionResult> DownloadPdfRadiology([FromQuery] Guid RadiologyId)
+        {
+            try
+            {
+                var (fileData, fileName) = await serviceManager.PatientService().GetPdfOfLapTestAsync(RadiologyId);
+                return File(fileData, "application/pdf", fileName);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+
+        #endregion
+
+        #region Patient End Points
+        [HttpGet("Patient/id")]
 		public async Task<ActionResult<PatientDto>> GetPatient([FromQuery] int id)
 			=> Ok(await serviceManager.PatientService().GetPatientByIdAsync(id));
 

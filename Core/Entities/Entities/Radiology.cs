@@ -14,6 +14,8 @@ namespace Domain.Entities
         public string Comments { get; set; }
         public MedicalRecord MedicalRecord { get; set; }
         public Guid MedicalRecordId { get; set; }
+        public byte[]? PdfFile { get; set; }
+        public string? PdfFileName { get; set; }
 
     }
 }
