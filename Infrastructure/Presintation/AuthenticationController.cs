@@ -1,4 +1,6 @@
 ﻿using ClinicManagementSystem.Helpers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Shared.AuthenticationModels;
 using System;
 using System.Collections.Generic;
@@ -20,15 +22,29 @@ namespace Presentation
         public async Task<ActionResult<UserResultDTO>> Login(UserLoginDTO login)
             => Ok(await serviceManager.AuthenticationService().LoginAsync(login));
 
+        [HttpPost("google-login")]
+        public async Task<IActionResult> LoginWithGoogle([FromQuery] GoogleLoginDto dto)
+        {
+            try
+            {
+                var user = await serviceManager.AuthenticationService().LoginWithGoogleAsync(dto);
+                return Ok(user); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+    
 
-        //[HttpPost("Register")]
-        //public async Task<ActionResult<UserRegisterDTO>> Register( [FromBody] UserPatientRegisterDTO registerDTO)
-        //{
-        //    var result = await serviceManager.AuthenticationService().PatientRegisterAsync(registerDTO);
-        //    return Ok(result);
-        //}
+    //[HttpPost("Register")]
+    //public async Task<ActionResult<UserRegisterDTO>> Register( [FromBody] UserPatientRegisterDTO registerDTO)
+    //{
+    //    var result = await serviceManager.AuthenticationService().PatientRegisterAsync(registerDTO);
+    //    return Ok(result);
+    //}
 
-        [HttpDelete("Delete")]
+    [HttpDelete("Delete")]
         public async Task<ActionResult> Delete(string email)
         {
             await serviceManager.AuthenticationService().DeleteAsync(email);

@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Service.Abstraction;
 using Shared.DoctorModels;
 using Shared.PatientModels;
@@ -12,42 +11,56 @@ using System.Threading.Tasks;
 namespace Presentation
 {
 
-    [Authorize(Roles = "Doctor")]
-    public class DoctorController(IServiceManager serviceManager) : APIController
-    {
-        [HttpGet("GetDoctorByID")]
-        public async Task<IActionResult> GetDoctorById([FromQuery]int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAysnc(id));
-        [HttpGet("GetDoctorByUserName")]
-        public async Task<IActionResult> GetDoctorByUserName([FromQuery]string username) => Ok(await serviceManager.DoctorService().GetDoctorByUserNameAysnc(username));
-        
-        [HttpGet("Patient/{id}")]
-        public async Task<IActionResult> GetPatient(int id) => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
+	[Authorize(Roles = "Doctor")]
+	public class DoctorController(IServiceManager serviceManager) : APIController
+	{
+		[HttpGet("GetDoctorByID")]
+		public async Task<IActionResult> GetDoctorById([FromQuery] int id) => Ok(await serviceManager.DoctorService().GetDoctorByIdAsync(id));
+		[HttpGet("GetDoctorByUserName")]
+		public async Task<IActionResult> GetDoctorByUserName([FromQuery] string username) => Ok(await serviceManager.DoctorService().GetDoctorByUserNameAsync(username));
 
-        [HttpGet("AllAppointment")]
-        public async Task<IActionResult> GetAllAppointmet(int? doctorId, int? patientId, AppointmentStatus? status)
-            => Ok(await serviceManager.DoctorService().GetAllAppointmentAysnc( doctorId, patientId,  status));
+		[HttpGet("Patient/{id}")]
+		public async Task<IActionResult> GetPatient(int id) => Ok(await serviceManager.DoctorService().GetPatientByIdAysnc(id));
+
+		[HttpGet("AllAppointment")]
+		public async Task<IActionResult> GetAllAppointmet(int? doctorId, int? patientId, AppointmentStatus? status)
+			=> Ok(await serviceManager.DoctorService().GetAllAppointmentAysnc(doctorId, patientId, status));
 
 		[HttpGet("TodayAppointments")]
 		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetTodayAppointments([FromQuery] int doctorId, AppointmentStatus? status)
-        => Ok(await serviceManager.AdminService().GetAppointmentsAsync(doctorId, null, DateTime.Now.Date, status));
-        [HttpGet("UpcomingAppointments")]
-        public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetUpcomingAppointments([FromQuery] int doctorId)
+		=> Ok(await serviceManager.AdminService().GetAppointmentsAsync(doctorId, null, DateTime.Now.Date, status));
+		[HttpGet("UpcomingAppointments")]
+		public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetUpcomingAppointments([FromQuery] int doctorId)
 		=> Ok(await serviceManager.AdminService().GetUpcomingAppointmentsAsync(doctorId));
 
 		//[HttpGet("MedicalRecord")]
 		// public async Task<IActionResult> GetMedicalRecord(int id) => Ok(await serviceManager.DoctorService().GetMedicalRecord(id));
 		[HttpGet("AllRadiology/{id}")]
-        public async Task<IActionResult> GetAllRadioloy(Guid id)
-            => Ok(await serviceManager.DoctorService().GetAllRadiologyOfPatientAysnc(id));
-        [HttpGet("AllLapTests/{id}")]
-        public async Task<IActionResult> GetAllLapTests(Guid id)
-            => Ok(await serviceManager.DoctorService().GetAllLapTestOfPatientAysnc(id));
-        [HttpGet ("UpdateDoctor") ]
-        public async Task<IActionResult> UpdateDoctor(int id) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAysnc(id));
-        [HttpGet ("AllMedicalRecords")]
-        public async Task<IActionResult> GetAllMedicalRecords(int doctorId) =>Ok(await serviceManager.DoctorService().GetAllMedicalRecords( doctorId));
-        [HttpGet("MedicalRecordOfPatient")]
-        public async Task<IActionResult> GetMedicalRecords(int PatientId,int DoctorId)=>Ok(await serviceManager.DoctorService().GetMedicalRecord(PatientId,DoctorId));
-   
-    }
+		public async Task<IActionResult> GetAllRadioloy(Guid id)
+			=> Ok(await serviceManager.DoctorService().GetAllRadiologyOfPatientAysnc(id));
+		[HttpGet("AllLapTests/{id}")]
+		public async Task<IActionResult> GetAllLapTests(Guid id)
+			=> Ok(await serviceManager.DoctorService().GetAllLapTestOfPatientAysnc(id));
+		[HttpPut("UpdateDoctor")]
+		public async Task<IActionResult> UpdateDoctor(UpdateDoctorDoctorDto _doctor) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAsync(_doctor));
+		[HttpGet("AllMedicalRecords")]
+		public async Task<IActionResult> GetAllMedicalRecords([FromQuery] int patientId)
+			=> Ok(await serviceManager.PatientService().GetAllMedicalRecordsAsync(patientId));
+		[HttpGet("MedicalRecord")]
+		public async Task<IActionResult> GetMedicalRecords([FromQuery] Guid id)
+			=> Ok(await serviceManager.PatientService().GetMedicalRecordByIdAsync(id));
+		[HttpGet("Notifications")]
+		public async Task<IActionResult> GetAllNotifications([FromQuery] int doctorId)
+			=> Ok(await serviceManager.NotificationService().GetAllNotifications(doctorId, null));
+		[HttpGet("Notification")]
+		public async Task<IActionResult> GetNotification([FromQuery] int id)
+			=> Ok(await serviceManager.NotificationService().GetNotification(id));
+		[HttpPut("ReadNotification")]
+		public async Task<IActionResult> ReadNotification([FromQuery] int id)
+			=> Ok(await serviceManager.NotificationService().ReadNotification(id));
+		[HttpDelete("DeleteNotification")]
+		public async Task<IActionResult> DeleteNotification([FromQuery] int id)
+			=> Ok(await serviceManager.NotificationService().DeleteNotification(id));
+
+	}
 }

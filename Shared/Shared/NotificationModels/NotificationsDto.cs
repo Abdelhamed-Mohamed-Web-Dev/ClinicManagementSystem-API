@@ -4,26 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace Shared.NotificationModels
 {
-    public class NotificationsDto
+    public record NotificationsDto
     {
+        public int Id { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } 
         public bool IsRead { get; set; } = false;
         public NotificationType Type { get; set; }
         public int? PatientId { get; set; }
         public int? DoctorId { get; set; }
-        
+		public int? DoctorToRate { get; set; }
 
-    }
-    public enum NotificationType
+	}
+	public enum NotificationType
     {
         AppointmentBooked,
         AppointmentCancelled,
         TestResultReady,
-        General
-    }
+        General,
+		RateDoctor,
+		AppointmentUpdated
+	}
 
 }

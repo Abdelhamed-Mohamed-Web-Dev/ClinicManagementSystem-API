@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20250619050635_RateDoctor2")]
+    partial class RateDoctor2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,10 +246,12 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DoctorId")
-                        .HasColumnType("int");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(34)
+                        .HasColumnType("nvarchar(34)");
 
-                    b.Property<int?>("DoctorToRate")
+                    b.Property<int?>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsRead")
@@ -269,6 +274,10 @@ namespace Persistence.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("Notifications");
+
+                    b.HasDiscriminator().HasValue("Notifications");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Entities.Patient", b =>
@@ -336,6 +345,16 @@ namespace Persistence.Migrations
                     b.HasIndex("MedicalRecordId");
 
                     b.ToTable("Radiations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RateDoctorNotification", b =>
+                {
+                    b.HasBaseType("Domain.Entities.Notifications");
+
+                    b.Property<int>("DoctorToRate")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("RateDoctorNotification");
                 });
 
             modelBuilder.Entity("Domain.Entities.Appointment", b =>

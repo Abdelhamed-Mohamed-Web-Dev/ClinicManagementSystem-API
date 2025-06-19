@@ -1,3 +1,5 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 using ClinicManagementSystem.Helpers;
 using ClinicManagementSystem.Settings;
@@ -10,15 +12,16 @@ namespace ClinicManagementSystem
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			builder.Services.AddCoreServices(builder.Configuration);
+            builder.Services.AddHttpClient();
+            // Add services to the container.
+            builder.Services.AddCoreServices(builder.Configuration);
 			builder.Services.AddInfraStructureServices(builder.Configuration);
 			builder.Services.AddPresentationService();
 
 			builder.WebHost.UseSetting("detailedErrors", "true");
 			builder.WebHost.CaptureStartupErrors(true);
-			
-			builder.Services.AddCors(options =>
+
+            builder.Services.AddCors(options =>
 			{
 				options.AddDefaultPolicy(policy =>
 				{
@@ -27,22 +30,44 @@ namespace ClinicManagementSystem
 						  .AllowAnyHeader();
 				});
 			});
-			//builder.Services.AddTransient<IMailSettings,EmailSettings>();
-		//	builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
-				builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
+			builder.Services.AddAutoMapper(typeof(AssemblyReference).Assembly);
 
-			var app = builder.Build();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+			 .AddCookie()
+			 .AddGoogle(options =>
+			 {
+			     var googleAuthSection = builder.Configuration.GetSection("Authentication:Google");
+			     options.ClientId = googleAuthSection["ClientId"];
+			     options.ClientSecret = googleAuthSection["ClientSecret"];
+			     options.CallbackPath = "/signin-google";
 
-			app.UseMiddleware<ExceptionHandlerMiddleware>();
+                 options.AuthorizationEndpoint += "?prompt=consent";
+                 options.AccessType = "offline";
+
+             });
+
+            //
+            builder.Services.AddControllers();
+
+
+            var app = builder.Build();
+//
+            app.MapControllers(); // مهم جدًا
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 						
 			await DataSeeding(app);
 
 			// Configure the HTTP request pipeline.
-			//if (app.Environment.IsDevelopment())
-			//{
-			//app.UseSwagger();
-			//app.UseSwaggerUI();
-			//}
+			if (app.Environment.IsDevelopment())
+			{
+				app.UseSwagger();
+				app.UseSwaggerUI();
+			}
 			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 			app.UseCors();

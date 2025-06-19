@@ -9,7 +9,7 @@ namespace Domain.Entities
 		public string Phone { get; set; }
 		public string Speciality { get; set; }
 		public string? PictureUrl { get; set; }
-		public int Rate { get; set; }
+		public List<int> RateList { get; set; } = new List<int>();
 		public string? Bio { get; set; }
 		public decimal NewVisitPrice { get; set; }
 		public decimal FollowUpVisitPrice { get; set; }
@@ -24,6 +24,6 @@ namespace Domain.Entities
 		public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 		//public ICollection<Doctor_Rate> doctor_Rates { get; set; } = new List<Doctor_Rate>();
 		public ICollection<FavoriteDoctors> Favorites { get; set; } = new List<FavoriteDoctors>();
-		public ICollection<Notifications> Notifications { get; set; } =new List<Notifications>();
+		public ICollection<Notifications> Notifications { get; set; } = new List<Notifications>();
 	}
 }

@@ -17,14 +17,17 @@ namespace Domain.Entities
         public Patient patient { get; set; }
         public int? DoctorId { get; set; }
         public Doctor doctor { get; set; }
+		public int? DoctorToRate { get; set; }
 
 
-    }
-    public enum NotificationType
+	}
+	public enum NotificationType
     {
         AppointmentBooked,
         AppointmentCancelled,
         TestResultReady,
-        General
-    }
+        General,
+		RateDoctor,
+        AppointmentUpdated
+	}
 }

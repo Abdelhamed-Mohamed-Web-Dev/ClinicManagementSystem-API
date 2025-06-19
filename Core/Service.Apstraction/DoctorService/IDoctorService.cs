@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Shared.AppointmentModels;
 using Shared.DoctorModels;
+using Shared.NotificationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace Service.Abstraction.DoctorService
 {
     public interface IDoctorService
     {
-     public Task<DoctorDto1> GetDoctorByIdAysnc(int id);
-     public Task<DoctorDto1> GetDoctorByUserNameAysnc(string UserName);
+     public Task<DoctorDto1> GetDoctorByIdAsync(int id);
+     public Task<DoctorDto1> GetDoctorByUserNameAsync(string UserName);
         //Get Info Of Doctor
-        public Task<DoctorDto1> UpdateDoctorByIdAysnc(int id);
+        public Task<string> UpdateDoctorByIdAsync(UpdateDoctorDoctorDto _doctor);
         // Update Info Of Doctor
         public Task<IEnumerable<RadiologyDto1>> GetAllRadiologyOfPatientAysnc(Guid id);
         // Get All Radiology Of Patient
@@ -26,6 +27,10 @@ namespace Service.Abstraction.DoctorService
        // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
         public  Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords(int doctorId);
         public  Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId);
+        // Get All Notifications
+        public Task<IEnumerable<NotificationsDto>> GetAllNotifications(int doctorId);
+        // Get Notification By Id
+        public Task<NotificationsDto> GetNotification(int id);
     }
 }
 // بيانات الدكتور                 Done 

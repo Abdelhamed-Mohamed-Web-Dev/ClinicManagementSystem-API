@@ -12,6 +12,8 @@ namespace Service.Abstraction.PatientService
 		public Task<DoctorDto> GetDoctorByIdAsync(int id);
 		// Retrieve doctor by user name
 		public Task<DoctorDto> GetDoctorByUserNameAsync(string userName);
+		// Rate doctor by id
+		public Task<bool> RateDoctorAsync(int doctorId, int rate);
 		// Retrieve all records for patient by patientId
 		public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int patientId);
 		// Retrieve record by id
@@ -46,12 +48,10 @@ namespace Service.Abstraction.PatientService
 		public Task<IEnumerable<AvailableTimesDto>> GetAllAvailableTimesAsync(int doctorId,DateTime date);
         
         #region Rate & Fav Doctors
-  //      public Task<string> PutRateAsync(DoctorRateDto doctorRateDto);
-		//public Task<float> GetDoctorRateAsync(int DoctorId);
 		public Task<string> AddFavoriteDoctorAsync(int DoctorId,int PatientId);
 		public Task<string> RemoveFavoriteDoctorAsync(int DoctorId,int PatientId);
-        //public Task<DoctorDto> GetAllFavoriteDoctorsAsync(int PatientId);
-        #endregion
-        
-    }
+		public Task<IEnumerable<DoctorDto>> GetAllFavoriteDoctorsAsync(int PatientId);
+		#endregion
+
+	}
 }
