@@ -24,7 +24,7 @@ namespace Service.Abstraction.DoctorService
         // Get Info Of Patient
         public Task<IEnumerable<AppointmentDto>> GetAllAppointmentAysnc(int? doctorId, int? patientId, Domain.Entities.AppointmentStatus? status);
        // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
-        public  Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords();
+        public  Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords(int doctorId);
         public  Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId);
     }
 }

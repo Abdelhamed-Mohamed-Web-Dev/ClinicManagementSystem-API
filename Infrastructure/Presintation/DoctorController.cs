@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Service.Abstraction;
 using Shared.DoctorModels;
 using Shared.PatientModels;
@@ -44,7 +45,7 @@ namespace Presentation
         [HttpGet ("UpdateDoctor") ]
         public async Task<IActionResult> UpdateDoctor(int id) => Ok(await serviceManager.DoctorService().UpdateDoctorByIdAysnc(id));
         [HttpGet ("AllMedicalRecords")]
-        public async Task<IActionResult> GetAllMedicalRecords()=>Ok(await serviceManager.DoctorService().GetAllMedicalRecords());
+        public async Task<IActionResult> GetAllMedicalRecords(int doctorId) =>Ok(await serviceManager.DoctorService().GetAllMedicalRecords( doctorId));
         [HttpGet("MedicalRecordOfPatient")]
         public async Task<IActionResult> GetMedicalRecords(int PatientId,int DoctorId)=>Ok(await serviceManager.DoctorService().GetMedicalRecord(PatientId,DoctorId));
    

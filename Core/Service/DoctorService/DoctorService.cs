@@ -29,9 +29,10 @@ namespace Service.DoctorService
         #endregion
 
         #region Medical Record
-        public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords()
+        public async Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords(int doctorId)
             {
             var medicalrecord= await unitOfWork.GetRepository<MedicalRecord, Guid>().GetAllAsync(new MedicalRecordWithRadiologyAndLapTest());
+            medicalrecord = medicalrecord.Where(m => m.DoctorId == doctorId);
             var _medicalrecords = mapper.Map<IEnumerable<MedicalRecordDto>>(medicalrecord);
             return _medicalrecords;
             }
