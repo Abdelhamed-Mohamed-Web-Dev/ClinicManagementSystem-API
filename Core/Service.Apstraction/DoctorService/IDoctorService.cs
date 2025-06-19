@@ -12,8 +12,8 @@ namespace Service.Abstraction.DoctorService
 {
     public interface IDoctorService
     {
-     public Task<DoctorDto1> GetDoctorByIdAsync(int id);
-     public Task<DoctorDto1> GetDoctorByUserNameAsync(string UserName);
+        public Task<DoctorDto1> GetDoctorByIdAsync(int id);
+        public Task<DoctorDto1> GetDoctorByUserNameAsync(string UserName);
         //Get Info Of Doctor
         public Task<string> UpdateDoctorByIdAsync(UpdateDoctorDoctorDto _doctor);
         // Update Info Of Doctor
@@ -24,9 +24,9 @@ namespace Service.Abstraction.DoctorService
         public Task<PatientDto1> GetPatientByIdAysnc(int id);
         // Get Info Of Patient
         public Task<IEnumerable<AppointmentDto>> GetAllAppointmentAysnc(int? doctorId, int? patientId, Domain.Entities.AppointmentStatus? status);
-       // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
-        public  Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords(int doctorId);
-        public  Task<MedicalRecordDto> GetMedicalRecord(int PatientId,int DoctorId);
+        // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
+        public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords();
+        public Task<MedicalRecordDto> GetMedicalRecord(int PatientId, int DoctorId);
         // Get All Notifications
         public Task<IEnumerable<NotificationsDto>> GetAllNotifications(int doctorId);
         // Get Notification By Id
