@@ -30,7 +30,7 @@
 			unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);
 			await unitOfWork.SaveChangesAsync();
 
-			var notification = new RateDoctorNotification()
+			var notification = new Notifications()
 			{
 				PatientId = appointment.Patient.Id,
 				Subject = "Rate Doctor",
