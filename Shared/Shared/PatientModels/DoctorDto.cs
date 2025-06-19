@@ -10,7 +10,7 @@ namespace Shared.PatientModels
         public string Phone { get; set; }
 		public string Speciality { get; set; }
 		public string PictureUrl { get; set; }
-		public int Rate { get; set; }
+		public double Rate { get; set; }
 		public string Bio { get; set; }
 		public decimal NewVisitPrice { get; set; }
 		public decimal FollowUpVisitPrice { get; set; }

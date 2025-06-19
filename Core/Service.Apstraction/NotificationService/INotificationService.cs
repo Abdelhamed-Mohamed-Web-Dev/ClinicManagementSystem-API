@@ -1,9 +1,9 @@
 ﻿using Domain.Entities;
-using Shared;
+using Shared.NotificationModels;
 
 namespace Service.Abstraction.NotificationService
 {
-	public interface INotificationService
+    public interface INotificationService
 	{
 		public Task CreateNotification(Notifications notification);
 		public Task<NotificationsDto> GetNotification(int id);

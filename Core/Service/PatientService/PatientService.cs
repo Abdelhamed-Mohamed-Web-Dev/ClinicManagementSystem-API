@@ -30,9 +30,17 @@ namespace Service.PatientService
 				? throw new NotFoundException($"Doctor With UserName ({userName}) Isn't Found")
 				: mapper.Map<DoctorDto>(doctor);
 		}
-
+		public async Task<bool> RateDoctorAsync(int doctorId, int rate)
+		{
+			var doctor = await unitOfWork.GetRepository<Doctor, int>().GetAsync(doctorId);
+			if (doctor == null) throw new DoctorNotFoundException(doctorId);
+			if (rate < 0 && rate > 5) return false;
+			doctor.RateList.Add(rate);
+			unitOfWork.GetRepository<Doctor, int>().Update(doctor);
+			await unitOfWork.SaveChangesAsync();
+			return true;
+		}
 		#endregion
-
 		#region Fav Doctors
 
 		public async Task<string> AddFavoriteDoctorAsync(int DoctorId, int PatientId)
@@ -337,7 +345,7 @@ namespace Service.PatientService
 				Body = $"{doctor.Name}, a new appointment with {patient.Name} is booked on {_appointment.AppointmentDateTime.Date} at {_appointment.AppointmentDateTime.TimeOfDay} visit type {_appointment.Type}. Thank you!",
 				Type = NotificationType.AppointmentBooked
 			};
-			await unitOfWork.GetRepository<Notifications,int>().AddAsync(notification);
+			await unitOfWork.GetRepository<Notifications, int>().AddAsync(notification);
 			await unitOfWork.SaveChangesAsync();
 
 			// Return new _appointment
@@ -431,6 +439,7 @@ namespace Service.PatientService
 
 			return mapper.Map<AppointmentDto>(canceledAppointment);
 		}
+
 
 
 

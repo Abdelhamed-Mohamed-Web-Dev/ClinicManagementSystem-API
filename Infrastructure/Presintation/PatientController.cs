@@ -16,6 +16,7 @@ namespace Presentation
 		[HttpGet("Doctor/userName")]
 		public async Task<ActionResult<DoctorDto>> GetDoctor([FromQuery] string userName)
 			=> Ok(await serviceManager.PatientService().GetDoctorByUserNameAsync(userName));
+
 		#endregion
 
 		#region Medical Record End Points
@@ -98,18 +99,37 @@ namespace Presentation
 		#endregion
 
 		#region FavDoctors
-		
+
 		[HttpPost("AddFavoriteDoctor")]
 		public async Task<IActionResult> AddFavDoctor(int DoctorId, int PatientId)
 			=> Ok(await serviceManager.PatientService().AddFavoriteDoctorAsync(DoctorId, PatientId));
 
 		[HttpDelete("RemoveDoctorFromFavorites")]
-		public async Task<IActionResult> RemoveDoctorFromFavorites(int DoctorId, int PatientId) 
+		public async Task<IActionResult> RemoveDoctorFromFavorites(int DoctorId, int PatientId)
 			=> Ok(await serviceManager.PatientService().RemoveFavoriteDoctorAsync(DoctorId, PatientId));
 
 		[HttpGet("FavoriteDoctors")]
-		public async Task<IActionResult> GetAllFavDoctors(int patientId) 
+		public async Task<IActionResult> GetAllFavDoctors(int patientId)
 			=> Ok(await serviceManager.PatientService().GetAllFavoriteDoctorsAsync(patientId));
+
+		#endregion
+
+		#region Notifications
+		[HttpPut("RateDoctor")]
+		public async Task<ActionResult<bool>> RateDoctor([FromQuery] int doctorId, int rate)
+			=> Ok(await serviceManager.PatientService().RateDoctorAsync(doctorId, rate));
+		[HttpGet("Notifications")]
+		public async Task<IActionResult> GetAllNotifications([FromQuery] int patientId)
+			=> Ok(await serviceManager.NotificationService().GetAllNotifications(null,patientId: patientId));
+		[HttpGet("Notification")]
+		public async Task<IActionResult> GetNotification([FromQuery] int id)
+			=> Ok(await serviceManager.NotificationService().GetNotification(id));
+		[HttpPut("ReadNotification")]
+		public async Task<IActionResult> ReadNotification([FromQuery] int id)
+			=> Ok(await serviceManager.NotificationService().ReadNotification(id));
+		[HttpDelete("DeleteNotification")]
+		public async Task<IActionResult> DeleteNotification([FromQuery] int id)
+			=> Ok(await serviceManager.NotificationService().DeleteNotification(id));
 
 		#endregion
 	}

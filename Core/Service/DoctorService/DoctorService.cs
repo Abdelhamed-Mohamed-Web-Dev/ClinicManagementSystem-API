@@ -1,7 +1,9 @@
 ﻿
+using Shared.NotificationModels;
+
 namespace Service.DoctorService
 {
-	public class DoctorService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : IDoctorService
+    public class DoctorService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : IDoctorService
 	{
 
 		#region Appointment

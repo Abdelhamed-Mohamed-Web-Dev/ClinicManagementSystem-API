@@ -1,10 +1,4 @@
-﻿
-using Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Shared;
-using Shared.AdminModels;
-
-namespace Service.AdminService
+﻿namespace Service.AdminService
 {
 	public class AdminService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : IAdminService
 	{
@@ -19,7 +13,7 @@ namespace Service.AdminService
 		public async Task<IEnumerable<AppointmentDto>> GetUpcomingAppointmentsAsync(int? doctorId)
 		{
 			var appointments = await unitOfWork.GetRepository<Appointment, Guid>().
-				GetAllAsync(new AppointmentSpecifications(doctorId,null,null,null));
+				GetAllAsync(new AppointmentSpecifications(doctorId, null, null, null));
 			return mapper.Map<IEnumerable<AppointmentDto>>(appointments);
 		}
 		public async Task<AppointmentDto> ConfirmAppointmentAsync(Guid id)
@@ -34,6 +28,17 @@ namespace Service.AdminService
 			appointment.Status = AppointmentStatus.Confirmed;
 
 			unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);
+			await unitOfWork.SaveChangesAsync();
+
+			var notification = new RateDoctorNotification()
+			{
+				PatientId = appointment.Patient.Id,
+				Subject = "Rate Doctor",
+				Body = $"Please click here to rate {appointment.Doctor.Name}. Thank you!",
+				Type = NotificationType.RateDoctor,
+				DoctorToRate = appointment.DoctorId
+			};
+			await unitOfWork.GetRepository<Notifications, int>().AddAsync(notification);
 			await unitOfWork.SaveChangesAsync();
 
 			return mapper.Map<AppointmentDto>(appointment);
@@ -64,7 +69,7 @@ namespace Service.AdminService
 				Phone = _doctor.PhoneNumber,
 				Speciality = _doctor.Speciality,
 				PictureUrl = _doctor.PictureUrl,
-				Rate = 5,
+				RateList = new List<int>() { 5 },
 				NewVisitPrice = _doctor.NewVisitPrice,
 				FollowUpVisitPrice = _doctor.FollowUpVisitPrice,
 				WorkingDays = _doctor.WorkingDays,
@@ -131,33 +136,5 @@ namespace Service.AdminService
 			return _patient;
 		}
 
-        public async Task<string> SendNotificationAsync(NotificationsDto notificationDto)
-        {
-			if (notificationDto == null)
-                throw new ArgumentNullException(nameof(notificationDto));
-
-            var notification = mapper.Map<Notifications>(notificationDto);
-
-            await unitOfWork.GetRepository<Notifications,int>().AddAsync(notification);
-			await unitOfWork.SaveChangesAsync();
-
-			return "Notification sent successfully.";
-
-        }
-
-        public async Task<IEnumerable<NotificationsDto>> GetAllNotificationsForPatientAsync(int PatientId)
-        {
-            var notifications= await unitOfWork.GetRepository<Notifications,int>().GetAllAsync();
-			notifications=notifications.Where(n=>n.PatientId==PatientId).ToList();
-		var	result= mapper.Map<IEnumerable<NotificationsDto>>(notifications);
-			return result;
-        }
-		public async Task<IEnumerable<NotificationsDto>> GetAllNotificationsForDoctorAsync(int DoctorId)
-        {
-            var notifications= await unitOfWork.GetRepository<Notifications,int>().GetAllAsync();
-			notifications=notifications.Where(n=>n.DoctorId==DoctorId).ToList();
-		var	result= mapper.Map<IEnumerable<NotificationsDto>>(notifications);
-			return result;
-        }
-    }
+	}
 }
