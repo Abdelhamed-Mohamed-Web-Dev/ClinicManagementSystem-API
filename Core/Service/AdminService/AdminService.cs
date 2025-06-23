@@ -30,9 +30,18 @@ namespace Service.AdminService
             appointment.Status = AppointmentStatus.Confirmed;
 
             unitOfWork.GetRepository<Appointment, Guid>().Update(appointment);
+            var medicalrecord = new MedicalRecord()
+            {
+                PatientId = appointment.PatientId,
+                DoctorId = appointment.DoctorId,
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                Diagnoses="",
+                Speciality=appointment.Doctor.Speciality,
+                Prescription="",
+                            };
+            await unitOfWork.GetRepository<MedicalRecord,Guid>().AddAsync(medicalrecord);
             await unitOfWork.SaveChangesAsync();
-
-            var notification = new Notifications()
+            var notificationPatient = new Notifications()
             {
                 PatientId = appointment.Patient.Id,
                 Subject = "Rate Doctor",
@@ -40,7 +49,15 @@ namespace Service.AdminService
                 Type = NotificationType.RateDoctor,
                 DoctorToRate = appointment.DoctorId
             };
-            await unitOfWork.GetRepository<Notifications, int>().AddAsync(notification);
+            var notificationDoctor = new Notifications()
+            {
+                DoctorId = appointment.Doctor.Id,
+                Subject = "Add Medical Record",
+                Body = $"Please click here to write medical record fo patient ({appointment.Patient.Name}). Thank you!",
+                Type = NotificationType.MedicalRecord,
+            };
+            await unitOfWork.GetRepository<Notifications, int>().AddAsync(notificationPatient);
+            await unitOfWork.GetRepository<Notifications, int>().AddAsync(notificationDoctor);
             await unitOfWork.SaveChangesAsync();
 
             return mapper.Map<AppointmentDto>(appointment);

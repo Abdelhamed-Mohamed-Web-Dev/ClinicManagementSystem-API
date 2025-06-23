@@ -1,10 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Shared.AdminModels;
 using Shared.AppointmentModels;
 
 namespace Presentation
 {
+	[Authorize(Roles ="Patient")]
 	public class PatientController(IServiceManager serviceManager) : APIController
 	{
 		#region Doctor End Points
@@ -116,7 +118,7 @@ namespace Presentation
 		[HttpGet("Patient/userName")]
 		public async Task<ActionResult<PatientDto>> GetPatient([FromQuery] string userName)
 			=> Ok(await serviceManager.PatientService().GetPatientByUserNameAsync(userName));
-
+		[AllowAnonymous]
 		[HttpPost("AddPatient")]
 		public async Task<ActionResult<UserPatientDto>> AddPatient(UserPatientDto patient)
 			=> Ok(await serviceManager.AdminService().AddPatientAsync(patient));

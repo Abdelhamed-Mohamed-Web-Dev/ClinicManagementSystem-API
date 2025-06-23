@@ -12,11 +12,13 @@ namespace Service.MappingProfiles
 		public DoctorProfile()
 		{
 
+
 			CreateMap<Doctor, DoctorDto1>()
-					.ForMember(dest => dest.Rate, opt => opt
-					.MapFrom(src => src.RateList == null || src.RateList.Any() ? src.RateList.Average() : 0.0))
-					.ForMember(d => d.Rate, opt => opt
-					.MapFrom(s => s.RateList.Average())).ReverseMap();
+				.ForMember(d => d.PictureUrl, opt => opt
+				.MapFrom<PictureResolver<Doctor, DoctorDto1>>())
+				.ForMember(dest => dest.Rate, opt =>	  opt
+				.MapFrom(src => src.RateList != null && src.RateList.Any() ? src.RateList.Average() : 0.0))
+				.ReverseMap();
 			CreateMap<Patient, PatientDto1>().ReverseMap();
 			CreateMap<LapTest, LapTestDto1>().ReverseMap();
 			CreateMap<Radiology, RadiologyDto1>().ReverseMap();

@@ -28,6 +28,7 @@ namespace Domain.Entities
         TestResultReady,
         General,
 		RateDoctor,
-        AppointmentUpdated
+        AppointmentUpdated,
+        MedicalRecord
 	}
 }

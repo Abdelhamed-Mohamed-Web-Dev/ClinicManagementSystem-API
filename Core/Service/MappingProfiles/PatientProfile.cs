@@ -11,7 +11,8 @@ namespace Service.MappingProfiles
 				.ForMember(d => d.PictureUrl, opt => opt
 				.MapFrom<PictureResolver<Doctor, DoctorDto>>())
 				.ForMember(dest => dest.Rate, opt => opt
-				.MapFrom(src => src.RateList == null || src.RateList.Any() ? src.RateList.Average() : 0.0)).ReverseMap();
+				.MapFrom(src => src.RateList != null && src.RateList.Any() ? src.RateList.Average() : 0.0))
+			.ReverseMap();
 			CreateMap<Patient, PatientDto>().ReverseMap();
 			CreateMap<LapTest, LapTestDto>().ReverseMap();
 			CreateMap<Radiology, RadiologyDto>().ReverseMap();

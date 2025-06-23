@@ -8,27 +8,36 @@ using System.Threading.Tasks;
 
 namespace Service.Specifications.Doctor
 {
-    public class MedicalRecordWithRadiologyAndLapTest : Specifications<MedicalRecord>
-    {
-        public MedicalRecordWithRadiologyAndLapTest(int PatientId, int DoctorId)
-            : base(medicalrecord => medicalrecord.PatientId == PatientId && medicalrecord.DoctorId == DoctorId)
-        {
-            AddInclude(medicalrecord => medicalrecord.Radiation);
-            AddInclude(medicalrecord => medicalrecord.LapTests);
-            AddInclude(medicalrecord => medicalrecord.Patient);
-            AddInclude(medicalrecord => medicalrecord.Doctor);
+	public class MedicalRecordWithRadiologyAndLapTest : Specifications<MedicalRecord>
+	{
+		public MedicalRecordWithRadiologyAndLapTest(int PatientId, int DoctorId)
+			: base(medicalrecord => medicalrecord.PatientId == PatientId && medicalrecord.DoctorId == DoctorId)
+		{
+			AddInclude(medicalrecord => medicalrecord.Radiation);
+			AddInclude(medicalrecord => medicalrecord.LapTests);
+			AddInclude(medicalrecord => medicalrecord.Patient);
+			AddInclude(medicalrecord => medicalrecord.Doctor);
 
 
-        }
+		}
 
-        public MedicalRecordWithRadiologyAndLapTest()
-            : base(null)
-        {
-            AddInclude(medicalrecord => medicalrecord.Radiation);
-            AddInclude(medicalrecord => medicalrecord.LapTests);
-            AddInclude(medicalrecord => medicalrecord.Patient);
-            AddInclude(medicalrecord => medicalrecord.Doctor);
+		public MedicalRecordWithRadiologyAndLapTest()
+			: base(null)
+		{
+			AddInclude(medicalrecord => medicalrecord.Radiation);
+			AddInclude(medicalrecord => medicalrecord.LapTests);
+			AddInclude(medicalrecord => medicalrecord.Patient);
+			AddInclude(medicalrecord => medicalrecord.Doctor);
 
-        }
-    }
+		}
+		public MedicalRecordWithRadiologyAndLapTest(int doctorId)
+			: base(r => r.DoctorId == doctorId)
+		{
+			AddInclude(medicalrecord => medicalrecord.Radiation);
+			AddInclude(medicalrecord => medicalrecord.LapTests);
+			AddInclude(medicalrecord => medicalrecord.Patient);
+			AddInclude(medicalrecord => medicalrecord.Doctor);
+
+		}
+	}
 }

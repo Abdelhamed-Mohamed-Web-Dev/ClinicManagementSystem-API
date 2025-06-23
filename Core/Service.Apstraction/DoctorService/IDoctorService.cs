@@ -26,22 +26,12 @@ namespace Service.Abstraction.DoctorService
         public Task<IEnumerable<AppointmentDto>> GetAllAppointmentAysnc(int? doctorId, int? patientId, Domain.Entities.AppointmentStatus? status);
         // public Task<IEnumerable<MedicalRecordDto1>> GetMedicalRecord(int id);
         public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecords();
-        public Task<MedicalRecordDto> GetMedicalRecord(int PatientId, int DoctorId);
+        public Task<MedicalRecordDto> UpdateMedcalRecordAsync(UpdateMedicalRecordDto medicalRecord);
+        public Task<IEnumerable<MedicalRecordDto>> GetAllMedicalRecordsAsync(int doctorId);
+		public Task<MedicalRecordDto> GetMedicalRecord(int PatientId, int DoctorId);
         // Get All Notifications
         public Task<IEnumerable<NotificationsDto>> GetAllNotifications(int doctorId);
         // Get Notification By Id
         public Task<NotificationsDto> GetNotification(int id);
     }
 }
-// بيانات الدكتور                 Done 
-// تعديل بيانات الدكتور           Done 
-// جميع المواعيد يتاعت الدكتور    Done 
-// جميه التحاليل بتاعت المريض     Done 
-// جميع الاشعة بتاعت المريض        Done 
-// بيانات الدكتور                 Done 
-////////////////////////////////////////////
-
-// بيانات حجز المريض 
-// جميع الحجوزات ال Cofirm
-// جميع الحجوزات ال Pending
-// جميع الحجوزات ال Canceld
